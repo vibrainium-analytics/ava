@@ -11,3 +11,7 @@ class TestIsRunningPage(tk.Frame):
                 goToSaveTestPage_button = ttk.Button(self, text="Save Test",
                                     command=lambda: controller.show_page("SaveTestPage"))
                 goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
+
+                goToRunTestPage_button = ttk.Button(self, text="Go Back",
+                                    command=lambda: controller.show_page("RunTestPage"))
+                goToRunTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
