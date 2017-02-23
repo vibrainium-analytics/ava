@@ -42,6 +42,9 @@ class AVA(tk.Tk):
         from RunTestPage import RunTestPage
         from PlotPage import PlotPage
         from NewVehiclePage import NewVehiclePage
+        from TestIsRunningPage import TestIsRunningPage
+        from SaveTestPage import SaveTestPage
+        from ResultsPage import ResultsPage
 
         # Create frames for each of the app pages
         for F in (HomePage, RunTestPage, PlotPage, NewVehiclePage):
