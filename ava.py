@@ -47,7 +47,7 @@ class AVA(tk.Tk):
         from ResultsPage import ResultsPage
 
         # Create frames for each of the app pages
-        for F in (HomePage, RunTestPage, PlotPage, NewVehiclePage):
+        for F in (HomePage, RunTestPage, PlotPage, NewVehiclePage, TestIsRunningPage, SaveTestPage, ResultsPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame

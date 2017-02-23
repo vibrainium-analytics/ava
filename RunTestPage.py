@@ -8,6 +8,6 @@ class RunTestPage(tk.Frame):
                 label = ttk.Label(self, text="Run Test Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                goToHomePage_button = ttk.Button(self, text="Home",
-                                    command=lambda: controller.show_page("HomePage"))
-                goToHomePage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
+                goToTestIsRunningPage_button = ttk.Button(self, text="Start test",
+                                    command=lambda: controller.show_page("TestIsRunningPage"))
+                goToTestIsRunningPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
