@@ -18,7 +18,7 @@
 * When finished with code changes on your new branch, submit a pull request for another team member to review.  The other team member will complete the merge of the new branch into "develop" if the code checks out well.
 
 ### Standard Coding Procedures ###
-* classe - Upper_Case
+* class - Upper_Case
 * def - lower_case
 * objects, buttons, labels - camelCase
 
