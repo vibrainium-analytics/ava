@@ -17,6 +17,11 @@
 * From "develop" make branches using feature/feature_name or hotfix/hoxfix_name notation for consistency.
 * When finished with code changes on your new branch, submit a pull request for another team member to review.  The other team member will complete the merge of the new branch into "develop" if the code checks out well.
 
+### Standard Coding Procedures ###
+* classe - Upper_Case
+* def - lower_case
+* objects, buttons, labels - camelCase
+
 ### Who do I talk to? ###
 
 * Contact Spencer if you need assistance in setup or repo branching / merging guidelines or before making changes to "master".
