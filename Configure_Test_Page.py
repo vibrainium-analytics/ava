@@ -28,34 +28,34 @@ class Configure_Test_Page(tk.Frame):
                 goToHomePage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
                 Tests = ('Baseline - Idle', 'Baseline - 20 MPH', 'Baseline 30 MPH', 'Diagnotic - Idle', 'Diagnostic - 20 MPH')
-                TestType1 = ttk.Labelframe(self, text='Test Type')
-                TestType = ttk.Combobox(TestType1, values= Tests, state='readonly')
-                TestType.current(0)  # set selection
-                TestType.pack(pady=5, padx=10)
-                TestType1.pack(in_= self, side="top", pady=20, padx=10)
+                self.TestType1 = ttk.Labelframe(self, text='Test Type')
+                self.TestType = ttk.Combobox(self.TestType1, values= Tests, state='readonly')
+                self.TestType.current(0)  # set selection
+                self.TestType.pack(pady=5, padx=10)
+                self.TestType1.pack(in_= self, side="top", pady=20, padx=10)
 
                 Delay = ('0 Seconds', '30 seconds', '60 seconds', '90 seconds', '120 seconds')
-                DelayTime1 = ttk.Labelframe(self, text='Delay before sampling begins')
-                DelayTime = ttk.Combobox(DelayTime1, values=Delay, state='readonly')
-                DelayTime.current(0)  # set selection
-                DelayTime.pack(pady=5, padx=10)
-                DelayTime1.pack(in_=self, side="top", pady=20, padx=10)
+                self.DelayTime1 = ttk.Labelframe(self, text='Delay before sampling begins')
+                self.DelayTime = ttk.Combobox(self.DelayTime1, values=Delay, state='readonly')
+                self.DelayTime.current(0)  # set selection
+                self.DelayTime.pack(pady=5, padx=10)
+                self.DelayTime1.pack(in_=self, side="top", pady=20, padx=10)
 
                 Duration = ('1 minute', '2 minutes', '5 minutes', '10 minutes', '20 minutes')
-                TestDuration1 = ttk.Labelframe(self, text='Sample size - time')
-                TestDuration = ttk.Combobox(TestDuration1, values=Duration, state='readonly')
-                TestDuration.current(0)  # set selection
-                TestDuration.pack(pady=5, padx=10)
-                TestDuration1.pack(in_=self, side="top", pady=20, padx=10)
+                self.TestDuration1 = ttk.Labelframe(self, text='Sample size - time')
+                self.TestDuration = ttk.Combobox(self.TestDuration1, values=Duration, state='readonly')
+                self.TestDuration.current(0)  # set selection
+                self.TestDuration.pack(pady=5, padx=10)
+                self.TestDuration1.pack(in_=self, side="top", pady=20, padx=10)
 
         def saveTestPreferences (self,controller):
 
                 os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 data = {
-                        'make' : 'Honda',
-                        'model' : 'Odyssey',
-                        'year' : 2014,
+                        'test_duration' : str(self.TestDuration.get()),
+                        'delay_time' : str(self.DelayTime.get()),
+                        'test_type' : str(self.TestType.get()),
                         }
 
                 with open('data.json','w') as f:
