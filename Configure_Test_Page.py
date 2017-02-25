@@ -2,6 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+# File system access library
+import glob, os
+
+import json
+
 class Configure_Test_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
@@ -14,7 +19,7 @@ class Configure_Test_Page(tk.Frame):
                 
                 # Go to TestIsRunningPage 
                 goToTestIsRunningPage_button = ttk.Button(self, text="Start test",
-                                    command=lambda: controller.show_page("Test_Is_Running_Page"))
+                                    command=lambda: self.saveTestPreferences(controller))
                 goToTestIsRunningPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
                 # Go back to HomePage
@@ -42,3 +47,20 @@ class Configure_Test_Page(tk.Frame):
                 TestDuration.current(0)  # set selection
                 TestDuration.pack(pady=5, padx=10)
                 TestDuration1.pack(in_=self, side="top", pady=20, padx=10)
+
+        def saveTestPreferences (self,controller):
+
+                os.chdir("/home/pi/ava/vehicle_profiles/")
+
+                data = {
+                        'make' : 'Honda',
+                        'model' : 'Odyssey',
+                        'year' : 2014,
+                        }
+
+                with open('data.json','w') as f:
+                        json.dump(data,f)
+                
+                controller.show_page("Test_Is_Running_Page")
+
+                
