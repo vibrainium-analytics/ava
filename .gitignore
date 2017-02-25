@@ -2,3 +2,5 @@
 .pyc
 .AppleDouble/
 __pycache__
+.Recycling/
+.old_app/
