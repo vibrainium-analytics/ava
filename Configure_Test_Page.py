@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-class ConfigureTestPage(tk.Frame):
+class Configure_Test_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
                 label = ttk.Label(self, text="Run Test Page")
@@ -10,12 +10,12 @@ class ConfigureTestPage(tk.Frame):
                 
                 # Go to TestIsRunningPage 
                 goToTestIsRunningPage_button = ttk.Button(self, text="Start test",
-                                    command=lambda: controller.show_page("TestIsRunningPage"))
+                                    command=lambda: controller.show_page("Test_Is_Running_Page"))
                 goToTestIsRunningPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
                 # Go back to HomePage
                 goToHomePage_button = ttk.Button(self, text="Go Back",
-                                    command=lambda: controller.show_page("HomePage"))
+                                    command=lambda: controller.show_page("Home_Page"))
                 goToHomePage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
                 Tests = ('Baseline - Idle', 'Baseline - 20 MPH', 'Baseline 30 MPH', 'Diagnotic - Idle', 'Diagnostic - 20 MPH')

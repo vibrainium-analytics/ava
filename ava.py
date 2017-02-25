@@ -38,23 +38,23 @@ class AVA(tk.Tk):
         self.frames = {}
 
         # Application pages to load in background
-        from HomePage import HomePage
-        from ConfigureTestPage import ConfigureTestPage
-        from PlotPage import PlotPage
-        from NewVehiclePage import NewVehiclePage
-        from TestIsRunningPage import TestIsRunningPage
-        from SaveTestPage import SaveTestPage
-        from ResultsPage import ResultsPage
+        from Home_Page import Home_Page
+        from Configure_Test_Page import Configure_Test_Page
+        from Plot_Page import Plot_Page
+        from New_Vehicle_Page import New_Vehicle_Page
+        from Test_Is_Running_Page import Test_Is_Running_Page
+        from Save_Test_Page import Save_Test_Page
+        from Results_Page import Results_Page
 
         # Create frames for each of the app pages
-        for F in (HomePage, ConfigureTestPage, PlotPage, NewVehiclePage, TestIsRunningPage, SaveTestPage, ResultsPage):
+        for F in (Home_Page, Configure_Test_Page, Plot_Page, New_Vehicle_Page, Test_Is_Running_Page, Save_Test_Page, Results_Page):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
             frame.grid(row=0, column=0, sticky="nsew") 
 
-        # First page to load is HomePage
-        self.show_page("HomePage")
+        # First page to load is Home_Page
+        self.show_page("Home_Page")
         
     # Define how frames will be promoted to current Tkinter frame
     def show_frame(self, container):
