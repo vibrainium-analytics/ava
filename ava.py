@@ -29,9 +29,9 @@ class AVA(tk.Tk):
         tk.Tk.__init__(self,*args,**kwargs)
 
         # App Data global variable holder
-        self.app_data = {"var1":    StringVar(),
-                         "var2":    StringVar(),
-                         "var3":       StringVar(),
+        self.app_data = {"var1":    tk.StringVar(),
+                         "var2":    tk.StringVar(),
+                         "var3":    tk.StringVar()
                          }
         
         # Container holding app pages
