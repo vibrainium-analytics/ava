@@ -5,6 +5,10 @@ from tkinter import ttk
 class New_Vehicle_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
+
+                # AVA app controller (app_data access)
+                self.controller = controller
+                
                 label = ttk.Label(self, text="New Vehicle Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 

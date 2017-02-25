@@ -5,6 +5,10 @@ from tkinter import ttk
 class Save_Test_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
+
+                # AVA app controller (app_data access)
+                self.controller = controller
+                
                 label = ttk.Label(self, text="Save Test Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 

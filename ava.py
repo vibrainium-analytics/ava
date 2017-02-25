@@ -28,6 +28,12 @@ class AVA(tk.Tk):
     def __init__(self, *args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
 
+        # App Data global variable holder
+        self.app_data = {"var1":    StringVar(),
+                         "var2":    StringVar(),
+                         "var3":       StringVar(),
+                         }
+        
         # Container holding app pages
         container = tk.Frame(self)
         container.pack(side="top",expand=False)

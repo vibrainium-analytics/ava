@@ -5,6 +5,10 @@ from tkinter import ttk
 class Home_Page(tk.Frame):
 
         def __init__(self,parent,controller):
+                
+                # AVA app controller (app_data access)
+                self.controller = controller
+                
                 tk.Frame.__init__(self,parent)
 
                 label = ttk.Label(self, text="Home Page")
