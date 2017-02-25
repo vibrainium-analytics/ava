@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-class RunTestPage(tk.Frame):
+class ConfigureTestPage(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
                 label = ttk.Label(self, text="Run Test Page")

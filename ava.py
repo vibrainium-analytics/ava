@@ -39,7 +39,7 @@ class AVA(tk.Tk):
 
         # Application pages to load in background
         from HomePage import HomePage
-        from RunTestPage import RunTestPage
+        from ConfigureTestPage import ConfigureTestPage
         from PlotPage import PlotPage
         from NewVehiclePage import NewVehiclePage
         from TestIsRunningPage import TestIsRunningPage
@@ -47,7 +47,7 @@ class AVA(tk.Tk):
         from ResultsPage import ResultsPage
 
         # Create frames for each of the app pages
-        for F in (HomePage, RunTestPage, PlotPage, NewVehiclePage, TestIsRunningPage, SaveTestPage, ResultsPage):
+        for F in (HomePage, ConfigureTestPage, PlotPage, NewVehiclePage, TestIsRunningPage, SaveTestPage, ResultsPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
