@@ -7,8 +7,18 @@ import glob, os
 
 import json
 
-
 class Test_Is_Running_Page(tk.Frame):
+        root = tk.Frame()
+               
+        def poll (self):
+                # Read json file
+                with open('data.json','r') as f:
+                        data = json.load(f)
+
+                self.label1['text'] = "Test Type: {}".format(data['test_type'])
+                
+                self.after(1000, self.poll)
+
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
                 
@@ -24,8 +34,8 @@ class Test_Is_Running_Page(tk.Frame):
                 label = ttk.Label(self, text="Test Is Running Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                label1 = ttk.Label(self, text=str("Test Type: " + data['test_type']))
-                label1.pack(pady=1,padx=1, side = "top", anchor = "n")
+                self.label1 = ttk.Label(self, text=str("Test Type: "))
+                self.label1.pack(pady=1,padx=1, side = "top", anchor = "n")
 
                 label2 = ttk.Label(self, text=str("Test Duration: " + data['test_duration']))
                 label2.pack(pady=1,padx=1, side = "top", anchor = "n")
@@ -40,3 +50,5 @@ class Test_Is_Running_Page(tk.Frame):
                 goToRunTestPage_button = ttk.Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Configure_Test_Page"))
                 goToRunTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
+                
+                self.poll()
