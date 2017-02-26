@@ -81,5 +81,5 @@ class AVA(tk.Tk):
 # -------------------------------------------------------------#
 app = AVA()
 app.title("Automotive Vibration Analyzer")
-fullscreen = FullScreenApp(app)
+#fullscreen = FullScreenApp(app)
 app.mainloop()

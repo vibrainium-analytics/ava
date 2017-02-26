@@ -12,6 +12,8 @@ class Test_Is_Running_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
 
+                os.chdir("/home/pi/ava/vehicle_profiles/")
+                
                 # Read json file
                 with open('data.json','r') as f:
                         data = json.load(f)
@@ -42,10 +44,10 @@ class Test_Is_Running_Page(tk.Frame):
                 self.label1 = ttk.Label(self, text=str("Test Type: "))
                 self.label1.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                self.label2 = ttk.Label(self, text=str("Test Duration: " + data['test_duration']))
+                self.label2 = ttk.Label(self, text=str("Test Duration: "))
                 self.label2.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                self.label3 = ttk.Label(self, text=str("Delay Time: " + data['delay_time']))
+                self.label3 = ttk.Label(self, text=str("Delay Time: " ))
                 self.label3.pack(pady=1,padx=1, side = "top", anchor = "n")
 
                 goToSaveTestPage_button = ttk.Button(self, text="Save Test",
