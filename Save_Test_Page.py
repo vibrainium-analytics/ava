@@ -28,7 +28,7 @@ class Save_Test_Page(tk.Frame):
                 self.AC_Status.pack(pady=5, padx=10)
                 self.AC_Status1.pack(in_= self, side="top", pady=20, padx=10)
 
-                Idle_Status = ('Yes', 'No', '60 seconds', '90 seconds', '120 seconds')
+                Idle_Status = ('Yes', 'No','Who knows')
                 self.Idle_Status1 = ttk.Labelframe(self, text='Under Idle?')
                 self.Idle_Status = ttk.Combobox(self.Idle_Status1, values=Idle_Status, state='readonly')
                 self.Idle_Status.current(0)  # set selection
