@@ -16,7 +16,7 @@ class FullScreenApp(object):
         master.geometry("{0}x{1}+0+0".format(
         master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
         master.bind('<Escape>',self.toggle_geom)
-       
+
     def toggle_geom(self,event):
         geom=self.master.winfo_geometry()
         print(geom,self._geom)
@@ -24,16 +24,16 @@ class FullScreenApp(object):
         self._geom=geom
 
 # Startup routine
-class AVA(tk.Tk):    
+class AVA(tk.Tk):
     def __init__(self, *args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
 
         # App Data global variable holder
-        self.app_data = {"var1":    tk.StringVar(),
+        self.app_data = {"vehicle_profile_path":    tk.StringVar(),
                          "var2":    tk.StringVar(),
                          "var3":    tk.StringVar()
                          }
-        
+        self.app_data['vehicle_profile_path'].set('home/pi/ava/vehicle_profiles/')
         # Container holding app pages
         container = tk.Frame(self)
         container.pack(side="top",expand=False)
@@ -57,16 +57,16 @@ class AVA(tk.Tk):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
-            frame.grid(row=0, column=0, sticky="nsew") 
+            frame.grid(row=0, column=0, sticky="nsew")
 
         # First page to load is Home_Page
         self.show_page("Home_Page")
-        
+
     # Define how frames will be promoted to current Tkinter frame
     def show_frame(self, container):
         frame = self.frames[container]
         frame.tkraise()
-        
+
     # Search through possible pages to find
     # desired page to promote to current Tkinter frame
     def show_page(self,page_name):

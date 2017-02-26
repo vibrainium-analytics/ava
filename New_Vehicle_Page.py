@@ -9,7 +9,7 @@ import json
 
 class New_Vehicle_Page(tk.Frame):
         def saveNewVehicleProfile (self,controller):
-                os.chdir("/home/pi/ava/vehicle_profiles/")
+                os.chdir(controller.app_data["vehicle_profile_path"].get())
 
                 data = {
                         'name' : str(self.entry1.get()),
@@ -20,17 +20,17 @@ class New_Vehicle_Page(tk.Frame):
 
                 with open('data1.json','w') as f:
                         json.dump(data,f)
-                
+
                 controller.show_page('Home_Page')
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 self.label = ttk.Label(self, text="New Vehicle Page")
                 self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
-                
+
                 D = ('0 Seconds', '30 seconds', '60 seconds', '90 seconds', '120 seconds')
                 DT1 = ttk.Labelframe(self, text='Pre-defined - some will need this (cylinders) while other will need enterable fields')
                 DT = ttk.Combobox(DT1, values=D, state='readonly')
@@ -61,6 +61,3 @@ class New_Vehicle_Page(tk.Frame):
                 self.goToHomePage_button = ttk.Button(self, text="Home",
                                     command=lambda: self.saveNewVehicleProfile(controller))
                 self.goToHomePage_button.pack(side = "left", expand = "no", anchor = "n")
-
-
-                
