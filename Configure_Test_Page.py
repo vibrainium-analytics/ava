@@ -13,11 +13,11 @@ class Configure_Test_Page(tk.Frame):
 
                 # AVA app controller (app_data access)
                 self.controller = controller
-
+                
                 label = ttk.Label(self, text="Run Test Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
-
-                # Go to TestIsRunningPage
+                
+                # Go to TestIsRunningPage 
                 goToTestIsRunningPage_button = ttk.Button(self, text="Start test",
                                     command=lambda: self.saveTestPreferences(controller))
                 goToTestIsRunningPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
@@ -50,7 +50,7 @@ class Configure_Test_Page(tk.Frame):
 
         def saveTestPreferences (self,controller):
 
-                os.chdir(controller.app_data["vehicle_profile_path"].get())
+                os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 data = {
                         'test_duration' : str(self.TestDuration.get()),
@@ -60,5 +60,7 @@ class Configure_Test_Page(tk.Frame):
 
                 with open('data.json','w') as f:
                         json.dump(data,f)
-
+                
                 controller.show_page("Test_Is_Running_Page")
+
+                

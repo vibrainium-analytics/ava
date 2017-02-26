@@ -13,7 +13,7 @@ class Save_Test_Page(tk.Frame):
 
                 # AVA app controller (app_data access)
                 self.controller = controller
-
+                
                 label = ttk.Label(self, text="Save Test Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
@@ -42,11 +42,9 @@ class Save_Test_Page(tk.Frame):
                 self.Speeds.pack(pady=5, padx=10)
                 self.Speeds1.pack(in_=self, side="top", pady=20, padx=10)
 
-                controller.app_data["vehicle_profile_path"].set('/home/pi/ava/vehicle_profiles/')
-
         def saveTestSettings (self,controller):
 
-                os.chdir(controller.app_data.get('vehicle_profile_path'))
+                os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 data = {
                         'ac_status' : str(self.AC_Status.get()),
@@ -56,5 +54,7 @@ class Save_Test_Page(tk.Frame):
 
                 with open('data2.json','w') as f:
                         json.dump(data,f)
-
+                
                 controller.show_page("Results_Page")
+
+                

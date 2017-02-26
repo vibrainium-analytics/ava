@@ -7,11 +7,11 @@ import glob, os
 
 import json
 class Results_Page(tk.Frame):
-        # Update page with new content every 1 second
+        # Update page with new content every 1 second                
         def poll (self):
 
-                os.chdir(controller.app_data["vehicle_profile_path"].get())
-
+                os.chdir("/home/pi/ava/vehicle_profiles/")
+                
                 # Read json file
                 with open('data2.json','r') as f:
                         data = json.load(f)
@@ -20,16 +20,16 @@ class Results_Page(tk.Frame):
                 self.label1['text'] = "AC Status: {}".format(data['ac_status'])
                 self.label2['text'] = "Idle Status: {}".format(data['idle_status'])
                 self.label3['text'] = "Speed: {}".format(data['speed'])
-
+                
                 # check for changes in data every 1 second
                 self.after(1000, self.poll)
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-
+                
                 # AVA app controller (app_data access)
                 self.controller = controller
-
+                
                 label = ttk.Label(self, text="Results Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 

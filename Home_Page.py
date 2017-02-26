@@ -7,11 +7,11 @@ import glob, os
 import json
 
 class Home_Page(tk.Frame):
-        # Update page with new content every 1 second
-        def poll (self, controller):
+        # Update page with new content every 1 second                
+        def poll (self):
 
-                os.chdir(controller.app_data["vehicle_profile_path"].get())
-
+                os.chdir("/home/pi/ava/vehicle_profiles/")
+                
                 # Read json file
                 with open('data1.json','r') as f:
                         data = json.load(f)
@@ -26,10 +26,10 @@ class Home_Page(tk.Frame):
                 self.after(1000, self.poll)
 
         def __init__(self,parent,controller):
-
+                
                 # AVA app controller (app_data access)
                 self.controller = controller
-
+                
                 tk.Frame.__init__(self,parent)
 
                 label = ttk.Label(self, text="Home Page")
@@ -57,4 +57,4 @@ class Home_Page(tk.Frame):
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
                 goToNewVehiclePage_button.pack(side = "right", expand = "yes", anchor = "n")
 
-                self.poll(controller)
+                self.poll()

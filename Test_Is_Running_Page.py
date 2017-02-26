@@ -9,11 +9,11 @@ import json
 
 class Test_Is_Running_Page(tk.Frame):
 
-        # Update page with new content every 1 second
-        def poll (self,controller):
+        # Update page with new content every 1 second                
+        def poll (self):
 
-                os.chdir(controller.app_data["vehicle_profile_path"].get())
-
+                os.chdir("/home/pi/ava/vehicle_profiles/")
+                
                 # Read json file
                 with open('data.json','r') as f:
                         data = json.load(f)
@@ -28,16 +28,16 @@ class Test_Is_Running_Page(tk.Frame):
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-
+                
                 # AVA app controller (app_data access)
                 self.controller = controller
 
-                os.chdir(controller.app_data["vehicle_profile_path"].get())
+                os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 # Read json file
                 with open('data.json','r') as f:
                         data = json.load(f)
-
+                        
                 label = ttk.Label(self, text="Test Is Running Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
@@ -57,5 +57,5 @@ class Test_Is_Running_Page(tk.Frame):
                 goToRunTestPage_button = ttk.Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Configure_Test_Page"))
                 goToRunTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
-
-                self.poll(controller)
+                
+                self.poll()
