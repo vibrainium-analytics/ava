@@ -8,15 +8,20 @@ import glob, os
 import json
 
 class Test_Is_Running_Page(tk.Frame):
-        root = tk.Frame()
-               
+
+        # Update page with new content every 1 second                
         def poll (self):
+
                 # Read json file
                 with open('data.json','r') as f:
                         data = json.load(f)
 
+                # Update labels with latest data
                 self.label1['text'] = "Test Type: {}".format(data['test_type'])
-                
+                self.label2['text'] = "Test Duration: {}".format(data['test_duration'])
+                self.label3['text'] = "Delay Time: {}".format(data['delay_time'])
+
+                # check for changes in data every 1 second
                 self.after(1000, self.poll)
 
         def __init__(self, parent, controller):
@@ -37,11 +42,11 @@ class Test_Is_Running_Page(tk.Frame):
                 self.label1 = ttk.Label(self, text=str("Test Type: "))
                 self.label1.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                label2 = ttk.Label(self, text=str("Test Duration: " + data['test_duration']))
-                label2.pack(pady=1,padx=1, side = "top", anchor = "n")
+                self.label2 = ttk.Label(self, text=str("Test Duration: " + data['test_duration']))
+                self.label2.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                label3 = ttk.Label(self, text=str("Delay Time: " + data['delay_time']))
-                label3.pack(pady=1,padx=1, side = "top", anchor = "n")
+                self.label3 = ttk.Label(self, text=str("Delay Time: " + data['delay_time']))
+                self.label3.pack(pady=1,padx=1, side = "top", anchor = "n")
 
                 goToSaveTestPage_button = ttk.Button(self, text="Save Test",
                                     command=lambda: controller.show_page("Save_Test_Page"))
