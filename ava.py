@@ -41,13 +41,13 @@ class AVA(tk.Tk):
         from HomePage import HomePage
         from RunTestPage import RunTestPage
         from PlotPage import PlotPage
-        from NewVehiclePage import NewVehiclePage
+        from NewVehiclePage import NewVehiclePage, NewVehiclePage_Advanced
         from TestIsRunningPage import TestIsRunningPage
         from SaveTestPage import SaveTestPage
         from ResultsPage import ResultsPage
 
         # Create frames for each of the app pages
-        for F in (HomePage, RunTestPage, PlotPage, NewVehiclePage, TestIsRunningPage, SaveTestPage, ResultsPage):
+        for F in (HomePage, RunTestPage, PlotPage, NewVehiclePage, NewVehiclePage_Advanced, TestIsRunningPage, SaveTestPage, ResultsPage):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
