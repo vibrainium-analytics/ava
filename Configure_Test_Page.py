@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
+import urllib.request
 
 # File system access library
 import glob, os
@@ -10,7 +11,8 @@ import json
 class Configure_Test_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-
+                
+                
                 # AVA app controller (app_data access)
                 self.controller = controller
                 
@@ -34,15 +36,15 @@ class Configure_Test_Page(tk.Frame):
                 self.TestType.pack(pady=5, padx=10)
                 self.TestType1.pack(in_= self, side="top", pady=20, padx=10)
 
-                Delay = ('0 Seconds', '30 seconds', '60 seconds', '90 seconds', '120 seconds')
-                self.DelayTime1 = ttk.Labelframe(self, text='Delay before sampling begins')
+                Delay = ('0', '1', '2', '5', '10')
+                self.DelayTime1 = ttk.Labelframe(self, text='Delay before test begins (minutes)')
                 self.DelayTime = ttk.Combobox(self.DelayTime1, values=Delay, state='readonly')
                 self.DelayTime.current(0)  # set selection
                 self.DelayTime.pack(pady=5, padx=10)
                 self.DelayTime1.pack(in_=self, side="top", pady=20, padx=10)
 
-                Duration = ('1 minute', '2 minutes', '5 minutes', '10 minutes', '20 minutes')
-                self.TestDuration1 = ttk.Labelframe(self, text='Sample size - time')
+                Duration = ('0', '1', '2', '5', '10', '20')
+                self.TestDuration1 = ttk.Labelframe(self, text='Length of test (minutes)')
                 self.TestDuration = ttk.Combobox(self.TestDuration1, values=Duration, state='readonly')
                 self.TestDuration.current(0)  # set selection
                 self.TestDuration.pack(pady=5, padx=10)
@@ -50,7 +52,9 @@ class Configure_Test_Page(tk.Frame):
 
         def saveTestPreferences (self,controller):
 
-                os.chdir("/home/pi/ava/vehicle_profiles/")
+                path = "/home/pi/ava/vehicle_profiles/"
+                os.chdir(path)
+                
 
                 data = {
                         'test_duration' : str(self.TestDuration.get()),
@@ -62,5 +66,32 @@ class Configure_Test_Page(tk.Frame):
                         json.dump(data,f)
                 
                 controller.show_page("Test_Is_Running_Page")
+                pause = int(data['delay_time'])
+                samples = int(data['test_duration'])
+
+                print ('waiting...')       
+                fnm = path +  data['test_type'] + '/'
+                os.makedirs(fnm)
+                for i in range(0, pause):
+                    print ('minute ' + str(i+1))
+                    delay = urllib.request.urlopen("http://192.168.1.1/D")
+                    count = delay.read()
+                    delay.close()
+
+                # collect data
+                print ('sampling...')
+                for j in range(0, samples):
+                    name = 'A' + str(j+1)
+                    num = str(j+1)
+                    print ('sample #' + num)                                                
+                    mkr = urllib.request.urlopen("http://192.168.1.1/A")
+                    accl = mkr.read().decode()
+                    mkr.close()
+                    filenam = fnm + name + '.txt'
+                    f = open(filenam,"w")
+                    f.write(accl)
+                    f.close
+                print ("done reading")
+                
 
                 

@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
+
 # File system access library
 import glob, os
 
@@ -12,7 +13,8 @@ class Test_Is_Running_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
 
-                os.chdir("/home/pi/ava/vehicle_profiles/")
+                path = ("/home/pi/ava/vehicle_profiles/")
+                os.chdir(path)
                 
                 # Read json file
                 with open('data.json','r') as f:
@@ -20,8 +22,8 @@ class Test_Is_Running_Page(tk.Frame):
 
                 # Update labels with latest data
                 self.label1['text'] = "Test Type: {}".format(data['test_type'])
-                self.label2['text'] = "Test Duration: {}".format(data['test_duration'])
-                self.label3['text'] = "Delay Time: {}".format(data['delay_time'])
+                self.label2['text'] = "Test Duration: {}".format(data['test_duration'] + " minutes")
+                self.label3['text'] = "Delay Time: {}".format(data['delay_time'] + " minutes")
 
                 # check for changes in data every 1 second
                 self.after(1000, self.poll)
@@ -32,12 +34,12 @@ class Test_Is_Running_Page(tk.Frame):
                 # AVA app controller (app_data access)
                 self.controller = controller
 
-                os.chdir("/home/pi/ava/vehicle_profiles/")
+                os.chdir("/home/owner/ava/vehicle_profiles")
 
-                # Read json file
+                # Read json file")
                 with open('data.json','r') as f:
                         data = json.load(f)
-                        
+                         
                 label = ttk.Label(self, text="Test Is Running Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
@@ -59,3 +61,4 @@ class Test_Is_Running_Page(tk.Frame):
                 goToRunTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
                 
                 self.poll()
+
