@@ -34,7 +34,7 @@ class Test_Is_Running_Page(tk.Frame):
                 # AVA app controller (app_data access)
                 self.controller = controller
 
-                os.chdir("/home/owner/ava/vehicle_profiles")
+                os.chdir("/home/pi/ava/vehicle_profiles")
 
                 # Read json file")
                 with open('data.json','r') as f:
