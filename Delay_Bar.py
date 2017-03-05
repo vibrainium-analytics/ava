@@ -35,10 +35,10 @@ class Delay_Bar(tk.Tk):
             rem = i/wait
             self.updating(rem)
         if i < wait:
-            self.after(10000, self.test, i+1)
             delay = urllib.request.urlopen("http://192.168.1.1/S")
             count = delay.read()
             delay.close()
+            self.after(10000, self.test, i+1)
         elif i == wait:
             self.destroy()
             print('sampling')
