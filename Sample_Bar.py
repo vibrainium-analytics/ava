@@ -30,26 +30,23 @@ class Sample_Bar(tk.Tk):
     def test(self,i=0):   
         
         path ="/home/pi/ava/vehicle_profiles/"
-        path1 = path + 'temp1/'
-        path2 = path + 'temp/'
+        path1 = path + 'temp/'
+
         os.chdir(path)      
         fname = "Three Axes"
         debug = False
-        xo = 2090                   # Approximate x-axis zero vibration value            
-        yo = 2010                   # Approximate y-axis zero vibration value
-        zo = 2500                   # Approximate z-axis zero vibration value 
+        xo = 2050                   # x-axis zero vibration value            
+        yo = 1605                   # y-axis zero vibration value
+        zo = 2060                   # z-axis zero vibration value 
               
         # get test parameters from .json file
     
         with open('data.json','r') as f:
             data = json.load(f)
             
-        samples = int(data['test_duration'])
-        print(samples)
-
-        if i == 0:            
-            os.makedirs(path1)
-            os.makedirs(path2) 
+        samples = 6 * (int(data['test_duration']))
+        testnm = str(data['test_type'])
+        path2 = path + testnm + '/' 
 
         # samples = 0 is a debug feature that bypasses sampling
         
@@ -58,9 +55,13 @@ class Sample_Bar(tk.Tk):
             i = samples
             debug = True
 
+        if i == 0 and debug == False:            
+            os.makedirs(path1)
+            os.makedirs(path2) 
+
         # if samples is anything other than zero the progress bar is updated
         
-        else:
+        elif debug == False:
             rem = i/samples
             self.updating(rem)
 
@@ -75,7 +76,7 @@ class Sample_Bar(tk.Tk):
             f = open(filenam,"w")
             f.write(accl)
             f.close
-            self.after(1, self.test, i+1)
+            self.after(2000, self.test, i+1)
 
         # when sampling is done the progress bar goes away
 
@@ -83,7 +84,7 @@ class Sample_Bar(tk.Tk):
             self.destroy()
             print('test is done')
 
-            # After the sampling is done. Calculate magnitude of the 3-axis vibrations and reduce DC component
+            # Calculate magnitude of the 3-axis vibrations and reduce DC component
 
             for j in range(0, samples):
                 fname1 = path1 + fname + str(j+1) + '.txt'
@@ -106,6 +107,5 @@ class Sample_Bar(tk.Tk):
 
         else:
             self.destroy()
-            shutil.rmtree(path1)
             print ('ok')
             

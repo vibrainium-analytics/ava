@@ -19,7 +19,8 @@ class Delay_Bar(tk.Tk):
 
     def updating(self,val):
         self.progress["value"] = val
-
+        print(val)
+        
     def test(self,i=0):
 
         path ="/home/pi/ava/vehicle_profiles/" 
@@ -27,7 +28,7 @@ class Delay_Bar(tk.Tk):
         with open('data.json','r') as f:
             data = json.load(f)
         pause = int(data['delay_time'])
-        wait = pause*6
+        wait = pause*5
         if pause == 0:
             wait = 1
             i = wait
@@ -35,13 +36,14 @@ class Delay_Bar(tk.Tk):
             rem = i/wait
             self.updating(rem)
         if i < wait:
-            delay = urllib.request.urlopen("http://192.168.1.1/S")
+            delay = urllib.request.urlopen("http://192.168.1.1/D")
             count = delay.read()
             delay.close()
-            self.after(10000, self.test, i+1)
+            self.after(2000, self.test, i+1)
         elif i == wait:
             self.destroy()
             print('sampling')
             Sample_Bar()
+
         
 
