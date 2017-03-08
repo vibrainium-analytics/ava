@@ -7,7 +7,15 @@ import glob, os
 
 # Math functions library
 import numpy as np
+#-----------------------------------------------------------------#
+#-----------------------------------------------------------------#
+# Plot Page Code
+import tkinter as tk
+from tkinter import messagebox
+from tkinter import ttk
 
+import numpy as np
+              
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         self.master=master
@@ -46,11 +54,11 @@ class AVA(tk.Tk):
         # Application pages to load in background
         from Home_Page import Home_Page
         from Configure_Test_Page import Configure_Test_Page
-        from Plot_Page import Plot_Page
         from New_Vehicle_Page import New_Vehicle_Page
         from Test_Is_Running_Page import Test_Is_Running_Page
         from Save_Test_Page import Save_Test_Page
         from Results_Page import Results_Page
+        from Plot_Page import Plot_Page
 
         # Create frames for each of the app pages
         for F in (Home_Page, Configure_Test_Page, Plot_Page, New_Vehicle_Page, Test_Is_Running_Page, Save_Test_Page, Results_Page):
@@ -82,4 +90,7 @@ class AVA(tk.Tk):
 app = AVA()
 app.title("Automotive Vibration Analyzer")
 #fullscreen = FullScreenApp(app)
+import Plot_Page
+import matplotlib.animation as animation
+animate = Plot_Page.animation.FuncAnimation(Plot_Page.f,Plot_Page.animate,interval=1000)
 app.mainloop()
