@@ -27,7 +27,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 matplotlib.use('TkAgg')
 
-f = Figure(figsize=(5,5), dpi=100)
+f = Figure(figsize=(7,7), dpi=100)
 a = f.add_subplot(111)
 
 from sys import argv
@@ -49,8 +49,10 @@ def animate(i):
                         yList.append(int(y))
 
         a.clear()
-        a.title.set_text("Length " + str(len(xList)))
+        a.title.set_text("Data Plot")
         a.plot(xList,yList)
+        a.set_xlabel('Frequency (Hz)')
+        a.set_ylabel('Magnitude')
         
 class Plot_Page(tk.Frame):
         def __init__(self, parent, controller):
