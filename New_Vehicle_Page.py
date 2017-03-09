@@ -9,12 +9,16 @@ import json
 
 class New_Vehicle_Page(tk.Frame):
         def saveNewVehicleProfile (self,controller):
+                name = str(self.entry1.get())
+                make = str(self.entry2.get())
+                model = str(self.entry3.get())
+                year = str(self.entry4.get())
 
                 data = {
-                        'name' : str(self.entry1.get()),
-                        'make' : str(self.entry2.get()),
-                        'model' : str(self.entry3.get()),
-                        'year' : str(self.entry4.get()),
+                        'name' : name,
+                        'make' : make,
+                        'model' : model,
+                        'year' : year,
                         }
 
                 with open('data1.json','w') as f:
