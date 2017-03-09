@@ -7,14 +7,6 @@ import glob, os
 
 # Math functions library
 import numpy as np
-#-----------------------------------------------------------------#
-#-----------------------------------------------------------------#
-# Plot Page Code
-import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
-
-import numpy as np
 
 # Import plotting libraries
 import matplotlib.pyplot as pl
@@ -27,7 +19,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 matplotlib.use('TkAgg')
 
-f = Figure(figsize=(7,7), dpi=100)
+f = Figure(figsize=(5,5))
 a = f.add_subplot(111)
 
 from sys import argv
@@ -36,18 +28,29 @@ from sys import argv
 def animate(i):
         filepath = "/home/pi/ava/"
         os.chdir(filepath)
+        
+        data = np.genfromtxt('DataPlotFile.txt',delimiter=' ')
+        number_cols = len(data[0])
 
-        # Parse dataplot file for frequencies and magnitudes        
-        freq_List, mag1_List, mag2_List, mag3_List=np.loadtxt('DataPlotFile.txt',unpack=True)
-
-        # Setup subplots
+        # Clear subplot for new data
         a.clear()
-        plot1 = a.plot(freq_List, mag1_List,'r',label='Plot #1')
-        plot2 = a.plot(freq_List, mag2_List,'b',label='Plot #2')
-        plot3 = a.plot(freq_List, mag3_List,'g',label='Plot #3')
+
+        mag_max = 0     # maximum magnitude of magnitude lists
+        
+        if number_cols > 1:
+                freq_List = data[0,:]
+                mag1_List = data[1,:]
+                plot1 = a.plot(freq_List, mag1_List,'r',label='Plot #1')
+        if number_cols > 2:
+                mag2_List = data[2,:]
+                plot2 = a.plot(freq_List, mag2_List,'g',label='Plot #2')           
+        if number_cols > 3:
+                mag3_List = data[3,:]
+                plot3 = a.plot(freq_List, mag3_List,'b',label='Plot #3')
+                
+        # Create legend from plot label values
         a.legend()
-        
-        
+
 class Plot_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
@@ -69,6 +72,3 @@ class Plot_Page(tk.Frame):
                 toolbar = NavigationToolbar2TkAgg(canvas, self)
                 toolbar.update()
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-
-#------------------------------------------------------------------#
-#------------------------------------------------------------------#  
