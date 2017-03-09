@@ -10,11 +10,11 @@ class Results_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
 
-                os.chdir("/home/pi/ava/vehicle_profiles/")
                 
                 # Read json file
                 with open('data2.json','r') as f:
                         data = json.load(f)
+                        f.close
 
                 # Update labels with latest data
                 self.label1['text'] = "AC Status: {}".format(data['ac_status'])

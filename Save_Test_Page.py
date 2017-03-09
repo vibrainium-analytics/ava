@@ -44,7 +44,6 @@ class Save_Test_Page(tk.Frame):
 
         def saveTestSettings (self,controller):
 
-                os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 data = {
                         'ac_status' : str(self.AC_Status.get()),
@@ -54,6 +53,7 @@ class Save_Test_Page(tk.Frame):
 
                 with open('data2.json','w') as f:
                         json.dump(data,f)
+                        f.close
                 
                 controller.show_page("Results_Page")
 

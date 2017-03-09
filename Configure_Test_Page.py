@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-import urllib.request
 
 # File system access library
 import glob, os
@@ -20,7 +19,7 @@ class Configure_Test_Page(tk.Frame):
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
                 
                 # Go to TestIsRunningPage 
-                goToTestIsRunningPage_button = ttk.Button(self, text="Start test",
+                goToTestIsRunningPage_button = ttk.Button(self, text="Set test parameters",
                                     command=lambda: self.saveTestPreferences(controller))
                 goToTestIsRunningPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
@@ -51,11 +50,7 @@ class Configure_Test_Page(tk.Frame):
                 self.TestDuration1.pack(in_=self, side="top", pady=20, padx=10)
 
         def saveTestPreferences (self,controller):
-
-                path = "/home/pi/ava/vehicle_profiles/"
-                os.chdir(path)
                 
-
                 data = {
                         'test_duration' : str(self.TestDuration.get()),
                         'delay_time' : str(self.DelayTime.get()),
@@ -64,34 +59,10 @@ class Configure_Test_Page(tk.Frame):
 
                 with open('data.json','w') as f:
                         json.dump(data,f)
+                        f.close
                 
                 controller.show_page("Test_Is_Running_Page")
-                pause = int(data['delay_time'])
-                samples = int(data['test_duration'])
 
-                print ('waiting...')       
-                fnm = path +  data['test_type'] + '/'
-                os.makedirs(fnm)
-                for i in range(0, pause):
-                    print ('minute ' + str(i+1))
-                    delay = urllib.request.urlopen("http://192.168.1.1/D")
-                    count = delay.read()
-                    delay.close()
-
-                # collect data
-                print ('sampling...')
-                for j in range(0, samples):
-                    name = 'A' + str(j+1)
-                    num = str(j+1)
-                    print ('sample #' + num)                                                
-                    mkr = urllib.request.urlopen("http://192.168.1.1/A")
-                    accl = mkr.read().decode()
-                    mkr.close()
-                    filenam = fnm + name + '.txt'
-                    f = open(filenam,"w")
-                    f.write(accl)
-                    f.close
-                print ("done reading")
                 
 
                 
