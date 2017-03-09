@@ -40,17 +40,16 @@ short cnta = 8;                     // number of times to run inner loop samplin
 short datax[50];                    // holds x axis samples 
 short datay[50];                    // holds y axis samples
 short dataz[50];                    // holds z axis samples
-short r = 1900;                     // sample delay for sampling 3 axes 
+short r = 1757;                     // sample delay for sampling 3 axes 
 char nl = '\n';                     // new line character for formatting 
-char sp = ' ';                      // space character for formatting
-String sp3 = "    ";                 // special 3 space string used for timing    
+char sp = ' ';                      // space character for formatting   
 int status = WL_IDLE_STATUS;
 WiFiServer server(80);              // Server will be on port 80
 
 void setup() {
 
   analogReadResolution(12);                         // Sets number of bits for resolution of ADC (max 12)
-  ADC->CTRLB.reg = ADC_CTRLB_PRESCALER_DIV16;       // Sets ADC clock delay (lowest recommended is 16 microseconds)
+  ADC->CTRLB.reg = ADC_CTRLB_PRESCALER_DIV32;       // Sets ADC clock delay (lowest recommended is 16 microseconds)
   pinMode(led, OUTPUT);                             // set the LED pin mode
   pinMode(9, OUTPUT);                               // digital pin used for reset feature
   digitalWrite(9,1);                                // pin must be on unless a reset is requested
@@ -115,7 +114,7 @@ void loop() {
           // data acquisition        
           
           int c2 = 2*cnta;                          // calculate number of times to run middle loop (16)
-          int c3 = 3*cnta;                          // calculate number of times to run outer loop (32)           
+          int c3 = 4*cnta;                          // calculate number of times to run outer loop (32)           
           int l = 0;                                // initialize outer loop counter
           while (l != c3){                    
             int k=0;                                // initialize mid loop counter
