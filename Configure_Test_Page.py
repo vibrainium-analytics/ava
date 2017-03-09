@@ -50,9 +50,6 @@ class Configure_Test_Page(tk.Frame):
                 self.TestDuration1.pack(in_=self, side="top", pady=20, padx=10)
 
         def saveTestPreferences (self,controller):
-
-                path ="/home/pi/ava/vehicle_profiles/" 
-                os.chdir(path)
                 
                 data = {
                         'test_duration' : str(self.TestDuration.get()),
@@ -61,7 +58,8 @@ class Configure_Test_Page(tk.Frame):
                         }
 
                 with open('data.json','w') as f:
-                        json.dump(data,f)                
+                        json.dump(data,f)
+                        f.close
                 
                 controller.show_page("Test_Is_Running_Page")
 

@@ -9,12 +9,11 @@ import json
 class Home_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
-
-                os.chdir("/home/pi/ava/vehicle_profiles/")
                 
                 # Read json file
                 with open('data1.json','r') as f:
                         data = json.load(f)
+                        f.close
 
                 # Update labels with latest data
                 self.label1['text'] = "Vehicle Name: {}".format(data['name'])
@@ -57,4 +56,30 @@ class Home_Page(tk.Frame):
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
                 goToNewVehiclePage_button.pack(side = "right", expand = "yes", anchor = "n")
 
+                # defaule settings for directories
+                
+                path = "/home/pi/ava/"
+                veh_prof_path = path + "vehicle_profiles/"
+                os.chdir(path)
+
+                data = {
+                        'path' : str(path),
+                        'veh_path' : str(veh_prof_path),
+                        }
+                with open('directory.json', 'w') as f:
+                        json.dump(data,f)
+                        f.close
+
+                # default settings for data.json
+
+                data = {
+                        'test_type' : 'Baseline-Idle',
+                        'delay_time' : '0',
+                        'test_duration' : '0',
+                        }
+                
+                with open('data.json','w') as f:
+                        json.dump(data,f)
+                        f.close
+                
                 self.poll()

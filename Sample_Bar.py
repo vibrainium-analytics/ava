@@ -28,26 +28,36 @@ class Sample_Bar(tk.Tk):
     # sample vibration data
     
     def test(self,i=0):   
-        
-        path ="/home/pi/ava/vehicle_profiles/"
-        path1 = path + 'temp/'
-
-        os.chdir(path)      
+              
         fname = "Three Axes"
         debug = False
         xo = 2050                   # x-axis zero vibration value            
         yo = 1605                   # y-axis zero vibration value
         zo = 2060                   # z-axis zero vibration value 
               
-        # get test parameters from .json file
-    
+        # get test data from .json file
+        
         with open('data.json','r') as f:
             data = json.load(f)
+            f.close
             
         samples = 6 * (int(data['test_duration']))
         testnm = str(data['test_type'])
-        path2 = path + testnm + '/' 
 
+        # set directories from .json file
+        with open('directory.json','r') as f:
+            data_dir = json.load(f)
+            f.close
+
+        with open('data1.json','r') as f:
+            data1 = json.load(f)
+            f.close
+        
+        path = str(data_dir['veh_path'])
+        path2 = path + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
+        path1 = path2 + 'temp/'
+    
+ 
         # samples = 0 is a debug feature that bypasses sampling
         
         if samples == 0:
@@ -57,7 +67,6 @@ class Sample_Bar(tk.Tk):
 
         if i == 0 and debug == False:            
             os.makedirs(path1)
-            os.makedirs(path2) 
 
         # if samples is anything other than zero the progress bar is updated
         
