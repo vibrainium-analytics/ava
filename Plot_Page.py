@@ -34,8 +34,6 @@ from sys import argv
 
 # Plot Page
 def animate(i):
-        filepath = "/home/pi/ava/"
-        os.chdir(filepath)
         
         pullData = open('DataPlotFile.txt','r').read()
         dataList = pullData.split('\n')

@@ -9,7 +9,6 @@ import json
 
 class New_Vehicle_Page(tk.Frame):
         def saveNewVehicleProfile (self,controller):
-                os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 data = {
                         'name' : str(self.entry1.get()),
@@ -20,6 +19,7 @@ class New_Vehicle_Page(tk.Frame):
 
                 with open('data1.json','w') as f:
                         json.dump(data,f)
+                        f.close
                 
                 controller.show_page('Home_Page')
         def __init__(self, parent, controller):
