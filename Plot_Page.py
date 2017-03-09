@@ -36,23 +36,16 @@ from sys import argv
 def animate(i):
         filepath = "/home/pi/ava/"
         os.chdir(filepath)
-        
-        pullData = open('DataPlotFile.txt','r').read()
-        dataList = pullData.split('\n')
-        xList = []
-        yList = []
 
-        for eachLine in dataList:
-                if len(eachLine) > 1:
-                        x, y = eachLine.split(' ')
-                        xList.append(int(x))
-                        yList.append(int(y))
+        # Parse dataplot file for frequencies and magnitudes        
+        freq_List, mag1_List, mag2_List, mag3_List=np.loadtxt('DataPlotFile.txt',unpack=True)
 
+        # Setup subplots
         a.clear()
-        a.title.set_text("Data Plot")
-        a.plot(xList,yList)
-        a.set_xlabel('Frequency (Hz)')
-        a.set_ylabel('Magnitude')
+        a.plot(freq_List, mag1_List,'r')
+        a.plot(freq_List, mag2_List,'b')
+        a.plot(freq_List, mag3_List,'g')
+        
         
 class Plot_Page(tk.Frame):
         def __init__(self, parent, controller):
