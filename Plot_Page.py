@@ -42,9 +42,10 @@ def animate(i):
 
         # Setup subplots
         a.clear()
-        a.plot(freq_List, mag1_List,'r')
-        a.plot(freq_List, mag2_List,'b')
-        a.plot(freq_List, mag3_List,'g')
+        plot1 = a.plot(freq_List, mag1_List,'r',label='Plot #1')
+        plot2 = a.plot(freq_List, mag2_List,'b',label='Plot #2')
+        plot3 = a.plot(freq_List, mag3_List,'g',label='Plot #3')
+        a.legend()
         
         
 class Plot_Page(tk.Frame):
