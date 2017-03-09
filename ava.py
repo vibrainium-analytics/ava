@@ -5,17 +5,6 @@ from tkinter import ttk
 # File system access library
 import glob, os
 
-# Math functions library
-import numpy as np
-#-----------------------------------------------------------------#
-#-----------------------------------------------------------------#
-# Plot Page Code
-import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
-
-import numpy as np
-              
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         self.master=master
