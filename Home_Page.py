@@ -29,7 +29,6 @@ class Home_Page(tk.Frame):
                 with open('/home/pi/ava/vehicle_profiles/' + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
                         data = json.load(f)
                         f.close
-                print('Pick: ' + self.Saved_Profiles_Dropdown.get())
 
                 # Write saved_vehicle status folder
                 with open('selected_vehicle.json', 'w') as f:
