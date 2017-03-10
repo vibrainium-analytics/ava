@@ -25,7 +25,7 @@ class Home_Page(tk.Frame):
                 self.after(1000, self.poll)
 
         def loadSavedVehicleProfile (self, event):
-                # Read json file
+                # Save to json file (in vehicle profiles folder)
                 with open('/home/pi/ava/vehicle_profiles/' + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
                         data = json.load(f)
                         f.close
@@ -74,7 +74,7 @@ class Home_Page(tk.Frame):
 
                 # Load vehicles from vehicle directory
                 from os import listdir
-                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles")
+                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/")
                 formatted_filenames = []
 
                 # Format filenames to remove .json extension

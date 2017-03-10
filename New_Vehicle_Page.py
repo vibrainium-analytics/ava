@@ -21,7 +21,7 @@ class New_Vehicle_Page(tk.Frame):
                         'year' : year,
                         }
                 # Save vehicle profile in a new file
-                with open(name + '.json','w') as f:
+                with open('/home/pi/ava/vehicle_profiles/' + name + '.json','w') as f:
                         json.dump(data,f)
                         f.close
 
