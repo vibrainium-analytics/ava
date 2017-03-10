@@ -20,11 +20,15 @@ class New_Vehicle_Page(tk.Frame):
                         'model' : model,
                         'year' : year,
                         }
-
-                with open('vehicle_profiles/' + name + '.json','w') as f:
+                # Save vehicle profile in a new file
+                with open(name + '.json','w') as f:
                         json.dump(data,f)
                         f.close
-                
+
+                # Save vehicle profile to current selected_vehicle
+                with open('selected_vehicle.json','w') as f:
+                        json.dump(data,f)
+                        f.close
                 controller.show_page('Home_Page')
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
