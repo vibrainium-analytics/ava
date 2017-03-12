@@ -23,10 +23,10 @@ class Delay_Bar(tk.Tk):
         
     def test(self,i=0):
 
-        path ="/home/pi/ava/vehicle_profiles/" 
-        os.chdir(path)
+
         with open('data.json','r') as f:
             data = json.load(f)
+            f.close
         pause = int(data['delay_time'])
         wait = pause*5
         if pause == 0:

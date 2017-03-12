@@ -9,17 +9,21 @@ import json
 
 class New_Vehicle_Page(tk.Frame):
         def saveNewVehicleProfile (self,controller):
-                os.chdir("/home/pi/ava/vehicle_profiles/")
+                name = str(self.entry1.get())
+                make = str(self.entry2.get())
+                model = str(self.entry3.get())
+                year = str(self.entry4.get())
 
                 data = {
-                        'name' : str(self.entry1.get()),
-                        'make' : str(self.entry2.get()),
-                        'model' : str(self.entry3.get()),
-                        'year' : str(self.entry4.get()),
+                        'name' : name,
+                        'make' : make,
+                        'model' : model,
+                        'year' : year,
                         }
 
                 with open('data1.json','w') as f:
                         json.dump(data,f)
+                        f.close
                 
                 controller.show_page('Home_Page')
         def __init__(self, parent, controller):
