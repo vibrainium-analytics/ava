@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
+from Signal_Process import Signal_Process
 
 # File system access library
 import glob, os
@@ -62,5 +63,6 @@ class Save_Test_Page(tk.Frame):
                         f.close
                 
                 controller.show_page("Results_Page")
+                Signal_Process()
 
                 
