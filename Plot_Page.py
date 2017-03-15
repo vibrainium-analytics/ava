@@ -50,6 +50,44 @@ def animate(i):
         a.legend()
 
 class Plot_Page(tk.Frame):
+
+        def updatePlot(self, controller):
+                # Get selected resolution
+                resolution = str(self.PlotResolution_Dropdown.get())
+
+                # Format resolution to intended text file name based on user-selected input
+                if resolution == "250 Hz":
+                        resolution = "250.txt"
+                elif resolution == "125 Hz":
+                        resolution = "125.txt"
+                elif resolution == "62.5 Hz":
+                        resolution = "62.5.txt"
+                        
+                # Find selected directories
+                data1_name = str(self.Plot1_Dropdown.get())
+                data2_name = str(self.Plot2_Dropdown.get())
+
+                data1_directory = "/home/pi/ava/vehicle_profiles/Spencer's Car/" + data1_name + "/"
+                data2_directory = "/home/pi/ava/vehicle_profiles/Spencer's Car/"+ data2_name + "/"
+                
+                # Find file with specified resolution
+                for root, dirs, files in os.walk(data1_directory):
+                        if resolution in files:
+                                data1_file = os.path.join(root,resolution)
+                for root, dirs, files in os.walk(data2_directory):
+                        if resolution in files:
+                                data2_file = os.path.join(root,resolution)
+                
+                # Extract file contents
+
+                # Save one x and 2 y terms in DataPlotFile
+
+                # Debug
+                print("Resolution: " + resolution)
+                print("Data 1: " + data1_directory)
+                print("Data 2: " + data2_directory)
+                print(data1_file)
+                print(data2_file)
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
@@ -93,3 +131,6 @@ class Plot_Page(tk.Frame):
                 #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.PlotResolution_Dropdown.pack(pady=5,padx=10)
                 self.PlotResolution_Dropdown_Frame.pack(in_=self,side="top",pady=20,padx=10)
+
+                self.plot_button = ttk.Button(self, text = "Plot!",command = lambda: self.updatePlot(controller))
+                self.plot_button.pack(side = "left", expand = "no", anchor = "n")
