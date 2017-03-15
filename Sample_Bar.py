@@ -21,20 +21,6 @@ class Sample_Bar(tk.Tk):
 
     # sample vibration data 
     def test(self,i=0):   
-
-        # a function will be made here that uses the following values to determine the orientation of the sensor
-        # and remove the at rest values from the measured vibrations. This is done prior to the calculation of the
-        # vibration magnitude to remove noise from the frequency spectrum.
-        
-        xo = 2065                   # x-axis zero vibration no load
-        xup = 2475                  # x-axis zero vibration positive g
-        xdwn = 1650                 # x-axis zero vibration negative g
-        yo = 2020                   # y-axis zero vibration no load
-        yup = 2440                  # y-axis zero vibration positive g
-        ydwn = 1605                 # y-axis zero vibration negative g
-        zo = 2090                   # z-axis zero vibration no load
-        zup = 2510                  # z-axis zero vibration positive g
-        zdwn = 1675                 # z-axis zero vibration negative g
               
         # get test data from .json file
         with open('data.json','r') as f:
@@ -54,29 +40,50 @@ class Sample_Bar(tk.Tk):
             f.close
 
         # set directories
+        sim_path = str(data_dir['path']) 
         path = str(data_dir['veh_path'])
         path = path + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
         path1 = path + 'temp1/'
         path2 = path + 'temp/'
 
-        # samples = 0 is a debug feature that bypasses sampling
+        # for first loop i = 0 make directories only once remove them if they exist.
+        if i == 0:
+            if os.path.exists(path1):
+                shutil.rmtree(path1)
+            os.makedirs(path1)
+            if os.path.exists(path2):
+                shutil.rmtree(path2)
+            os.makedirs(path2)
+
+        # samples = 0 is a simulated test that bypasses sampling
         if samples == 0:
+            accl = ''
+            sim_file = sim_path + 'A_0.txt'
+            f = open(sim_file, 'r')
+            data=f.readlines()
+            f.close
+            end = (int((len(data))/4096))*4096
+            print(len(data))
+            print(end)
+            
+            for i in range(0, end-1):
+                row = data[i]
+                col = row.split()
+                x = float(col[0]) 
+                y = float(col[1]) 
+                z = float(col[2]) 
+                mag = int(math.sqrt(math.pow(x,2)+math.pow(y,2)+math.pow(z,2)))
+                a = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
+                accl = accl + a
+            fname2 = path2 + 'Three Axes' + '.txt'
+            f=open(fname2,'w')
+            f.write(accl)
+            f.close
             self.destroy()
-            print ('ok')
-
-        # if samples is anything other than zero the progress bar is updated       
+            print ('simulated sampling complete')
+      
         else:
-
-            # for first loop i = 0 make directories only once remove them if they exist.
-            if i == 0:
-                if os.path.exists(path1):
-                    shutil.rmtree(path1)
-                os.makedirs(path1)
-                if os.path.exists(path2):
-                    shutil.rmtree(path2)
-                os.makedirs(path2)
-
-            # calculate amount of progress bar remaining    
+            # if samples is anything other than zero the progress bar is updated   
             rem = i/samples
             self.updating(rem)
 
@@ -105,9 +112,9 @@ class Sample_Bar(tk.Tk):
                     for i in range(0, 4096):
                         row = data[i]
                         col = row.split()
-                        x = float(col[0]) - xo
-                        y = float(col[1]) - ydwn
-                        z = float(col[2]) - zo
+                        x = float(col[0]) 
+                        y = float(col[1]) 
+                        z = float(col[2])  
                         mag = int(math.sqrt(math.pow(x,2)+math.pow(y,2)+math.pow(z,2)))
                         a = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
                         accl = accl + a

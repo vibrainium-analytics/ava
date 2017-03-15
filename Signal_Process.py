@@ -44,8 +44,9 @@ class Signal_Process(tk.Tk):
         path = path + str(data1['name']) + '_' + str(data1['make']) + '/' + str(data['test_type'])
         path1 = path + '/temp/'
         path2 = path + testnm + '/'
-        if not os.path.exists(path2):
-            os.makedirs(path2)
+        if os.path.exists(path2):
+           shutil.rmtree(path2)     
+        os.makedirs(path2)
         
         # read magnitude values into array and move raw data to new directory
         filename = path1 + 'Three Axes.txt'
@@ -98,7 +99,8 @@ class Signal_Process(tk.Tk):
         # write output to file with frequency scale
         filename2 = path2 + 'fft 250Hz.txt'
         for i in range(0, int(n/2)):
-            hz = float("{0:.1f}".format(i * 500/n))
+            j = i+1
+            hz = float("{0:.1f}".format(j * 500/n))
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
@@ -142,7 +144,7 @@ class Signal_Process(tk.Tk):
             fnsh = fnsh+n
             smpl = mag[strt:fnsh]
             freq1=numpy.absolute(numpy.fft.rfft(smpl))
-            freq1[0] = 0
+            freq1[0] = 0 
             freq = ((freq*runav) + freq1)/(runav+1)
 
         # normalize fft
@@ -153,7 +155,8 @@ class Signal_Process(tk.Tk):
         # write output to file with frequency scale
         filename2 = path2 + 'fft 125Hz.txt'
         for i in range(0, int(n/2)):
-            hz = float("{0:.1f}".format(i * 250/n))
+            j = i+1
+            hz = float("{0:.1f}".format(j * 250/n))
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
@@ -208,7 +211,8 @@ class Signal_Process(tk.Tk):
         # write output to file with frequency scale
         filename2 = path2 + 'fft 62.5Hz.txt'
         for i in range(0, int(n/2)):
-            hz = float("{0:.1f}".format(i * 125/n))
+            j = i+1
+            hz = float("{0:.1f}".format(j * 125/n))
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
