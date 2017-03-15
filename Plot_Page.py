@@ -58,11 +58,11 @@ class Plot_Page(tk.Frame):
 
                 # Format resolution to intended text file name based on user-selected input
                 if resolution == "250 Hz":
-                        resolution = "250.txt"
+                        resolution = "fft 250Hz.txt"
                 elif resolution == "125 Hz":
-                        resolution = "125.txt"
+                        resolution = "fft 125Hz.txt"
                 elif resolution == "62.5 Hz":
-                        resolution = "62.5.txt"
+                        resolution = "fft 62.5Hz.txt"
                         
                 # Find selected directories
                 data1_name = str(self.Plot1_Dropdown.get())
@@ -134,7 +134,7 @@ class Plot_Page(tk.Frame):
 
                 # Load plots from test results directory
                 from os import listdir
-                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/Spencer's Car/")
+                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/Steve_Toyota/")
                 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(self, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
