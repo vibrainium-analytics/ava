@@ -79,8 +79,18 @@ class Plot_Page(tk.Frame):
                                 data2_file = os.path.join(root,resolution)
                 
                 # Extract file contents
+                data1 = np.loadtxt(data1_file)
+                data2 = np.loadtxt(data2_file)
 
-                # Save one x and 2 y terms in DataPlotFile
+                # Save 1 x and 2 y terms in DataPlotFile
+                x1 = data1[0,:]
+                y1 = data1[1,:]
+
+                x2 = data2[0,:]
+                y2 = data2[1,:]
+
+                os.chdir("/home/pi/ava")
+                np.savetxt('DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
 
                 # Debug
                 print("Resolution: " + resolution)
@@ -88,6 +98,10 @@ class Plot_Page(tk.Frame):
                 print("Data 2: " + data2_directory)
                 print(data1_file)
                 print(data2_file)
+                print(data1)
+                print(data2)
+                print(x1)
+                print(y1)
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
