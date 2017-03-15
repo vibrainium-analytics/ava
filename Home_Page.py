@@ -10,12 +10,7 @@ import json
 class Home_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
-<<<<<<< HEAD
 
-                                
-=======
-                
->>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
                 # Read json file
                 with open('/home/pi/ava/selected_vehicle.json','r') as f:
                         data = json.load(f)

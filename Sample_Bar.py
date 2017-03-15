@@ -30,8 +30,6 @@ class Sample_Bar(tk.Tk):
     def test(self,i=0):   
               
         fname = "Three Axes"
-<<<<<<< HEAD
-=======
         debug = False
 >>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
         xo = 2050                   # x-axis zero vibration value            
@@ -49,61 +47,6 @@ class Sample_Bar(tk.Tk):
 
         # set directories from .json file
         with open('directory.json','r') as f:
-<<<<<<< HEAD
-            data_dir = json.load(f)
-            f.close
-
-        with open('data1.json','r') as f:
-            data1 = json.load(f)
-            f.close
-        
-        path = str(data_dir['veh_path'])
-        path = path + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
-        path1 = path + 'temp1/'
-        path2 = path + 'temp/'
-
-        # for first loop i = 0 make directories only once.     
-        if i == 0:
-            os.makedirs(path1)
-            os.makedirs(path2) 
-
-        # samples = 0 is a debug feature that bypasses sampling
-        if samples == 0:
-            self.destroy()
-            print ('ok')
-
-        # if samples is anything other than zero the progress bar is updated
-        
-        else:
-            rem = i/samples
-            self.updating(rem)
-            if i < samples:
-                mkr = urllib.request.urlopen("http://192.168.1.1/A")
-                accl = mkr.read().decode()
-                mkr.close()
-                filenam = path1 + fname + '.txt'
-                f = open(filenam,"a")
-                f.write(accl)
-                f.close
-                self.after(2000, self.test, i+1)
-
-            # when sampling is done the progress bar goes away
-
-            elif i == samples:
-                self.destroy()
-                print('test is done')
-
-                # Calculate magnitude of the 3-axis vibrations and reduce DC component
-
-                fname1 = path1 + fname + '.txt'
-                f=open(fname1,'r')
-                data=f.readlines()
-                f.close
-                fname2 = path2 + fname + '.txt'
-                f=open(fname2,'a')
-                print (len(data))
-                for i in range(0, 4096):
-=======
             data = json.load(f)
             f.close
 
@@ -168,11 +111,6 @@ class Sample_Bar(tk.Tk):
                     data1 = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
                     f.write(data1)
                 f.close 
-<<<<<<< HEAD
-                shutil.rmtree(path1)
-
-
-=======
             shutil.rmtree(path1)
 
         else:

@@ -63,9 +63,6 @@ class Save_Test_Page(tk.Frame):
                 with open('data2.json','w') as f:
                         json.dump(data,f)
                         f.close
-<<<<<<< HEAD
-                        
-=======
                 
 >>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
                 controller.show_page("Results_Page")
