@@ -12,6 +12,6 @@ class Plot_Page(tk.Frame):
                 label = ttk.Label(self, text="Plot Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                goToHomePage_button = ttk.Button(self, text="Home",
+                goToHomePage_button = ttk.Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Home_Page"))
                 goToHomePage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
