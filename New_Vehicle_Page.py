@@ -35,6 +35,12 @@ class New_Vehicle_Page(tk.Frame):
                 self.label = ttk.Label(self, text="New Vehicle Page")
                 self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
                 
+                self.goToHomePage_button = ttk.Button(self, text="Go Back",
+                        command=lambda: self.saveNewVehicleProfile(controller))
+                self.goToHomePage_button.pack(side = "left", expand = "no", anchor = "n")
+
+
+
                 D = ('0 Seconds', '30 seconds', '60 seconds', '90 seconds', '120 seconds')
                 DT1 = ttk.Labelframe(self, text='Pre-defined - some will need this (cylinders) while other will need enterable fields')
                 DT = ttk.Combobox(DT1, values=D, state='readonly')
@@ -43,9 +49,9 @@ class New_Vehicle_Page(tk.Frame):
                 DT1.pack(in_=self, side="top", pady=20, padx=10)
 
                 self.label1 = ttk.Label(self,text = 'Name: ')
-                self.label1.pack(side= "top")
+                self.label1.pack(side= "right")
                 self.entry1 = ttk.Entry(self)
-                self.entry1.pack(side = "top")
+                self.entry1.pack(side = "right")
 
                 self.label2 = ttk.Label(self,text = 'Make: ')
                 self.label2.pack(side= "top")
@@ -62,9 +68,6 @@ class New_Vehicle_Page(tk.Frame):
                 self.entry4 = ttk.Entry(self)
                 self.entry4.pack(side = "top")
 
-                self.goToHomePage_button = ttk.Button(self, text="Home",
-                                    command=lambda: self.saveNewVehicleProfile(controller))
-                self.goToHomePage_button.pack(side = "left", expand = "no", anchor = "n")
 
 
                 

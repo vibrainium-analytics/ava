@@ -31,6 +31,7 @@ class Sample_Bar(tk.Tk):
               
         fname = "Three Axes"
         debug = False
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
         xo = 2050                   # x-axis zero vibration value            
         yo = 1605                   # y-axis zero vibration value
         zo = 2060                   # z-axis zero vibration value 
@@ -100,6 +101,7 @@ class Sample_Bar(tk.Tk):
                 fname2 = path2 + fname + str(j+1) + '.txt'
                 f=open(fname2,'w')
                 for i in range(0, len(data)-1):
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
                     row = data[i]
                     col = row.split()
                     x = float(col[0]) - xo
@@ -114,4 +116,5 @@ class Sample_Bar(tk.Tk):
         else:
             self.destroy()
             print ('ok')
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
             

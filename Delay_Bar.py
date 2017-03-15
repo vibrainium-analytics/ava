@@ -44,6 +44,3 @@ class Delay_Bar(tk.Tk):
             self.destroy()
             print('sampling')
             Sample_Bar()
-
-        
-
