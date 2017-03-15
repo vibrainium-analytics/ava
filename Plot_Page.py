@@ -82,4 +82,14 @@ class Plot_Page(tk.Frame):
                 self.Plot1_Dropdown.pack(pady=5,padx=10)
                 self.Plot1_Dropdown_Frame.pack(in_=self,side="top",pady=20,padx=10)
 
-                
+                self.Plot2_Dropdown_Frame = ttk.Labelframe(self, text='Plot 2')
+                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, state='readonly')
+                #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
+                self.Plot2_Dropdown.pack(pady=5,padx=10)
+                self.Plot2_Dropdown_Frame.pack(in_=self,side="top",pady=20,padx=10)
+
+                self.PlotResolution_Dropdown_Frame = ttk.Labelframe(self, text='Plot Resolution')
+                self.PlotResolution_Dropdown = ttk.Combobox(self.PlotResolution_Dropdown_Frame, values = ["250 Hz", "125 Hz", "62.5 Hz"], state='readonly')
+                #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
+                self.PlotResolution_Dropdown.pack(pady=5,padx=10)
+                self.PlotResolution_Dropdown_Frame.pack(in_=self,side="top",pady=20,padx=10)
