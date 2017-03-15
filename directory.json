@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 {"veh_path": "/home/pi/ava/vehicle_profiles/", "path": "/home/pi/ava/"}
+=======
+{"path": "/home/pi/ava/", "veh_path": "/home/pi/ava/vehicle_profiles/"}
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338

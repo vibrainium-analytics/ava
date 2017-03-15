@@ -10,8 +10,12 @@ import json
 class Home_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
+<<<<<<< HEAD
 
                                 
+=======
+                
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
                 # Read json file
                 with open('/home/pi/ava/selected_vehicle.json','r') as f:
                         data = json.load(f)
@@ -138,6 +142,32 @@ class Home_Page(tk.Frame):
 
 
 
+                # defaule settings for directories
+                
+                path = "/home/pi/ava/"
+                veh_prof_path = path + "vehicle_profiles/"
+                os.chdir(path)
+
+                data = {
+                        'path' : str(path),
+                        'veh_path' : str(veh_prof_path),
+                        }
+                with open('directory.json', 'w') as f:
+                        json.dump(data,f)
+                        f.close
+
+                # default settings for data.json
+
+                data = {
+                        'test_type' : 'Baseline-Idle',
+                        'delay_time' : '0',
+                        'test_duration' : '0',
+                        }
+                
+                with open('data.json','w') as f:
+                        json.dump(data,f)
+                        f.close
+                
                 self.poll()
 
 

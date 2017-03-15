@@ -1,6 +1,9 @@
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import *
+from tkinter import ttk
+from Delay_Bar import Delay_Bar
+
 
 # File system access library
 import glob, os
@@ -12,12 +15,11 @@ class Test_Is_Running_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
 
-                path = ("/home/pi/ava/vehicle_profiles/")
-                os.chdir(path)
                 
                 # Read json file
                 with open('data.json','r') as f:
                         data = json.load(f)
+                        f.close
 
                 # Update labels with latest data
                 self.label1['text'] = "Test Type: {}".format(data['test_type'])
@@ -26,18 +28,13 @@ class Test_Is_Running_Page(tk.Frame):
 
                 # check for changes in data every 1 second
                 self.after(1000, self.poll)
+                
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
                 
                 # AVA app controller (app_data access)
                 self.controller = controller
-
-                os.chdir("/home/pi/ava/vehicle_profiles")
-
-                # Read json file")
-                with open('data.json','r') as f:
-                        data = json.load(f)
                          
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
                 Label(self.pageLabelFrame, text='Test Is Running Page', width=35).pack(side=TOP)
@@ -80,3 +77,4 @@ class Test_Is_Running_Page(tk.Frame):
                 
                 controller.show_page("Save_Test_Page")
                 self.goToSaveTestPage_button.pack_forget()
+

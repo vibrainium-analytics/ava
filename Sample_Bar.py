@@ -30,6 +30,10 @@ class Sample_Bar(tk.Tk):
     def test(self,i=0):   
               
         fname = "Three Axes"
+<<<<<<< HEAD
+=======
+        debug = False
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
         xo = 2050                   # x-axis zero vibration value            
         yo = 1605                   # y-axis zero vibration value
         zo = 2060                   # z-axis zero vibration value 
@@ -45,6 +49,7 @@ class Sample_Bar(tk.Tk):
 
         # set directories from .json file
         with open('directory.json','r') as f:
+<<<<<<< HEAD
             data_dir = json.load(f)
             f.close
 
@@ -98,6 +103,62 @@ class Sample_Bar(tk.Tk):
                 f=open(fname2,'a')
                 print (len(data))
                 for i in range(0, 4096):
+=======
+            data = json.load(f)
+            f.close
+
+        path = str(data['veh_path'])
+        path2 = path + testnm + '/'
+        path1 = path + 'temp/'
+    
+ 
+        # samples = 0 is a debug feature that bypasses sampling
+        
+        if samples == 0:
+            samples = 1
+            i = samples
+            debug = True
+
+        if i == 0 and debug == False:            
+            os.makedirs(path1)
+            os.makedirs(path2) 
+
+        # if samples is anything other than zero the progress bar is updated
+        
+        elif debug == False:
+            rem = i/samples
+            self.updating(rem)
+
+        # for first loop i = 0. Sampling will begin if samples is not 0             
+
+        if i < samples:
+            name = fname + str(i+1)
+            mkr = urllib.request.urlopen("http://192.168.1.1/A")
+            accl = mkr.read().decode()
+            mkr.close()
+            filenam = path1 + name + '.txt'
+            f = open(filenam,"w")
+            f.write(accl)
+            f.close
+            self.after(2000, self.test, i+1)
+
+        # when sampling is done the progress bar goes away
+
+        elif i == samples and debug == False:
+            self.destroy()
+            print('test is done')
+
+            # Calculate magnitude of the 3-axis vibrations and reduce DC component
+
+            for j in range(0, samples):
+                fname1 = path1 + fname + str(j+1) + '.txt'
+                f=open(fname1,'r')
+                data=f.readlines()
+                f.close
+                fname2 = path2 + fname + str(j+1) + '.txt'
+                f=open(fname2,'w')
+                for i in range(0, len(data)-1):
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
                     row = data[i]
                     col = row.split()
                     x = float(col[0]) - xo
@@ -107,7 +168,15 @@ class Sample_Bar(tk.Tk):
                     data1 = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
                     f.write(data1)
                 f.close 
+<<<<<<< HEAD
                 shutil.rmtree(path1)
 
 
+=======
+            shutil.rmtree(path1)
+
+        else:
+            self.destroy()
+            print ('ok')
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
             

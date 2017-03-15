@@ -45,7 +45,6 @@ class Save_Test_Page(tk.Frame):
 
         def saveTestSettings (self,controller):
 
-                os.chdir("/home/pi/ava/vehicle_profiles/")
 
                 # if you are at idle the speed is 0. this makes it so that the speed cannot be above 0 at idle
                 
@@ -64,7 +63,11 @@ class Save_Test_Page(tk.Frame):
                 with open('data2.json','w') as f:
                         json.dump(data,f)
                         f.close
+<<<<<<< HEAD
                         
+=======
+                
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
                 controller.show_page("Results_Page")
                 Signal_Process()
 

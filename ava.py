@@ -6,9 +6,6 @@ from tkinter import Frame
 # File system access library
 import glob, os
 
-# Math functions library
-import numpy as np
-
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         self.master=master
@@ -47,17 +44,25 @@ class AVA(tk.Tk):
         # Application pages to load in background
         # *** Add new to end of the imports below
         from Home_Page import Home_Page
+<<<<<<< HEAD
         from Run_Test_Page import Run_Test_Page
         from Plot_Page import Plot_Page
+=======
+        from Configure_Test_Page import Configure_Test_Page
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
         from New_Vehicle_Page import New_Vehicle_Page
         from Test_Is_Running_Page import Test_Is_Running_Page
         from Save_Test_Page import Save_Test_Page
         from Results_Page import Results_Page
+<<<<<<< HEAD
         from Tutorial_Main_Page import Tutorial_Main_Page
         from About_Page import About_Page
         from Tutorial_Plotting_Page import Tutorial_Plotting_Page
         from Tutorial_Sample_Collection_Page import Tutorial_Sample_Collection_Page
         from Tutorial_Vehicle_Creation_Page import Tutorial_Vehicle_Creation_Page
+=======
+        from Plot_Page import Plot_Page
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
 
         # Create frames for each of the app pages
         # This was reordered so that you can add to the bottom of the list about
@@ -103,5 +108,12 @@ class AVA(tk.Tk):
 # -------------------------------------------------------------#
 app = AVA()
 app.title("Automotive Vibration Analyzer")
+<<<<<<< HEAD
 fullscreen = FullScreenApp(app)
+=======
+#fullscreen = FullScreenApp(app)
+import Plot_Page
+import matplotlib.animation as animation
+animate = Plot_Page.animation.FuncAnimation(Plot_Page.f,Plot_Page.animate,interval=1000)
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
 app.mainloop()

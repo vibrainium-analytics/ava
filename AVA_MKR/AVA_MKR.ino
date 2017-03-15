@@ -31,7 +31,11 @@
 
 int led =  LED_BUILTIN;             // used to turn LED on 
 int count = 0;                      // inactivity counter
+<<<<<<< HEAD
 char ssid[] = "AVA-Sensor";         // wireless access point name
+=======
+char ssid[] = "wifi101-network";    // wireless access point name
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
 String currentLine;                 // stores incomming data
 short cnt3 = 60;                    // number of times to run outer loop
 short cnt2 = 20;                    // number of times to run middle loop
@@ -370,3 +374,7 @@ String Self_test() {
   digitalWrite(11, 0);                      // turn off self test pin
   return(message);
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 70eb98ffa6e6d81118ded3bf2cc7e3403f7ac338
