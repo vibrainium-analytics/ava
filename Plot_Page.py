@@ -70,3 +70,16 @@ class Plot_Page(tk.Frame):
                 toolbar = NavigationToolbar2TkAgg(canvas, self)
                 toolbar.update()
                 canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+
+                # Load plots from test results directory
+                from os import listdir
+                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/Spencer's Car/")
+                
+                self.Plot1_Dropdown_Frame = ttk.Labelframe(self, text='Plot 1')
+                self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
+                #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
+                self.Plot1_Dropdown.pack(pady=5,padx=10)
+                self.Plot1_Dropdown_Frame.pack(in_=self,side="top",pady=20,padx=10)
+
+                
