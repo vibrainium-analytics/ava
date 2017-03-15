@@ -47,10 +47,6 @@ class Test_Is_Running_Page(tk.Frame):
                 self.label3 = ttk.Label(self, text=str("Delay Time: " ))
                 self.label3.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                goToSaveTestPage_button = ttk.Button(self, text="Save Test",
-                                    command=lambda: controller.show_page("Save_Test_Page"))
-                goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
-
                 goToRunTestPage_button = ttk.Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Configure_Test_Page"))
                 goToRunTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
@@ -60,8 +56,18 @@ class Test_Is_Running_Page(tk.Frame):
                 startTest_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
                 self.poll()
 
-
+        # the following two functions make it so that the save button only appears after the test has begun
+        # and then the save button dissapears after you press it.
+        
         def delay (self,controller):
 
                 Delay_Bar()
+                
+                self.goToSaveTestPage_button = ttk.Button(self, text="Save Test",
+                                    command=lambda: self.save(controller))
+                self.goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
+        def save (self,controller):
+                
+                controller.show_page("Save_Test_Page")
+                self.goToSaveTestPage_button.pack_forget()

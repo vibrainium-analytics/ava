@@ -28,7 +28,7 @@ class Configure_Test_Page(tk.Frame):
                                     command=lambda: controller.show_page("Home_Page"))
                 goToHomePage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
-                Tests = ('Baseline - Idle', 'Baseline - 20 MPH', 'Baseline 30 MPH', 'Diagnotic - Idle', 'Diagnostic - 20 MPH')
+                Tests = ('Baseline', 'Diagnostic')
                 self.TestType1 = ttk.Labelframe(self, text='Test Type')
                 self.TestType = ttk.Combobox(self.TestType1, values= Tests, state='readonly')
                 self.TestType.current(0)  # set selection
