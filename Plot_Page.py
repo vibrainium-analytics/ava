@@ -36,14 +36,14 @@ def animate(i):
         mag_max = 0     # maximum magnitude of magnitude lists
         
         if number_cols > 1:
-                freq_List = data[0,:]
-                mag1_List = data[1,:]
+                freq_List = data[:,0]
+                mag1_List = data[:,1]
                 plot1 = a.plot(freq_List, mag1_List,'r',label='Plot #1')
         if number_cols > 2:
-                mag2_List = data[2,:]
+                mag2_List = data[:,2]
                 plot2 = a.plot(freq_List, mag2_List,'g',label='Plot #2')           
         if number_cols > 3:
-                mag3_List = data[3,:]
+                mag3_List = data[:,3]
                 plot3 = a.plot(freq_List, mag3_List,'b',label='Plot #3')
                 
         # Create legend from plot label values
@@ -83,11 +83,11 @@ class Plot_Page(tk.Frame):
                 data2 = np.loadtxt(data2_file)
 
                 # Save 1 x and 2 y terms in DataPlotFile
-                x1 = data1[0,:]
-                y1 = data1[1,:]
+                x1 = data1[:,0]
+                y1 = data1[:,1]
 
-                x2 = data2[0,:]
-                y2 = data2[1,:]
+                x2 = data2[:,0]
+                y2 = data2[:,1]
 
                 os.chdir("/home/pi/ava")
                 np.savetxt('DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
