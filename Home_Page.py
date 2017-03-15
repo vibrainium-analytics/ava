@@ -39,7 +39,20 @@ class Home_Page(tk.Frame):
                 self.label2['text'] = "Vehicle Make: {}".format(data['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(data['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(data['year'])
+
+        def refresh(self,controller):
+                # Load vehicles from vehicle directory
+                from os import listdir
+                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/")
+                formatted_filenames = []
+
+                # Clear the saved profiles dropdown
+                self.Saved_Profiles_Dropdown.delete(0, tk.END)
                 
+                # Format filenames to remove .json extension
+##                for filename in vehicle_filenames:
+##                        self.Saved_Profiles_Dropdown.insert(str(('.'.join(filename.split('.')[:-1]))),tk.END)
+##                
         def __init__(self,parent,controller):
                 
                 # AVA app controller (app_data access)
@@ -71,6 +84,9 @@ class Home_Page(tk.Frame):
                 goToNewVehiclePage_button = ttk.Button(self, text="New Vehicle",
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
                 goToNewVehiclePage_button.pack(side = "right", expand = "yes", anchor = "n")
+
+                refresh_button = ttk.Button(self,text="Refresh",command=lambda: self.refresh(controller))
+                refresh_button.pack(pady=1, padx = 15, side = "left", expand = "no", anchor = "n")
 
                 # Load vehicles from vehicle directory
                 from os import listdir
