@@ -23,6 +23,7 @@ f = Figure(figsize=(5,5))
 a = f.add_subplot(111)
 
 from sys import argv
+import json
 
 # Plot Page
 def animate(i):
@@ -67,8 +68,14 @@ class Plot_Page(tk.Frame):
                 data1_name = str(self.Plot1_Dropdown.get())
                 data2_name = str(self.Plot2_Dropdown.get())
 
-                data1_directory = "/home/pi/ava/vehicle_profiles/Spencer's Car/" + data1_name + "/"
-                data2_directory = "/home/pi/ava/vehicle_profiles/Spencer's Car/"+ data2_name + "/"
+                # Tack on parent directory from current vehicle json file
+                with open('/home/pi/ava/selected_vehicle.json','r') as f:
+                        selected_vehicle = json.load(f)
+                        f.close
+
+                # Find directories for vehicles to compare
+                data1_directory = "/home/pi/ava/vehicle_profiles/" + selected_vehicle["name"] + "/" + data1_name + "/"
+                data2_directory = "/home/pi/ava/vehicle_profiles/" + selected_vehicle["name"] + "/" + data1_name + "/"
                 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
@@ -102,6 +109,7 @@ class Plot_Page(tk.Frame):
                 print(data2)
                 print(x1)
                 print(y1)
+                
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
