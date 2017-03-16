@@ -9,10 +9,11 @@ import glob, os
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         self.master=master
-        pad=3
+        padx = 4
+        pady = 32
         self._geom='792x477+0+0'
         master.geometry("{0}x{1}+0+0".format(
-        master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+        master.winfo_screenwidth()-padx, master.winfo_screenheight()-pady))
         master.bind('<Escape>',self.toggle_geom)
        
     def toggle_geom(self,event):
@@ -44,9 +45,9 @@ class AVA(tk.Tk):
         # Application pages to load in background
         # *** Add new to end of the imports below
         from Home_Page import Home_Page
-        from Run_Test_Page import Run_Test_Page
+        from Configure_Test_Page import Configure_Test_Page
         from Plot_Page import Plot_Page
-        from New_Vehicle_Page import New_Vehicle_Page
+        from New_Vehicle_Page import New_Vehicle_Page, New_Vehicle_Page_Advanced
         from Test_Is_Running_Page import Test_Is_Running_Page
         from Save_Test_Page import Save_Test_Page
         from Results_Page import Results_Page
@@ -71,7 +72,7 @@ class AVA(tk.Tk):
                   Test_Is_Running_Page,
                   New_Vehicle_Page,
                   Plot_Page,
-                  Run_Test_Page,
+                  Configure_Test_Page,
                   Home_Page
                  ):
             page_name = F.__name__
@@ -101,7 +102,7 @@ class AVA(tk.Tk):
 # -------------------------------------------------------------#
 app = AVA()
 app.title("Automotive Vibration Analyzer")
-#fullscreen = FullScreenApp(app)
+fullscreen = FullScreenApp(app)
 import Plot_Page
 import matplotlib.animation as animation
 animate = Plot_Page.animation.FuncAnimation(Plot_Page.f,Plot_Page.animate,interval=1000)
