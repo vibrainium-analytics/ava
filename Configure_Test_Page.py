@@ -30,6 +30,7 @@ class Configure_Test_Page(tk.Frame):
 
                 Tests = ('Baseline', 'Diagnostic')
                 self.TestType1 = ttk.Labelframe(frame1, text='Test Type')
+
                 self.TestType = ttk.Combobox(self.TestType1, values= Tests, state='readonly')
                 self.TestType.current(0)  # set selection
                 self.TestType.pack(pady=5, padx=10)

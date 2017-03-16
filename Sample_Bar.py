@@ -1,15 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
-import urllib.request
-import glob, os
-import json
-import shutil
-import math
+import os, json, shutil, math, urllib.request
 
 class Sample_Bar(tk.Tk):
 
     # create progress bar
-    
     def __init__(self,*args):
         tk.Tk.__init__(self,*args)
         self.progress = ttk.Progressbar(self, orient="horizontal", length=250, mode="determinate")
@@ -21,100 +16,113 @@ class Sample_Bar(tk.Tk):
         self.test()
         
     # update the progress
-    
     def updating(self,val):
         self.progress["value"] = val
 
-    # sample vibration data
-    
+    # sample vibration data 
     def test(self,i=0):   
               
-        fname = "Three Axes"
-        debug = False
-
-        xo = 2050                   # x-axis zero vibration value            
-        yo = 1605                   # y-axis zero vibration value
-        zo = 2060                   # z-axis zero vibration value 
-              
         # get test data from .json file
-        
         with open('data.json','r') as f:
             data = json.load(f)
-            f.close
-            
-        samples = 6 * (int(data['test_duration']))
+            f.close    
+
+        # The test duration is in minutes. The sample loop on the sensor module is 8 seconds plus 2 seconds for the progress bar to update
+        samples = 6 * (int(data['test_duration']))    
         testnm = str(data['test_type'])
 
-        # set directories from .json file
+        # get directories info from .json files
         with open('directory.json','r') as f:
-            data = json.load(f)
+            data_dir = json.load(f)
+            f.close
+        with open('data1.json','r') as f:
+            data1 = json.load(f)
             f.close
 
-        path = str(data['veh_path'])
-        path2 = path + testnm + '/'
-        path1 = path + 'temp/'
-    
- 
-        # samples = 0 is a debug feature that bypasses sampling
-        
-        if samples == 0:
-            samples = 1
-            i = samples
-            debug = True
+        # set directories
+        sim_path = str(data_dir['path']) 
+        path = str(data_dir['veh_path'])
+        path = path + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
+        path1 = path + 'temp1/'
+        path2 = path + 'temp/'
 
-        if i == 0 and debug == False:            
+        # for first loop i = 0 make directories only once remove them if they exist.
+        if i == 0:
+            if os.path.exists(path1):
+                shutil.rmtree(path1)
             os.makedirs(path1)
-            os.makedirs(path2) 
+            if os.path.exists(path2):
+                shutil.rmtree(path2)
+            os.makedirs(path2)
 
-        # if samples is anything other than zero the progress bar is updated
-        
-        elif debug == False:
+        # samples = 0 is a simulated test that bypasses sampling
+        if samples == 0:
+            accl = ''
+            sim_file = sim_path + 'A_0.txt'
+            f = open(sim_file, 'r')
+            data=f.readlines()
+            f.close
+            end = (int((len(data))/4096))*4096
+            print(len(data))
+            print(end)
+            
+            for i in range(0, end-1):
+                row = data[i]
+                col = row.split()
+                x = float(col[0]) 
+                y = float(col[1]) 
+                z = float(col[2]) 
+                mag = int(math.sqrt(math.pow(x,2)+math.pow(y,2)+math.pow(z,2)))
+                a = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
+                accl = accl + a
+            fname2 = path2 + 'Three Axes' + '.txt'
+            f=open(fname2,'w')
+            f.write(accl)
+            f.close
+            self.destroy()
+            print ('simulated sampling complete')
+      
+        else:
+            # if samples is anything other than zero the progress bar is updated   
             rem = i/samples
             self.updating(rem)
 
-        # for first loop i = 0. Sampling will begin if samples is not 0             
-
-        if i < samples:
-            name = fname + str(i+1)
-            mkr = urllib.request.urlopen("http://192.168.1.1/A")
-            accl = mkr.read().decode()
-            mkr.close()
-            filenam = path1 + name + '.txt'
-            f = open(filenam,"w")
-            f.write(accl)
-            f.close
-            self.after(2000, self.test, i+1)
-
-        # when sampling is done the progress bar goes away
-
-        elif i == samples and debug == False:
-            self.destroy()
-            print('test is done')
-
-            # Calculate magnitude of the 3-axis vibrations and reduce DC component
-
-            for j in range(0, samples):
-                fname1 = path1 + fname + str(j+1) + '.txt'
-                f=open(fname1,'r')
-                data=f.readlines()
-                f.close
-                fname2 = path2 + fname + str(j+1) + '.txt'
-                f=open(fname2,'w')
-                for i in range(0, len(data)-1):
-
-                    row = data[i]
-                    col = row.split()
-                    x = float(col[0]) - xo
-                    y = float(col[1]) - yo
-                    z = float(col[2]) - zo
-                    mag = int(math.sqrt(math.pow(x,2)+math.pow(y,2)+math.pow(z,2)))
-                    data1 = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
-                    f.write(data1)
+            # if the progress bar is not filled sample vibration data from sensor module
+            if i < samples:
+                name = 'Three Axes' + str(i+1)                                               
+                mkr = urllib.request.urlopen("http://192.168.1.1/A")
+                accl = mkr.read().decode()
+                mkr.close()
+                filenam = path1 + name + '.txt'
+                f = open(filenam,"w")
+                f.write(accl)
                 f.close 
-            shutil.rmtree(path1)
-
-        else:
-            self.destroy()
-            print ('ok')
-
-            
+                self.after(2000, self.test, i+1)        # 2 second delay to update progress bar
+                
+            # when sampling is done the magnitude of the vibrations is calculated and the 8 sample files are placed into one file
+            # the individual files are removed along with one of the temp folders
+            elif i == samples:
+                accl = ''
+                for j in range (1, samples+1):
+                    name = 'Three Axes' + str(j)
+                    filenam = path1 + name + '.txt'
+                    f = open(filenam, 'r')
+                    data=f.readlines()
+                    f.close
+                    for i in range(0, 4096):
+                        row = data[i]
+                        col = row.split()
+                        x = float(col[0]) 
+                        y = float(col[1]) 
+                        z = float(col[2])  
+                        mag = int(math.sqrt(math.pow(x,2)+math.pow(y,2)+math.pow(z,2)))
+                        a = str(col[0]) + ' ' + str(col[1]) + ' ' + str(col[2]) + ' ' + str(mag) + '\n'
+                        accl = accl + a
+                
+                fname2 = path2 + 'Three Axes' + '.txt'
+                f=open(fname2,'w')
+                f.write(accl)
+                f.close 
+                shutil.rmtree(path1)
+                self.destroy()
+                print('test is done')

@@ -53,7 +53,6 @@ class Test_Is_Running_Page(tk.Frame):
                 self.label3 = ttk.Label(self, text=str("Delay Time: " ))
                 self.label3.pack(pady=2,padx=2, side = "top", anchor = "n")
 
-## state=DISABLED,
 
                 goToSaveTestPage_button = ttk.Button(self, text="Save Test",
                                     command=lambda: controller.show_page("Save_Test_Page"))
