@@ -36,7 +36,8 @@ class Delay_Bar(tk.Tk):
         if pause == 0:
             self.destroy()
             print('sampling')
-            Sample_Bar()                            # call the function to begin sampling vibration data
+            Sample_Bar()
+            # call the function to begin sampling vibration data
 
         else:
             rem = i/wait                            # rem is the amount of progress bar which is filled
@@ -52,6 +53,4 @@ class Delay_Bar(tk.Tk):
                 self.destroy()
                 print('sampling')
                 Sample_Bar()                        # call the function to begin sampling vibration data
-
-        
 

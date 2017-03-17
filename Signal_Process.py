@@ -222,4 +222,3 @@ class Signal_Process(tk.Tk):
 
 
                 
-
