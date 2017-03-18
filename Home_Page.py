@@ -11,7 +11,8 @@ class Home_Page(tk.Frame):
         def poll (self):
                 
                 # Read json file
-                with open('/home/pi/ava/selected_vehicle.json','r') as f:
+                home = str(directory['home'])
+                with open(home + 'selected_vehicle.json','r') as f:
                         data = json.load(f)
                         f.close
 
@@ -25,8 +26,11 @@ class Home_Page(tk.Frame):
                 self.after(1000, self.poll)
 
         def loadSavedVehicleProfile (self, event):
+
+                veh_path = str(directory['veh_path'])
+
                 # Save to json file (in vehicle profiles folder)
-                with open('/home/pi/ava/vehicle_profiles/' + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
+                with open(veh_path + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
                         data = json.load(f)
                         f.close
 
@@ -41,6 +45,12 @@ class Home_Page(tk.Frame):
                 self.label4['text'] = "Vehicle Year: {}".format(data['year'])
                 
         def __init__(self,parent,controller):
+
+                with open('directory.json','r') as f:
+                    global directory
+                    directory = json.load(f)
+                    f.close
+                veh_path = str(directory['veh_path']) 
                 
                 # AVA app controller (app_data access)
                 self.controller = controller
@@ -72,9 +82,10 @@ class Home_Page(tk.Frame):
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
                 goToNewVehiclePage_button.pack(side = "right", expand = "yes", anchor = "n")
 
+                        
                 # Load vehicles from vehicle directory
                 from os import listdir
-                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/")
+                vehicle_filenames = os.listdir(veh_path)
                 formatted_filenames = []
 
                 # Format filenames to remove .json extension
@@ -88,28 +99,6 @@ class Home_Page(tk.Frame):
                 self.Saved_Profiles_Dropdown.pack(pady=5,padx=10)
                 self.Saved_Profiles_Frame.pack(in_=self,side="top",pady=20,padx=10)
                 
-                path = "/home/pi/ava/"
-                veh_prof_path = path + "vehicle_profiles/"
-                os.chdir(path)
-
-                data = {
-                        'path' : str(path),
-                        'veh_path' : str(veh_prof_path),
-                        }
-                with open('directory.json', 'w') as f:
-                        json.dump(data,f)
-                        f.close
                 
-                # default settings for data.json
-
-                data = {
-                        'test_type' : 'Baseline-Idle',
-                        'delay_time' : '0',
-                        'test_duration' : '0',
-                        }
-                
-                with open('data.json','w') as f:
-                        json.dump(data,f)
-                        f.close
                 
                 self.poll()
