@@ -20,11 +20,15 @@ class New_Vehicle_Page(tk.Frame):
                         'model' : model,
                         'year' : year,
                         }
-
-                with open('data1.json','w') as f:
+                # Save vehicle profile in a new file
+                with open('/home/pi/ava/vehicle_profiles/' + name + '.json','w') as f:
                         json.dump(data,f)
                         f.close
-                
+
+                # Save vehicle profile to current selected_vehicle
+                with open('selected_vehicle.json','w') as f:
+                        json.dump(data,f)
+                        f.close
                 controller.show_page('Home_Page')
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
@@ -34,13 +38,6 @@ class New_Vehicle_Page(tk.Frame):
                 
                 self.label = ttk.Label(self, text="New Vehicle Page")
                 self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
-                
-                D = ('0 Seconds', '30 seconds', '60 seconds', '90 seconds', '120 seconds')
-                DT1 = ttk.Labelframe(self, text='Pre-defined - some will need this (cylinders) while other will need enterable fields')
-                DT = ttk.Combobox(DT1, values=D, state='readonly')
-                DT.current(0)  # set selection
-                DT.pack(pady=5, padx=10)
-                DT1.pack(in_=self, side="top", pady=20, padx=10)
 
                 self.label1 = ttk.Label(self,text = 'Name: ')
                 self.label1.pack(side= "top")

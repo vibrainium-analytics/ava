@@ -11,7 +11,7 @@ class Home_Page(tk.Frame):
         def poll (self):
                 
                 # Read json file
-                with open('data1.json','r') as f:
+                with open('/home/pi/ava/selected_vehicle.json','r') as f:
                         data = json.load(f)
                         f.close
 
@@ -20,10 +20,26 @@ class Home_Page(tk.Frame):
                 self.label2['text'] = "Vehicle Make: {}".format(data['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(data['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(data['year'])
-
+                
                 # check for changes in data every 1 second
                 self.after(1000, self.poll)
 
+        def loadSavedVehicleProfile (self, event):
+                # Save to json file (in vehicle profiles folder)
+                with open('/home/pi/ava/vehicle_profiles/' + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
+                        data = json.load(f)
+                        f.close
+
+                # Write saved_vehicle status folder
+                with open('selected_vehicle.json', 'w') as f:
+                        json.dump(data,f)
+                        f.close
+                # Update labels with latest data
+                self.label1['text'] = "Vehicle Name: {}".format(data['name'])
+                self.label2['text'] = "Vehicle Make: {}".format(data['make'])
+                self.label3['text'] = "Vehicle Model: {}".format(data['model'])
+                self.label4['text'] = "Vehicle Year: {}".format(data['year'])
+                
         def __init__(self,parent,controller):
                 
                 # AVA app controller (app_data access)
@@ -56,7 +72,21 @@ class Home_Page(tk.Frame):
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
                 goToNewVehiclePage_button.pack(side = "right", expand = "yes", anchor = "n")
 
-                # defaule settings for directories
+                # Load vehicles from vehicle directory
+                from os import listdir
+                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/")
+                formatted_filenames = []
+
+                # Format filenames to remove .json extension
+                for filename in vehicle_filenames:
+                        formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
+                
+                # Create saved vehicle profiles dropdown menu
+                self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle')
+                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
+                self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
+                self.Saved_Profiles_Dropdown.pack(pady=5,padx=10)
+                self.Saved_Profiles_Frame.pack(in_=self,side="top",pady=20,padx=10)
                 
                 path = "/home/pi/ava/"
                 veh_prof_path = path + "vehicle_profiles/"
@@ -69,7 +99,7 @@ class Home_Page(tk.Frame):
                 with open('directory.json', 'w') as f:
                         json.dump(data,f)
                         f.close
-
+                
                 # default settings for data.json
 
                 data = {
