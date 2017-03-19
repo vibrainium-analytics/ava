@@ -20,11 +20,8 @@ class New_Vehicle_Page(tk.Frame):
                         'model' : model,
                         'year' : year,
                         }
-
-                veh_path = str(directory['veh_path'])
-                
                 # Save vehicle profile in a new file
-                with open(veh_path + name + '.json','w') as f:
+                with open('/home/pi/ava/vehicle_profiles/' + name + '.json','w') as f:
                         json.dump(data,f)
                         f.close
 
@@ -34,12 +31,6 @@ class New_Vehicle_Page(tk.Frame):
                         f.close
                 controller.show_page('Home_Page')
         def __init__(self, parent, controller):
-
-                with open('directory.json','r') as g:
-                    global directory
-                    directory = json.load(g)
-                    g.close
-
                 tk.Frame.__init__(self, parent)
 
                 # AVA app controller (app_data access)

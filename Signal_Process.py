@@ -5,11 +5,6 @@ import os, json, shutil, math, numpy
 
 class Signal_Process(tk.Tk):
 
-    with open('directory.json','r') as g:
-            global directory
-            directory = json.load(g)
-            g.close
-
     # create a message box. This will only display if the signal processing takes more than one second
     def __init__(self,*args):
         tk.Tk.__init__(self,*args)
@@ -26,12 +21,15 @@ class Signal_Process(tk.Tk):
         with open('data.json','r') as f:
             data = json.load(f)
             f.close
-        with open('selected_vehicle.json','r') as f:
+        with open('data1.json','r') as f:
             data1 = json.load(f)
             f.close
         with open('data2.json','r') as f:
             data2 = json.load(f)
             f.close 
+        with open('directory.json','r') as f:
+            data_dir = json.load(f)
+            f.close
 
         # set AC status and speed status dependancies
         if str(data2['idle_status']) == 'Yes':
@@ -42,11 +40,10 @@ class Signal_Process(tk.Tk):
             testnm = 'SteadySpeed-' + str(data2['speed'])
 
         # set directories using data from .json files    
-        veh_path = str(directory['veh_path'])
-        path = veh_path + str(data1['name']) + '_' + str(data1['make']) + '/' + str(data['test_type'])
+        path = str(data_dir['veh_path'])
+        path = path + str(data1['name']) + '_' + str(data1['make']) + '/' + str(data['test_type'])
         path1 = path + '/temp/'
         path2 = path + testnm + '/'
-
         if os.path.exists(path2):
            shutil.rmtree(path2)     
         os.makedirs(path2)
