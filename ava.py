@@ -102,7 +102,7 @@ class AVA(tk.Tk):
 # -------------------------------------------------------------#
 app = AVA()
 app.title("Automotive Vibration Analyzer")
-fullscreen = FullScreenApp(app)
+#fullscreen = FullScreenApp(app)
 import Plot_Page
 import matplotlib.animation as animation
 animate = Plot_Page.animation.FuncAnimation(Plot_Page.f,Plot_Page.animate,interval=1000)
