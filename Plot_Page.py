@@ -53,10 +53,6 @@ def animate(i):
 class Plot_Page(tk.Frame):
 
         def updatePlot(self, controller):
-
-                veh_path = str(directory['veh_path'])
-                home = str(directory['home'])
-
                 # Get selected resolution
                 resolution = str(self.PlotResolution_Dropdown.get())
 
@@ -73,13 +69,13 @@ class Plot_Page(tk.Frame):
                 data2_name = str(self.Plot2_Dropdown.get())
 
                 # Tack on parent directory from current vehicle json file
-                with open(home + 'selected_vehicle.json','r') as f:
+                with open('/home/pi/ava/selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = veh_path + selected_vehicle["name"] + "/" + data1_name + "/"
-                data2_directory = veh_path + selected_vehicle["name"] + "/" + data1_name + "/"
+                data1_directory = "/home/pi/ava/vehicle_profiles/" + selected_vehicle["name"] + "/" + data1_name + "/"
+                data2_directory = "/home/pi/ava/vehicle_profiles/" + selected_vehicle["name"] + "/" + data1_name + "/"
                 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
@@ -100,7 +96,7 @@ class Plot_Page(tk.Frame):
                 x2 = data2[:,0]
                 y2 = data2[:,1]
 
-                os.chdir(home)
+                os.chdir("/home/pi/ava")
                 np.savetxt('DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
 
                 # Debug
@@ -116,13 +112,6 @@ class Plot_Page(tk.Frame):
                 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-
-                with open('directory.json','r') as g:
-                    global directory
-                    directory = json.load(g)
-                    g.close
-                    
-                veh_path = str(directory['veh_path'])
 
                 # AVA app controller (app_data access)
                 self.controller = controller
@@ -145,7 +134,7 @@ class Plot_Page(tk.Frame):
 
                 # Load plots from test results directory
                 from os import listdir
-                vehicle_filenames = os.listdir(veh_path + "Steve_Toyota/")
+                vehicle_filenames = os.listdir("/home/pi/ava/vehicle_profiles/Steve_Toyota/")
                 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(self, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
