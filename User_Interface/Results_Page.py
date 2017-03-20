@@ -25,8 +25,8 @@ class Results_Page(tk.Frame):
                 self.label2['text'] = "Idle Status: {}".format(data['idle_status'])
                 self.label3['text'] = "Speed: {}".format(data['speed'])
                 
-                # check for changes in data every 1 second
-                self.after(1000, self.poll)
+                # check for changes in data every 100 seconds
+                self.after(100000, self.poll)
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)

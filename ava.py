@@ -95,5 +95,5 @@ app.title("Automotive Vibration Analyzer")
 #fullscreen = FullScreenApp(app)
 import User_Interface.Plot_Page
 import matplotlib.animation as animation
-animate = User_Interface.Plot_Page.animation.FuncAnimation(User_Interface.Plot_Page.f,User_Interface.Plot_Page.animate,interval=1000)
+animate = User_Interface.Plot_Page.animation.FuncAnimation(User_Interface.Plot_Page.f,User_Interface.Plot_Page.animate,interval=3000)
 app.mainloop()

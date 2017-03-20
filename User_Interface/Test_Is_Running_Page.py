@@ -30,8 +30,8 @@ class Test_Is_Running_Page(tk.Frame):
                 self.label2['text'] = "Test Duration: {}".format(data['test_duration'] + " minutes")
                 self.label3['text'] = "Delay Time: {}".format(data['delay_time'] + " minutes")
 
-                # check for changes in data every 1 second
-                self.after(1000, self.poll)
+                # check for changes in data every 100 seconds
+                self.after(100000, self.poll)
                 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
