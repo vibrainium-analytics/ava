@@ -6,6 +6,12 @@ class Sample_Bar(tk.Tk):
 
     # create progress bar
     def __init__(self,*args):
+
+        with open('directory.json','r') as g:
+            global directory
+            directory = json.load(g)
+            g.close
+            
         tk.Tk.__init__(self,*args)
         self.progress = ttk.Progressbar(self, orient="horizontal", length=250, mode="determinate")
         self.progress.pack()
@@ -21,28 +27,25 @@ class Sample_Bar(tk.Tk):
 
     # sample vibration data 
     def test(self,i=0):   
-              
         # get test data from .json file
         with open('data.json','r') as f:
             data = json.load(f)
-            f.close    
-
-        # The test duration is in minutes. The sample loop on the sensor module is 8 seconds plus 2 seconds for the progress bar to update
-        samples = 6 * (int(data['test_duration']))    
-        testnm = str(data['test_type'])
-
-        # get directories info from .json files
-        with open('directory.json','r') as f:
-            data_dir = json.load(f)
             f.close
-        with open('data1.json','r') as f:
+
+        with open('selected_vehicle.json','r') as f:
             data1 = json.load(f)
             f.close
 
+        # The test duration is in minutes. The sample loop on the sensor module is 8 seconds
+        # plus 2 seconds for the progress bar to update, ten seconds total
+
+        samples = 6 * (int(data['test_duration']))    
+        testnm = str(data['test_type'])
+
         # set directories
-        sim_path = str(data_dir['path']) 
-        path = str(data_dir['veh_path'])
-        path = path + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
+        veh_path = str(directory['veh_path'])
+        home = str(directory['home'])
+        path = directory['veh_path'] + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
         path1 = path + 'temp1/'
         path2 = path + 'temp/'
 
@@ -58,13 +61,11 @@ class Sample_Bar(tk.Tk):
         # samples = 0 is a simulated test that bypasses sampling
         if samples == 0:
             accl = ''
-            sim_file = sim_path + 'A_0.txt'
+            sim_file = directory['home'] + 'A_0.txt'
             f = open(sim_file, 'r')
             data=f.readlines()
             f.close
             end = (int((len(data))/4096))*4096
-            print(len(data))
-            print(end)
             
             for i in range(0, end-1):
                 row = data[i]
