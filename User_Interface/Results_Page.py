@@ -9,10 +9,14 @@ import json
 class Results_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
-
+                # Global directory navigation file
+                with open('directory.json','r') as g:
+                        global directory
+                        directory = json.load(g)
+                        g.close
                 
                 # Read json file
-                with open('data2.json','r') as f:
+                with open(directory['app_data'] + 'save_test.json','r') as f:
                         data = json.load(f)
                         f.close
 

@@ -54,7 +54,12 @@ class Save_Test_Page(tk.Frame):
                 goToResultsPage_button.pack(pady=15,padx=5, side = "top", expand = "no", anchor = "n")
 
         def saveTestSettings (self,controller):
-
+                 # Global directory navigation file
+                with open('directory.json','r') as g:
+                        global directory
+                        directory = json.load(g)
+                        g.close
+                        
                 # if you are at idle the speed is 0. this makes it so that the speed cannot be above 0 at idle
                 
                 if str(self.Idle_Status.get()) == 'Yes':
@@ -76,7 +81,7 @@ class Save_Test_Page(tk.Frame):
                         'speed' : str(speed),
                         }
 
-                with open('data2.json','w') as f:
+                with open(directory['app_data'] + 'save_test.json','w') as f:
                         json.dump(data,f)
                         f.close
                 

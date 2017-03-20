@@ -73,19 +73,16 @@ class Home_Page(tk.Frame):
                 self.Saved_Profiles_Dropdown.pack(pady = 5, padx=5)
                 self.Saved_Profiles_Frame.pack(side="top",pady=(4, 2), padx = 10, ipadx = 10, ipady = 15)
                 
-                # default settings for data.json
-
+                # Default settings for test_preferences.json
                 data = {
                         'test_type' : 'Baseline-Idle',
                         'delay_time' : '0',
                         'test_duration' : '0',
                         }
                 
-                with open('data.json','w') as f:
+                with open(directory['app_data'] + 'test_preferences.json','w') as f:
                         json.dump(data,f)
                         f.close
-
-                        
 
                 frame1 = tk.LabelFrame(self.Saved_Profiles_Frame, text="Active Vehicle Profile", width=30, height=25, bd=1, borderwidth=3, relief=GROOVE)
                 frame1.pack(padx = 3, pady = 1, ipadx = 10, ipady = 1)
