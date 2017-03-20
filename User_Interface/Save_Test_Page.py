@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import *
 from tkinter import ttk
-from Signal_Process import Signal_Process
+from Signal_Processing.Signal_Process import Signal_Process
 
 # File system access library
 import glob, os

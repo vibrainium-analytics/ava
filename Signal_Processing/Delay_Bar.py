@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from Sample_Bar import Sample_Bar
+from Signal_Processing.Sample_Bar import Sample_Bar
 import os, json, urllib.request
 
 class Delay_Bar(tk.Tk):

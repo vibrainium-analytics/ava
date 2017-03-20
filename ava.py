@@ -1,7 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox, ttk, Frame
-
-# File system access library
 import glob, os
 
 class FullScreenApp(object):

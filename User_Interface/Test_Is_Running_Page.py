@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import *
 from tkinter import ttk
-from Delay_Bar import Delay_Bar
+from Signal_Processing.Delay_Bar import Delay_Bar
 
 
 # File system access library
