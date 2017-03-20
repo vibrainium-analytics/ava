@@ -72,13 +72,13 @@ class Plot_Page(tk.Frame):
                 data2_name = str(self.Plot2_Dropdown.get())
 
                 # Tack on parent directory from current vehicle json file
-                with open(home + 'selected_vehicle.json','r') as f:
+                with open(directory['home'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = veh_path + selected_vehicle["name"] + "/" + data1_name + "/"
-                data2_directory = veh_path + selected_vehicle["name"] + "/" + data1_name + "/"
+                data1_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
+                data2_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
                 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
@@ -130,13 +130,9 @@ class Plot_Page(tk.Frame):
                 Label(self.pageLabelFrame, text='Plot Page', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
-
                 goToHomePage_button = ttk.Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Home_Page"))
                 goToHomePage_button.pack(pady=1,padx=5, side = "left", expand = "no", anchor = "n")
-
-
-
 
                 frame1 = LabelFrame(self, text="Interactive Plotting", width=500, height=300, bd=1, borderwidth=4, relief=GROOVE)
                 frame1.place(relx=1,x = -5, rely=0.1, anchor=NE)

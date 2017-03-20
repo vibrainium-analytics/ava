@@ -11,7 +11,12 @@ import json
 class Configure_Test_Page(tk.Frame):
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-                
+
+                # Global directory navigation file
+                with open('directory.json','r') as g:
+                    global directory
+                    directory = json.load(g)
+                    g.close
                 
                 # AVA app controller (app_data access)
                 self.controller = controller

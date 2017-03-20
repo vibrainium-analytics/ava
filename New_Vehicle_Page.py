@@ -103,11 +103,12 @@ class New_Vehicle_Page(tk.Frame):
 class New_Vehicle_Page_Advanced(tk.Frame):
         def __init__(self, parent, controller):
 
+                # Global directory navigation file
                 with open('directory.json','r') as g:
                     global directory
                     directory = json.load(g)
                     g.close
-
+                    
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
