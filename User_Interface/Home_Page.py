@@ -64,7 +64,8 @@ class Home_Page(tk.Frame):
 
                 # Format filenames to remove .json extension
                 for filename in vehicle_filenames:
-                        formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
+                        if filename.endswith(".json"):
+                                formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
                 
                 # Create saved vehicle profiles dropdown menu
                 self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle', width=40, height=30, borderwidth=5, relief=GROOVE)
@@ -125,20 +126,4 @@ class Home_Page(tk.Frame):
                                     command=lambda: controller.show_page("About_Page"))
                 About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
 
-                # Load vehicles from vehicle directory
-                from os import listdir
-                vehicle_filenames = os.listdir(directory['veh_path'])
-                formatted_filenames = []
-
-                # Format filenames to remove .json extension
-                for filename in vehicle_filenames:
-                        formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
-                
-                # Create saved vehicle profiles dropdown menu
-                self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle')
-                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
-                self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
-                self.Saved_Profiles_Dropdown.pack(pady=5,padx=10)
-                self.Saved_Profiles_Frame.pack(in_=self,side="top",pady=20,padx=10)
-                
                 self.poll()
