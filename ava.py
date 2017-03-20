@@ -1,7 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
-from tkinter import Frame
+from tkinter import messagebox, ttk, Frame
 
 # File system access library
 import glob, os
@@ -44,18 +42,18 @@ class AVA(tk.Tk):
 
         # Application pages to load in background
         # *** Add new to end of the imports below
-        from Home_Page import Home_Page
-        from Configure_Test_Page import Configure_Test_Page
-        from Plot_Page import Plot_Page
-        from New_Vehicle_Page import New_Vehicle_Page, New_Vehicle_Page_Advanced
-        from Test_Is_Running_Page import Test_Is_Running_Page
-        from Save_Test_Page import Save_Test_Page
-        from Results_Page import Results_Page
-        from Tutorial_Main_Page import Tutorial_Main_Page
-        from About_Page import About_Page
-        from Tutorial_Plotting_Page import Tutorial_Plotting_Page
-        from Tutorial_Sample_Collection_Page import Tutorial_Sample_Collection_Page
-        from Tutorial_Vehicle_Creation_Page import Tutorial_Vehicle_Creation_Page
+        from User_Interface.Home_Page import Home_Page
+        from User_Interface.Configure_Test_Page import Configure_Test_Page
+        from User_Interface.Plot_Page import Plot_Page
+        from User_Interface.New_Vehicle_Page import New_Vehicle_Page, New_Vehicle_Page_Advanced
+        from User_Interface.Test_Is_Running_Page import Test_Is_Running_Page
+        from User_Interface.Save_Test_Page import Save_Test_Page
+        from User_Interface.Results_Page import Results_Page
+        from User_Interface.Tutorial_Main_Page import Tutorial_Main_Page
+        from User_Interface.About_Page import About_Page
+        from User_Interface.Tutorial_Plotting_Page import Tutorial_Plotting_Page
+        from User_Interface.Tutorial_Sample_Collection_Page import Tutorial_Sample_Collection_Page
+        from User_Interface.Tutorial_Vehicle_Creation_Page import Tutorial_Vehicle_Creation_Page
 
 
         # Create frames for each of the app pages
@@ -103,7 +101,7 @@ class AVA(tk.Tk):
 app = AVA()
 app.title("Automotive Vibration Analyzer")
 #fullscreen = FullScreenApp(app)
-import Plot_Page
+import User_Interface.Plot_Page
 import matplotlib.animation as animation
-animate = Plot_Page.animation.FuncAnimation(Plot_Page.f,Plot_Page.animate,interval=1000)
+animate = User_Interface.Plot_Page.animation.FuncAnimation(User_Interface.Plot_Page.f,User_Interface.Plot_Page.animate,interval=1000)
 app.mainloop()
