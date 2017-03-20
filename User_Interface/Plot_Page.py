@@ -28,7 +28,7 @@ import json
 # Plot Page
 def animate(i):
         
-        data = np.genfromtxt('DataPlotFile.txt',delimiter=' ')
+        data = np.genfromtxt(directory['app_data'] + 'DataPlotFile.txt',delimiter=' ')
         number_cols = len(data[0])
 
         # Clear subplot for new data
@@ -72,7 +72,7 @@ class Plot_Page(tk.Frame):
                 data2_name = str(self.Plot2_Dropdown.get())
 
                 # Tack on parent directory from current vehicle json file
-                with open(directory['home'] + 'selected_vehicle.json','r') as f:
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
 
@@ -100,7 +100,7 @@ class Plot_Page(tk.Frame):
                 y2 = data2[:,1]
 
                 os.chdir(home)
-                np.savetxt('DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
+                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
 
                 # Debug
                 print("Resolution: " + resolution)
@@ -154,7 +154,7 @@ class Plot_Page(tk.Frame):
 
                 # Load plots from test results directory
                 from os import listdir
-                vehicle_filenames = os.listdir(veh_path + "Steve_Toyota/")
+                vehicle_filenames = os.listdir(directory['veh_path'] + "Steve_Toyota/")
                 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')

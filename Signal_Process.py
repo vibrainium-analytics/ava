@@ -26,7 +26,7 @@ class Signal_Process(tk.Tk):
         with open(directory['app_data'] + 'test_preferences.json','r') as f:
             data = json.load(f)
             f.close
-        with open(directory['home'] + 'selected_vehicle.json','r') as f:
+        with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
             data1 = json.load(f)
             f.close
         with open(directory['app_data'] + 'save_test.json','r') as f:

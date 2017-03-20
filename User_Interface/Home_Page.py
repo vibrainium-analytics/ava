@@ -10,7 +10,7 @@ import json
 class Home_Page(tk.Frame):
         # Update page with new content every 1 second                
         def poll (self):
-                with open(directory['home'] + 'selected_vehicle.json','r') as f:
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         data = json.load(f)
                         f.close
 
@@ -30,7 +30,7 @@ class Home_Page(tk.Frame):
                         f.close
 
                 # Write saved_vehicle status folder
-                with open('selected_vehicle.json', 'w') as f:
+                with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
                         json.dump(data,f)
                         f.close
                 # Update labels with latest data
@@ -141,7 +141,4 @@ class Home_Page(tk.Frame):
                 self.Saved_Profiles_Dropdown.pack(pady=5,padx=10)
                 self.Saved_Profiles_Frame.pack(in_=self,side="top",pady=20,padx=10)
                 
-                
-                
                 self.poll()
-

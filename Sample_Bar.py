@@ -32,7 +32,7 @@ class Sample_Bar(tk.Tk):
             data = json.load(f)
             f.close
 
-        with open('selected_vehicle.json','r') as f:
+        with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
             data1 = json.load(f)
             f.close
 
