@@ -14,10 +14,14 @@ class Test_Is_Running_Page(tk.Frame):
 
         # Update page with new content every 1 second                
         def poll (self):
+                # Global directory navigation file
+                with open('directory.json','r') as g:
+                        global directory
+                        directory = json.load(g)
+                        g.close
 
-                
                 # Read json file
-                with open('data.json','r') as f:
+                with open(directory['app_data'] + 'test_preferences.json','r') as f:
                         data = json.load(f)
                         f.close
 
@@ -29,7 +33,6 @@ class Test_Is_Running_Page(tk.Frame):
                 # check for changes in data every 1 second
                 self.after(1000, self.poll)
                 
-
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
                 

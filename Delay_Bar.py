@@ -22,9 +22,12 @@ class Delay_Bar(tk.Tk):
 
     # function to communicate with sensor module and countdown delay timer    
     def test(self,i=0):
-
+        with open('directory.json','r') as g:
+                        global directory
+                        directory = json.load(g)
+                        g.close
         # get delay time from .json file
-        with open('data.json','r') as f:
+        with open(directory['app_data'] + 'test_preferences.json','r') as f:
             data = json.load(f)
             f.close
         pause = int(data['delay_time'])             # pause is the delay time in minutes

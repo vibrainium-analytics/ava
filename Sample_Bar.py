@@ -26,9 +26,9 @@ class Sample_Bar(tk.Tk):
         self.progress["value"] = val
 
     # sample vibration data 
-    def test(self,i=0):   
+    def test(self,i=0):
         # get test data from .json file
-        with open('data.json','r') as f:
+        with open(directory['app_data'] + 'test_preferences.json','r') as f:
             data = json.load(f)
             f.close
 

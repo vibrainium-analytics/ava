@@ -60,14 +60,20 @@ class Configure_Test_Page(tk.Frame):
                 goToTestIsRunningPage_button.pack(pady=(15,10),padx=15, side = "top", expand = "no", anchor = "n")
 
         def saveTestPreferences (self,controller):
-                
+
+                # Global directory navigation file
+                with open('directory.json','r') as g:
+                    global directory
+                    directory = json.load(g)
+                    g.close
+                    
                 data = {
                         'test_duration' : str(self.TestDuration.get()),
                         'delay_time' : str(self.DelayTime.get()),
                         'test_type' : str(self.TestType.get()),
                         }
-
-                with open('data.json','w') as f:
+                
+                with open(directory['app_data'] + 'test_preferences.json','w') as f:
                         json.dump(data,f)
                         f.close
                 

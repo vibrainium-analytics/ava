@@ -23,7 +23,7 @@ class Signal_Process(tk.Tk):
     def process(self):
             
         # get data from .json files
-        with open('data.json','r') as f:
+        with open(directory['app_data'] + 'test_preferences.json','r') as f:
             data = json.load(f)
             f.close
         with open('selected_vehicle.json','r') as f:
