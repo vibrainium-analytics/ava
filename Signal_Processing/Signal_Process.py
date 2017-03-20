@@ -43,7 +43,7 @@ class Signal_Process(tk.Tk):
 
         # set directories using data from .json files    
         veh_path = str(directory['veh_path'])
-        path = veh_path + str(data1['name']) + '_' + str(data1['make']) + '/' + str(data['test_type'])
+        path = veh_path + str(data1['name']) + '_' + str(data1['model'] + '_' + str(data1['year'])) + '/' + str(data['test_type'])
         path1 = path + '/temp/'
         path2 = path + testnm + '/'
 
