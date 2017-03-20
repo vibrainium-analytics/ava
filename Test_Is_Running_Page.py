@@ -69,7 +69,4 @@ class Test_Is_Running_Page(tk.Frame):
                                     command=lambda: self.save(controller))
                 self.goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
-        def save (self,controller):
-                
-                controller.show_page("Save_Test_Page")
-                self.goToSaveTestPage_button.pack_forget()
+

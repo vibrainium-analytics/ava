@@ -12,7 +12,8 @@ class Home_Page(tk.Frame):
         def poll (self):
 
                 # Read json file
-                with open('/home/pi/ava/selected_vehicle.json','r') as f:
+                home = str(directory['home'])
+                with open(home + 'selected_vehicle.json','r') as f:
                         data = json.load(f)
                         f.close
 
@@ -26,10 +27,14 @@ class Home_Page(tk.Frame):
                 self.after(1000, self.poll)
 
         def loadSavedVehicleProfile (self, event):
-                # Read json file
-                with open('/home/pi/ava/vehicle_profiles/' + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
+
+                veh_path = str(directory['veh_path'])
+
+                # Save to json file (in vehicle profiles folder)
+                with open(veh_path + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
                         data = json.load(f)
                         f.close
+
                 # Write saved_vehicle status folder
                 with open('selected_vehicle.json', 'w') as f:
                         json.dump(data,f)
@@ -41,6 +46,12 @@ class Home_Page(tk.Frame):
                 self.label4['text'] = "Vehicle Year: {}".format(data['year'])
                 
         def __init__(self,parent,controller):
+
+                with open('directory.json','r') as f:
+                    global directory
+                    directory = json.load(f)
+                    f.close
+                veh_path = str(directory['veh_path']) 
                 
                 # AVA app controller (app_data access)
                 self.controller = controller
@@ -136,31 +147,24 @@ class Home_Page(tk.Frame):
 
 
 
-                # defaule settings for directories
+                        
+                # Load vehicles from vehicle directory
+                from os import listdir
+                vehicle_filenames = os.listdir(veh_path)
+                formatted_filenames = []
+
+                # Format filenames to remove .json extension
+                for filename in vehicle_filenames:
+                        formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
                 
-                path = "/home/pi/ava/"
-                veh_prof_path = path + "vehicle_profiles/"
-                os.chdir(path)
-
-                data = {
-                        'path' : str(path),
-                        'veh_path' : str(veh_prof_path),
-                        }
-                with open('directory.json', 'w') as f:
-                        json.dump(data,f)
-                        f.close
-
-                # default settings for data.json
-
-                data = {
-                        'test_type' : 'Baseline-Idle',
-                        'delay_time' : '0',
-                        'test_duration' : '0',
-                        }
+                # Create saved vehicle profiles dropdown menu
+                self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle')
+                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
+                self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
+                self.Saved_Profiles_Dropdown.pack(pady=5,padx=10)
+                self.Saved_Profiles_Frame.pack(in_=self,side="top",pady=20,padx=10)
                 
-                with open('data.json','w') as f:
-                        json.dump(data,f)
-                        f.close
+                
                 
                 self.poll()
 

@@ -44,8 +44,7 @@ class New_Vehicle_Page(tk.Frame):
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
-
-                
+            
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
                 Label(self.pageLabelFrame, text='New/Edit Vehicle Profile Page', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
@@ -103,18 +102,41 @@ class New_Vehicle_Page(tk.Frame):
                
 class New_Vehicle_Page_Advanced(tk.Frame):
         def __init__(self, parent, controller):
+
+                with open('directory.json','r') as g:
+                    global directory
+                    directory = json.load(g)
+                    g.close
+
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
-                # Advanced controls go here
+                
+                self.label = ttk.Label(self, text="New Vehicle Page")
+                self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
-                self.label = Label(self, text="New Vehicle Advanced Page")
-                self.label.pack(pady=5, side = "top", anchor = "n")
+                self.label1 = ttk.Label(self,text = 'Name: ')
+                self.label1.pack(side= "top")
+                self.entry1 = ttk.Entry(self)
+                self.entry1.pack(side = "top")
 
-                b1 = Button(self, text="I'm scared.  Get me out of here", command=lambda:controller.show_page("NewVehiclePage_Advanced"))
-                b1.pack(pady=5)
+                self.label2 = ttk.Label(self,text = 'Make: ')
+                self.label2.pack(side= "top")
+                self.entry2 = ttk.Entry(self)
+                self.entry2.pack(side = "top")
 
-                b2 = Button(self, text="Advanced is my thing", command=lambda:controller.show_page("HomePage") or print("Advanced window"))
-                b2.pack(pady=5)
+                self.label3 = ttk.Label(self,text = 'Model: ')
+                self.label3.pack(side= "top")
+                self.entry3 = ttk.Entry(self)
+                self.entry3.pack(side = "top")
+
+                self.label4 = ttk.Label(self,text = 'Year: ')
+                self.label4.pack(side= "top")
+                self.entry4 = ttk.Entry(self)
+                self.entry4.pack(side = "top")
+
+                self.goToHomePage_button = ttk.Button(self, text="Home",
+                                    command=lambda: self.saveNewVehicleProfile(controller))
+                self.goToHomePage_button.pack(side = "left", expand = "no", anchor = "n")
 
 

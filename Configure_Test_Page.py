@@ -54,9 +54,6 @@ class Configure_Test_Page(tk.Frame):
                                                         command=lambda: self.saveTestPreferences(controller))
                 goToTestIsRunningPage_button.pack(pady=(15,10),padx=15, side = "top", expand = "no", anchor = "n")
 
-
-
-
         def saveTestPreferences (self,controller):
                 
                 data = {
@@ -70,7 +67,3 @@ class Configure_Test_Page(tk.Frame):
                         f.close
                 
                 controller.show_page("Test_Is_Running_Page")
-
-                
-
-                

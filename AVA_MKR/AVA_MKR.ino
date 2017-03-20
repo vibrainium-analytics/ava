@@ -31,10 +31,6 @@
 
 int led =  LED_BUILTIN;             // used to turn LED on 
 int count = 0;                      // inactivity counter
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> develop
 char ssid[] = "AVA-Sensor";         // wireless access point name
 String currentLine;                 // stores incomming data
 short cnt3 = 60;                    // number of times to run outer loop
