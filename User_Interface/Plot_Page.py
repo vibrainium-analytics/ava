@@ -101,7 +101,7 @@ class Plot_Page(tk.Frame):
                 y2 = data2[:,1]
 
                 os.chdir(home)
-                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
+                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.3f %.3f %.3f')
 
                 # Debug
                 print("Resolution: " + resolution)
