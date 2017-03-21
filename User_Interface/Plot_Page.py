@@ -77,8 +77,8 @@ class Plot_Page(tk.Frame):
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = directory['veh_path'] + selected_vehicle["name"] + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/"
-                data2_directory = directory['veh_path'] + selected_vehicle["name"] + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data2_name + "/"
+                data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/"
+                data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data2_name + "/"
                 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
