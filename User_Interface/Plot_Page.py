@@ -8,16 +8,17 @@ import glob, os
 # Math functions library
 import numpy as np
 
+import matplotlib
+# Plotting library canvas tool
+matplotlib.use('TkAgg')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.figure import Figure
+
 # Import plotting libraries
 import matplotlib.pyplot as pl
 import matplotlib, sys
 import matplotlib.animation as animation
 from matplotlib import style
-
-# Plotting library canvas tool
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
-from matplotlib.figure import Figure
-matplotlib.use('TkAgg')
 
 f = Figure(figsize=(5.65,2.6))
 a = f.add_subplot(111)
