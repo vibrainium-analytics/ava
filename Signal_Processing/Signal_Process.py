@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from scipy import signal
 import os, json, shutil, math, numpy
+import datetime
 
 class Signal_Process(tk.Tk):
 
@@ -42,10 +43,13 @@ class Signal_Process(tk.Tk):
             testnm = 'SteadySpeed-' + str(data2['speed'])
 
         # set directories using data from .json files    
+        now = '{:%Y-%b-%d %H:%M}'.format(datetime.datetime.now())
         veh_path = str(directory['veh_path'])
         path = veh_path + str(data1['name']) + '_' + str(data1['make']) + '/' + str(data['test_type'])
         path1 = path + '/temp/'
         path2 = path + testnm + '/'
+        if str(data['test_type']) == "Diagnostic":
+            path2 = path + testnm + '-' + now + '/'     
 
         if os.path.exists(path2):
            shutil.rmtree(path2)     
