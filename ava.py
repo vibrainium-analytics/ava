@@ -1,20 +1,15 @@
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
-
-# File system access library
+from tkinter import messagebox, ttk, Frame
 import glob, os
-
-# Math functions library
-import numpy as np
 
 class FullScreenApp(object):
     def __init__(self, master, **kwargs):
         self.master=master
-        pad=3
+        padx = 4
+        pady = 32
         self._geom='792x477+0+0'
         master.geometry("{0}x{1}+0+0".format(
-        master.winfo_screenwidth()-pad, master.winfo_screenheight()-pad))
+        master.winfo_screenwidth()-padx, master.winfo_screenheight()-pady))
         master.bind('<Escape>',self.toggle_geom)
        
     def toggle_geom(self,event):
@@ -27,12 +22,6 @@ class FullScreenApp(object):
 class AVA(tk.Tk):    
     def __init__(self, *args,**kwargs):
         tk.Tk.__init__(self,*args,**kwargs)
-
-        # App Data global variable holder
-        self.app_data = {"var1":    tk.StringVar(),
-                         "var2":    tk.StringVar(),
-                         "var3":    tk.StringVar()
-                         }
         
         # Container holding app pages
         container = tk.Frame(self)
@@ -44,16 +33,38 @@ class AVA(tk.Tk):
         self.frames = {}
 
         # Application pages to load in background
-        from Home_Page import Home_Page
-        from Configure_Test_Page import Configure_Test_Page
-        from Plot_Page import Plot_Page
-        from New_Vehicle_Page import New_Vehicle_Page
-        from Test_Is_Running_Page import Test_Is_Running_Page
-        from Save_Test_Page import Save_Test_Page
-        from Results_Page import Results_Page
+        # *** Add new to end of the imports below
+        from User_Interface.Home_Page import Home_Page
+        from User_Interface.Configure_Test_Page import Configure_Test_Page
+        from User_Interface.Plot_Page import Plot_Page
+        from User_Interface.New_Vehicle_Page import New_Vehicle_Page, New_Vehicle_Page_Advanced
+        from User_Interface.Test_Is_Running_Page import Test_Is_Running_Page
+        from User_Interface.Save_Test_Page import Save_Test_Page
+        from User_Interface.Results_Page import Results_Page
+        from User_Interface.Tutorial_Main_Page import Tutorial_Main_Page
+        from User_Interface.About_Page import About_Page
+        from User_Interface.Tutorial_Plotting_Page import Tutorial_Plotting_Page
+        from User_Interface.Tutorial_Sample_Collection_Page import Tutorial_Sample_Collection_Page
+        from User_Interface.Tutorial_Vehicle_Creation_Page import Tutorial_Vehicle_Creation_Page
+
 
         # Create frames for each of the app pages
-        for F in (Home_Page, Configure_Test_Page, Plot_Page, New_Vehicle_Page, Test_Is_Running_Page, Save_Test_Page, Results_Page):
+        # This was reordered so that you can add to the bottom of the list about
+        #    and the beginning of the list below - easier to keep track of
+        # *** Add new to beginning of list
+        for F in (Tutorial_Vehicle_Creation_Page,
+                  Tutorial_Sample_Collection_Page,
+                  Tutorial_Plotting_Page,
+                  About_Page,
+                  Tutorial_Main_Page,
+                  Results_Page,
+                  Save_Test_Page,
+                  Test_Is_Running_Page,
+                  New_Vehicle_Page,
+                  Plot_Page,
+                  Configure_Test_Page,
+                  Home_Page
+                 ):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
@@ -82,4 +93,7 @@ class AVA(tk.Tk):
 app = AVA()
 app.title("Automotive Vibration Analyzer")
 #fullscreen = FullScreenApp(app)
+import User_Interface.Plot_Page
+import matplotlib.animation as animation
+animate = User_Interface.Plot_Page.animation.FuncAnimation(User_Interface.Plot_Page.f,User_Interface.Plot_Page.animate,interval=3000)
 app.mainloop()
