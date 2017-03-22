@@ -78,8 +78,8 @@ class Plot_Page(tk.Frame):
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
-                data2_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
+                data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/"
+                data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data2_name + "/"
                 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
@@ -103,16 +103,6 @@ class Plot_Page(tk.Frame):
                 os.chdir(home)
                 np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.3f %.3f %.3f')
 
-                # Debug
-                print("Resolution: " + resolution)
-                print("Data 1: " + data1_directory)
-                print("Data 2: " + data2_directory)
-                print(data1_file)
-                print(data2_file)
-                print(data1)
-                print(data2)
-                print(x1)
-                print(y1)
                 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
@@ -153,10 +143,21 @@ class Plot_Page(tk.Frame):
 
                 canvas._tkcanvas.pack(side=BOTTOM)##, fill=BOTH, expand=True)
 
+                # Read currently selected vehicle file
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as file:
+                        selected_vehicle = json.load(file)
+                        file.close
+
                 # Load plots from test results directory
                 from os import listdir
-                vehicle_filenames = os.listdir(directory['veh_path'] + "Steve_Toyota/")
-                
+                current_vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + "_" + selected_vehicle['model'] + '_' + selected_vehicle['year'] + '/'
+
+                try:
+                        vehicle_filenames = os.listdir(current_vehicle_directory)
+                except:
+                        os.makedirs(current_vehicle_directory)
+                        vehicle_filenames = os.listdir(current_vehicle_directory)
+ 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
                 #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)

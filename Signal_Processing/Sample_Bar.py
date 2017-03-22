@@ -45,7 +45,7 @@ class Sample_Bar(tk.Tk):
         # set directories
         veh_path = str(directory['veh_path'])
         home = str(directory['home'])
-        path = directory['veh_path'] + str(data1['name']) + '_' + str(data1['make']) + '/' + testnm + '/'
+        path = directory['veh_path'] + str(data1['name']) + '_' + str(data1['model']) + '_' + str(data1['year']) + '/' + testnm + '/'
         path1 = path + 'temp1/'
         path2 = path + 'temp/'
 
