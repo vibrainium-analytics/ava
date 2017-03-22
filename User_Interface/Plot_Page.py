@@ -28,7 +28,7 @@ import json
 
 # Plot Page
 def animate(i):
-        
+
         data = np.genfromtxt(directory['app_data'] + 'DataPlotFile.txt',delimiter=' ')
         number_cols = len(data[0])
 
@@ -36,18 +36,18 @@ def animate(i):
         a.clear()
 
         mag_max = 0     # maximum magnitude of magnitude lists
-        
+
         if number_cols > 1:
                 freq_List = data[:,0]
                 mag1_List = data[:,1]
                 plot1 = a.plot(freq_List, mag1_List,'r',label='Plot #1')
         if number_cols > 2:
                 mag2_List = data[:,2]
-                plot2 = a.plot(freq_List, mag2_List,'g',label='Plot #2')           
+                plot2 = a.plot(freq_List, mag2_List,'g',label='Plot #2')
         if number_cols > 3:
                 mag3_List = data[:,3]
                 plot3 = a.plot(freq_List, mag3_List,'b',label='Plot #3')
-                
+
         # Create legend from plot label values
         a.legend()
 
@@ -67,7 +67,7 @@ class Plot_Page(tk.Frame):
                         resolution = "fft 125Hz.txt"
                 elif resolution == "62.5 Hz":
                         resolution = "fft 62.5Hz.txt"
-                        
+
                 # Find selected directories
                 data1_name = str(self.Plot1_Dropdown.get())
                 data2_name = str(self.Plot2_Dropdown.get())
@@ -80,7 +80,7 @@ class Plot_Page(tk.Frame):
                 # Find directories for vehicles to compare
                 data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/"
                 data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data2_name + "/"
-                
+
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
                         if resolution in files:
@@ -88,7 +88,7 @@ class Plot_Page(tk.Frame):
                 for root, dirs, files in os.walk(data2_directory):
                         if resolution in files:
                                 data2_file = os.path.join(root,resolution)
-                
+
                 # Extract file contents
                 data1 = np.loadtxt(data1_file)
                 data2 = np.loadtxt(data2_file)
@@ -100,10 +100,37 @@ class Plot_Page(tk.Frame):
                 x2 = data2[:,0]
                 y2 = data2[:,1]
 
-                os.chdir(home)
-                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.3f %.3f %.3f')
 
-                
+                # Baseline checkbox handling
+                baseline_filename = "dummy_baseline"
+
+                x3 = []
+                y3 = []
+
+                # If baseline is desired
+                if self.showBaselineChecked.get():
+                        baseline_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/" + baseline_filename
+
+                        # Get correct resolution
+                        for root, dirs, files in os.walk(data1_directory):
+                                if resolution in files:
+                                        databaseline_file = os.path.join(root,resolution)
+
+                        # Not used at the moment
+                        # databaseline = np.loadtxt(databaseline_file)
+
+                        # Get data from loadtxt array
+                        x3 = x1 # Placeholder
+                        y3 = y2*2   # Placeholder
+
+                # If Baseline not desired, do not include baseline
+                if (x3 == []) or (y3 == []):
+                    np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.3f %.3f %.3f')
+
+                # If Baseline desired, add baseline data to plot file
+                if (x3 != []) and (y3 != []):
+                    np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2,y3)),fmt='%.3f %.3f %.3f %.3f')
+
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
@@ -111,12 +138,12 @@ class Plot_Page(tk.Frame):
                     global directory
                     directory = json.load(g)
                     g.close
-                    
+
                 veh_path = str(directory['veh_path'])
 
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
                 Label(self.pageLabelFrame, text='Plot Page', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
@@ -157,25 +184,25 @@ class Plot_Page(tk.Frame):
                 except:
                         os.makedirs(current_vehicle_directory)
                         vehicle_filenames = os.listdir(current_vehicle_directory)
- 
+
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
-                #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Plot1_Dropdown.pack(pady=5,padx=5)
                 self.Plot1_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
                 self.Plot2_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 2')
                 self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, state='readonly')
-                #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Plot2_Dropdown.pack(pady=5,padx=10)
                 self.Plot2_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
                 self.PlotResolution_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot Resolution')
                 self.PlotResolution_Dropdown = ttk.Combobox(self.PlotResolution_Dropdown_Frame, values = ["250 Hz", "125 Hz", "62.5 Hz"], state='readonly')
-                #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.PlotResolution_Dropdown.pack(pady=5,padx=5)
                 self.PlotResolution_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
+                self.showBaselineChecked = IntVar()
+                self.ShowBaseline_Checkbox = ttk.Checkbutton(frame2, text = "Show Baseline",variable = self.showBaselineChecked)
+                self.ShowBaseline_Checkbox.pack(side="top")
+
                 self.plot_button = ttk.Button(frame2, text = "Plot!",command = lambda: self.updatePlot(controller))
                 self.plot_button.pack(side = "top", padx = 5, pady = 5, expand = "no", anchor = "n")
-
