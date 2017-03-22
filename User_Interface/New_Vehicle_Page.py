@@ -255,7 +255,11 @@ class New_Vehicle_Page(tk.Frame):
                         catalytic_Ratio = catalytic_Ratio_Entry.get()
                         reverse_Gear = reverse_Gear_Entry.get()
                         extra_Accessory = extra_Accessory_Entry.get()
-
+##
+##                        # Write saved_vehicle status folder
+##                        with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+##                                json.dump(data,f)
+##                                f.close
 
 ##DEBUG
                         print(name)
@@ -299,6 +303,32 @@ class New_Vehicle_Page(tk.Frame):
 #DEBUG
                         print(data['name'])
                         
+                        ##self.entry.delete(0, 'end')
+
+                        name_Entry.delete(0, 'end')
+                        make_Entry.delete(0, 'end')
+                        model_Entry.delete(0, 'end')
+                        year_Veh_Entry.delete(0, 'end')
+                        tire_Entry.delete(0, 'end')
+                        num_Cylinders_Entry.delete(0, 'end')
+                        first_Gear_Entry.delete(0, 'end')
+                        second_Gear_Entry.delete(0, 'end')
+                        third_Gear_Entry.delete(0, 'end')
+                        fourth_Gear_Entry.delete(0, 'end')
+                        fifth_Gear_Entry.delete(0, 'end')
+                        sixth_Gear_Entry.delete(0, 'end')
+                        final_Drive_Entry.delete(0, 'end')
+
+                        main_Pulley_Entry.delete(0, 'end')
+                        alternator_Entry.delete(0, 'end')
+                        air_Conditioner_Entry.delete(0, 'end')
+                        waterpump_Entry.delete(0, 'end')
+                        fan_Entry.delete(0, 'end')
+                        catalytic_Ratio_Entry.delete(0, 'end')
+                        reverse_Gear_Entry.delete(0, 'end')
+                        extra_Accessory_Entry.delete(0, 'end')
+
+
                         name_Entry.insert(0, data['name'])
                         make_Entry.insert(0, data['make'])
                         model_Entry.insert(0, data['model'])

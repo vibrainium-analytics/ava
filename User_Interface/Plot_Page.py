@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import *
 # File system access library
 import glob, os
+import json
 
 # Math functions library
 import numpy as np
@@ -19,11 +20,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 matplotlib.use('TkAgg')
 
-f = Figure(figsize=(5.65,2.6))
-a = f.add_subplot(111)
+fig = Figure(figsize=(5.5,2.3))
+a = fig.add_subplot(111)
 
 from sys import argv
-import json
 
 # Plot Page
 def animate(i):
@@ -134,16 +134,16 @@ class Plot_Page(tk.Frame):
                                     command=lambda: controller.show_page("Home_Page"))
                 goToHomePage_button.pack(pady=1,padx=5, side = "left", expand = "no", anchor = "n")
 
-                frame1 = LabelFrame(self, text="Interactive Plotting", width=500, height=300, bd=1, borderwidth=4, relief=GROOVE)
+                frame1 = LabelFrame(self, text="Interactive Plotting", width=480, height=300, bd=1, borderwidth=4, relief=GROOVE)
                 frame1.place(relx=1,x = -5, rely=0.1, anchor=NE)
 
                 frame2 = LabelFrame(self, text="Plot controls", width=250, height=300, bd=1, borderwidth=4, relief=GROOVE)
-                frame2.place(relx=0 ,x = 5, rely=0.2, anchor=NW)
+                frame2.place(relx=0 ,x = 5, rely=0.18, anchor=NW)
 
-                frame3 = LabelFrame(self, text="Diagnostics - Relevant Frequencies", width=700, height=100, bd=5, borderwidth=3, relief=GROOVE)
+                frame3 = LabelFrame(self, text="Diagnostics - Relevant Frequencies", width=600, height=100, bd=5, borderwidth=3, relief=GROOVE)
                 frame3.place(relx=0,x = 5, rely=1, anchor=SW)
 
-                canvas = FigureCanvasTkAgg(f, frame1)
+                canvas = FigureCanvasTkAgg(fig, frame1)
                 canvas.show()
                 canvas.get_tk_widget().pack(side="right", fill=BOTH, expand=True)
 
@@ -155,7 +155,7 @@ class Plot_Page(tk.Frame):
                 # Load plots from test results directory
                 from os import listdir
                 vehicle_filenames = os.listdir(directory['veh_path'] + "Steve_Toyota/")
-                
+
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
                 #self.Plot1_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
@@ -177,3 +177,83 @@ class Plot_Page(tk.Frame):
                 self.plot_button = ttk.Button(frame2, text = "Plot!",command = lambda: self.updatePlot(controller))
                 self.plot_button.pack(side = "top", padx = 5, pady = 5, expand = "no", anchor = "n")
 
+
+
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
+                        data = json.load(f)
+                        f.close
+
+                with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+                        json.dump(data,f)
+                        f.close
+
+##                separator = Frame(height=80, borderwidth = 2, relief=SUNKEN)
+##                separator.place(relx = 0.2, rely = .9, anchor = NW)
+
+                
+                # need to add --- if checked then save variable for RPM rather than Hertz
+
+
+
+                with open(directory['app_data'] + 'save_test.json','r') as f2:
+                        data2 = json.load(f2)
+                        f2.close
+
+                with open(directory['app_data'] + 'save_test.json','w') as f2:
+                        json.dump(data2,f2)
+                        f2.close
+
+
+
+                        
+                speed_str = data2['speed']
+                speed = float(speed_str)
+                gear_str = data2['gear']
+                #tempholder = str(gear_str)
+                gear_ratio = float(data[gear_str])
+                
+                tire_str = data['tire']
+                tire = float(tire_str)
+                ##tire = round(tire, 1)
+                
+                finaldrive_str = data['finaldrive']
+                finaldrive = float(finaldrive_str)
+                finaldrive = round(finaldrive, 1)
+                
+                tire_rpm = speed * 5280.0 * 12.0 / tire / 60.0
+                tire_freq = tire_rpm / 60.0
+            
+                driveshaft_rpm = tire_rpm * finaldrive
+                driveshaft_freq = tire_freq * finaldrive
+
+                crank_rpm = driveshaft_rpm * gear_ratio
+                crank_freq = driveshaft_freq * gear_ratio
+
+                cylinder_freq = crank_freq / 8.0
+                cylinder_fire_per_minute = cylinder_freq * 60
+
+
+
+                cylinder_freq = round(cylinder_freq, 1)
+                crank_freq = round(crank_freq, 1)
+                driveshaft_freq = round(driveshaft_freq,1)
+                tire_freq = round(tire_freq, 1)
+                
+                
+                name_Label = ttk.Label(frame3,text = 'Name: {}'.format(data['name']))
+                name_Label.place(relx = 0, x = 5, rely = 0, y = 5, anchor=NW)
+                make_Label = ttk.Label(frame3,text = 'Make:  {}'.format(data['make']))
+                make_Label.place(relx = 0, x=5, rely = 0.30, anchor=NW)
+                model_Label = ttk.Label(frame3,text = 'Model: {}'.format(data['model']))
+                model_Label.place(relx = 0, x = 5, rely = 0.55, anchor=NW)
+                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(data['year']))
+                year_Veh_Label.place(relx = 0, x= 5, rely = 0.80, anchor=NW)
+
+                tire_Label = ttk.Label(frame3,text = ' Tires:            ' + str(tire_freq) + " Hz")
+                tire_Label.place(relx = 0.27, rely = 0, y = 5, anchor=NW)
+                driveshaft_Label = ttk.Label(frame3,text = ' Driveshaft:    ' + str(driveshaft_freq) + " Hz")
+                driveshaft_Label.place(relx = 0.27, rely = .3, anchor=NW)
+                crankcase_Label = ttk.Label(frame3,text = 'Crankcase:    ' + str(crank_freq) + ' Hz')
+                crankcase_Label.place(relx = .27, x = 5, rely = 0.55, anchor=NW)
+                cyl_Fire_Label = ttk.Label(frame3,text = 'Cylinder fire:   ' + str(cylinder_freq) + ' Hz')
+                cyl_Fire_Label.place(relx = .27, x= 5, rely = 0.80, anchor=NW)
