@@ -139,4 +139,8 @@ class Home_Page(tk.Frame):
                 About_Button = ttk.Button(frame3, text="About Vibrainium Analytics...",
                                     command=lambda: controller.show_page("About_Page"))
                 About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
+
+                refresh_button = ttk.Button(self,text="Refresh",command=lambda: self.refresh(controller))
+                refresh_button.pack(pady=1, padx = 15, side = "left", expand = "no", anchor = "n")
+
                 self.poll()
