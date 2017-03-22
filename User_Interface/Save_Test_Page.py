@@ -29,7 +29,7 @@ class Save_Test_Page(tk.Frame):
                 frame1.place(rely = 0.5, relx = 0.5,anchor= CENTER)
 
                 AC_Status = ('AC Off', 'AC On')
-                self.AC_Status1 = ttk.Labelframe(frame1, text='AC Status')
+                self.AC_Status1 = ttk.Labelframe(self, text='AC Status')
                 self.AC_Status = ttk.Combobox(self.AC_Status1, values= AC_Status, state='readonly')
                 self.AC_Status.current(0)  # set selection
                 self.AC_Status.pack(pady=5, padx=10)
@@ -59,16 +59,16 @@ class Save_Test_Page(tk.Frame):
                         global directory
                         directory = json.load(g)
                         g.close
-                        
+
                 # if you are at idle the speed is 0. this makes it so that the speed cannot be above 0 at idle
-                
+
                 if str(self.Idle_Status.get()) == 'Yes':
                         speed = 0
                 else:
                         speed = self.Speeds.get()
 
                 # if you are at idle the speed is 0. this makes it so that the speed cannot be above 0 at idle
-                
+
                 if str(self.Idle_Status.get()) == 'Yes':
                         speed = 0
                 else:
@@ -84,8 +84,6 @@ class Save_Test_Page(tk.Frame):
                 with open(directory['app_data'] + 'save_test.json','w') as f:
                         json.dump(data,f)
                         f.close
-                
+
                 controller.show_page("Results_Page")
                 Signal_Process()
-
-                
