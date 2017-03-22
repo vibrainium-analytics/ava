@@ -7,33 +7,38 @@ import glob, os
 
 import json
 class Results_Page(tk.Frame):
-        # Update page with new content every 1 second                
+        # Update page with new content every 1 second
         def poll (self):
                 # Global directory navigation file
                 with open('directory.json','r') as g:
                         global directory
                         directory = json.load(g)
                         g.close
-                
+
                 # Read json file
                 with open(directory['app_data'] + 'save_test.json','r') as f:
                         data = json.load(f)
                         f.close
 
                 # Update labels with latest data
-                self.label1['text'] = "AC Status: {}".format(data['ac_status'])
-                self.label2['text'] = "Idle Status: {}".format(data['idle_status'])
-                self.label3['text'] = "Speed: {}".format(data['speed'])
-                
+                try:
+                        self.label1['text'] = "AC Status: {}".format(data['ac_status'])
+                        self.label2['text'] = "Idle Status: {}".format(data['idle_status'])
+                        self.label3['text'] = "Speed: {}".format(data['speed'])
+                except:
+                        self.label1['text'] = "AC Status: Unknown"
+                        self.label2['text'] = "Idle Status: Unknown"
+                        self.label3['text'] = "Speed: Unknown"
+
                 # check for changes in data every 100 seconds
                 self.after(100000, self.poll)
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-                
+
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 label = ttk.Label(self, text="Results Page")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
