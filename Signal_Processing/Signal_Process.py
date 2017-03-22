@@ -25,7 +25,7 @@ class Signal_Process(tk.Tk):
             
         # get data from .json files
         with open(directory['app_data'] + 'test_preferences.json','r') as f:
-            data = json.load(f)
+            test_data = json.load(f)
             f.close
         with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
             data1 = json.load(f)
@@ -45,11 +45,13 @@ class Signal_Process(tk.Tk):
         # set directories using data from .json files    
         now = '{:%Y-%b-%d %H:%M}'.format(datetime.datetime.now())
         veh_path = str(directory['veh_path'])
-        path = veh_path + str(data1['name']) + '_' + str(data1['model'] + '_' + str(data1['year'])) + '/' + str(data['test_type'])
-        path1 = path + '/temp/'
-        path2 = path + testnm + '/'
-        if str(data['test_type']) == "Diagnostic":
-            path2 = path + testnm + '-' + now + '/'     
+
+        path = veh_path + str(data1['name']) + '_' + str(data1['model']) + '_' + str(data1['year'])
+        path1 = path + '/' + str(test_data['test_type']) + '/temp/'
+        path2 = path + '/' + str(test_data['test_type']) + testnm + '/' 
+
+        if str(test_data['test_type']) == "Diagnostic":
+            path2 = path + '/unknown_trouble-' + now + '/'   
 
         if os.path.exists(path2):
            shutil.rmtree(path2)     
@@ -62,7 +64,7 @@ class Signal_Process(tk.Tk):
         data=f.readlines()
         f.close()
         shutil.move(filename,filename2)
-        shutil.rmtree(path)       
+        shutil.rmtree(path + '/' + str(test_data['test_type']))       
         mag = numpy.zeros(len(data))
         for i in range(0, len(data)-1):
             row = data[i]        
