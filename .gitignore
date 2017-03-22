@@ -3,3 +3,4 @@
 .AppleDouble/
 __pycache__
 App_Data/**
+directory.json
