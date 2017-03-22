@@ -4,43 +4,25 @@ from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
 
+# File system access library
+import glob, os
+import json
+
+
+
 class New_Vehicle_Page(tk.Frame):
-        def entry(self,controller):
-                veh = self.name.get()
-                cylinders = self.cylnd.get()
-                tiresize = self.tire.get()
-                advanced = self.advnc.get()
-                print ("name " + str(veh))
-                print ("cylinders " + str(cylinders))
-                print ("tire " + str(tiresize))
-                print ("extra " + str(advanced))
-                if advanced == 'Y' or advanced == 'y':
-                        #open sub window for advanced 
-                        controller.show_page("NewVehiclePage_Advanced")
-                elif advanced == 'N' or advanced == 'n':
-                        controller.show_page("HomePage")
+
    
         def __init__(self, parent, controller):
 
-                Name = ""
-##                Make = ""
-##                Model = ""
-##                Year = ""
-##                
-##                
-##                num_cylinders = 0
-##                first_gear_ratio = 0.0
-##                second_gear_ratio = 0.0
-##                third_gear_ratio = 0.0
-##                fourth_gear_ratio = 0.0
-##                fifth_gear_ratio = 0.0
-##                sixth_gear_ratio = 0.0
-##                reverse_ratio = 0.0
-##                converter_ratio = 0.0
-##                final_drive_ratio = 0.0
-##                wheel_circ_inches = 0.0
-##                wheel_dist_per_cycle = 0.0
-
+        # Global directory navigation file
+                with open('directory.json','r') as g:
+                    global directory
+                    directory = json.load(g)
+                    g.close
+                    
+                veh_path = str(directory['veh_path'])
+                
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
@@ -52,52 +34,314 @@ class New_Vehicle_Page(tk.Frame):
 
                 goToHomePage_button = Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Home_Page"))
-                goToHomePage_button.pack(pady=1,padx=5, side = "left", expand = "no", anchor = "n")
+                goToHomePage_button.place(relx = 0, rely = .1, anchor = NW)
+
+
+                frame1 = LabelFrame(self, text="General Vehicle Info", width=550, height=80, borderwidth=4, relief=GROOVE)
+                frame1.place(relx=.18, rely=0.1, anchor=NW)
+
+                frame2 = LabelFrame(self, text="Basic Drivetrain Info", width=275, height=265, borderwidth=4, relief=GROOVE)
+                frame2.place(relx=.02, rely=0.33, anchor=NW)
+
+                frame3 = LabelFrame(self, text="Advanced - Engine Accessories", width=275, height=265, borderwidth=4, relief=GROOVE)
+                frame3.place(relx=.60, rely=.33, anchor=NW)
+
+                frame4 = Frame(self, width = 110, height = 50, borderwidth = 4, relief=GROOVE)
+                frame4.place(relx = .40, x = 20, rely = .33, anchor=NW)
+
+
+                #frame1 (general)
+                name_Label = ttk.Label(frame1,text = 'Name: ')
+                name_Label.place(relx = 0.03, x = 15, rely = 0.05, anchor=NW)
+                name_Entry = ttk.Entry(frame1)
+                name_Entry.place(relx = 0.15, rely = 0.05, anchor=NW)
+
+                make_Label = ttk.Label(frame1,text = 'Make: ')
+                make_Label.place(relx = .58, rely = 0.05, anchor=NE)
+                make_Entry = ttk.Entry(frame1)
+                make_Entry.place(relx = .9, x = -5, rely = 0.05, anchor=NE)
+
+                model_Label = ttk.Label(frame1,text = 'Model: ')
+                model_Label.place(relx = 0.03, x = 15, rely = 0.55, anchor=NW)
+                model_Entry = ttk.Entry(frame1)
+                model_Entry.place(relx = 0.15, rely = 0.55, anchor=NW)
+
+                year_Veh_Label = ttk.Label(frame1,text = 'Year: ')
+                year_Veh_Label.place(relx = .58, rely = 0.55, anchor=NE)
+                year_Veh_Entry = ttk.Entry(frame1)
+                year_Veh_Entry.place(relx = .9, x = -5, rely = 0.55, anchor=NE)
+
+
+                #frame2 (Basic Drivetrain)
+                tire_Label = ttk.Label(frame2, text="Tire circumference (inches):")
+                tire_Label.place(relx = .02, rely = .05, anchor=NW)
+                tire_Entry = ttk.Entry(frame2, width = 6)
+                tire_Entry.place(relx = .75, rely = .05, anchor=NW) 
+
+                num_Cylinders_Label = ttk.Label(frame2, text="# of cylinders:")
+                num_Cylinders_Label.place(relx = 0.02, rely = 0.15, anchor=NW)
+                num_Cylinders_Entry = ttk.Entry(frame2, width = 6)
+                num_Cylinders_Entry.place(relx = 0.75, rely = 0.15, anchor=NW)
+
+                first_Gear_Label = ttk.Label(frame2, text = "1st gear ratio:")
+                first_Gear_Label.place(relx = .02, rely = .25, anchor = NW)
+                first_Gear_Entry = ttk.Entry(frame2, width = 6)
+                first_Gear_Entry.place(relx = .75, rely = .25, anchor = NW)
+
+                second_Gear_Label = ttk.Label(frame2, text = "2nd gear ratio:")
+                second_Gear_Label.place(relx = .02, rely = .35, anchor = NW)
+                second_Gear_Entry = ttk.Entry(frame2, width = 6)
+                second_Gear_Entry.place(relx = .75, rely = .35, anchor = NW)
+
+                third_Gear_Label = ttk.Label(frame2, text = "3rd gear ratio:")
+                third_Gear_Label.place(relx = .02, rely = .45, anchor = NW)
+                third_Gear_Entry = ttk.Entry(frame2, width = 6)
+                third_Gear_Entry.place(relx = .75, rely = .45, anchor = NW)
+                
+                fourth_Gear_Label = ttk.Label(frame2, text = "4th gear ratio:")
+                fourth_Gear_Label.place(relx = .02, rely = .55, anchor = NW)
+                fourth_Gear_Entry = ttk.Entry(frame2, width = 6)
+                fourth_Gear_Entry.place(relx = .75, rely = .55, anchor = NW)
+
+                fifth_Gear_Label = ttk.Label(frame2, text = "5th gear ratio:")
+                fifth_Gear_Label.place(relx = .02, rely = .65, anchor = NW)
+                fifth_Gear_Entry = ttk.Entry(frame2, width = 6)
+                fifth_Gear_Entry.place(relx = .75, rely = .65, anchor = NW)
+
+                sixth_Gear_Label = ttk.Label(frame2, text = "6th gear ratio:")
+                sixth_Gear_Label.place(relx = .02, rely = .75, anchor = NW)
+                sixth_Gear_Entry = ttk.Entry(frame2, width = 6)
+                sixth_Gear_Entry.place(relx = .75, rely = .75, anchor = NW)
+
+                final_Drive_Label = ttk.Label(frame2, text = "Final Drive ratio:")
+                final_Drive_Label.place(relx = .02, rely = .85, anchor = NW)
+                final_Drive_Entry = ttk.Entry(frame2, width = 6)
+                final_Drive_Entry.place(relx = .75, rely = .85, anchor = NW)
+
+
+                #frame3 (Advanced - Engine Accessories)
+                main_Pulley_Label = ttk.Label(frame3, text="Crank Pulley Diam (inches):", state = "disabled")
+                main_Pulley_Label.place(relx = .02, rely = .05, anchor=NW)
+                main_Pulley_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                main_Pulley_Entry.place(relx = .7, rely = .05, anchor=NW) 
+
+                alternator_Label = ttk.Label(frame3, text="Alternator Pulley Diam:", state = "disabled")
+                alternator_Label.place(relx = 0.02, rely = 0.15, anchor=NW)
+                alternator_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                alternator_Entry.place(relx = 0.7, rely = 0.15, anchor=NW)
+
+                air_Conditioner_Label = ttk.Label(frame3, text = "Air Conditioner Pulley Diam:", state = "disabled")
+                air_Conditioner_Label.place(relx = .02, rely = .25, anchor = NW)
+                air_Conditioner_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                air_Conditioner_Entry.place(relx = .7, rely = .25, anchor = NW)
+
+                waterpump_Label = ttk.Label(frame3, text = "Water Pump (if belt-driven):", state = "disabled")
+                waterpump_Label.place(relx = .02, rely = .35, anchor = NW)
+                waterpump_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                waterpump_Entry.place(relx = .7, rely = .35, anchor = NW)
+
+                fan_Label = ttk.Label(frame3, text = "Fan pulley (if belt-driven):", state = "disabled")
+                fan_Label.place(relx = .02, rely = .45, anchor = NW)
+                fan_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                fan_Entry.place(relx = .7, rely = .45, anchor = NW)
+                
+                catalytic_Ratio_Label = ttk.Label(frame3, text = "Catalytic Converter Ratio:", state = "disabled")
+                catalytic_Ratio_Label.place(relx = .02, rely = .55, anchor = NW)
+                catalytic_Ratio_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                catalytic_Ratio_Entry.place(relx = .7, rely = .55, anchor = NW)
+
+
+                reverse_Gear_Label = ttk.Label(frame3, text = "Reverse gear ratio:", state = "disabled")
+                reverse_Gear_Label.place(relx = .02, rely = .65, anchor = NW)
+                reverse_Gear_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                reverse_Gear_Entry.place(relx = .7, rely = .65, anchor = NW)
+                
+                extra_Accessory_Label = ttk.Label(frame3, text = "Accessory Pulley Diam:\n(example: 2nd alternator \nfor large stereo systems", state = "disabled")
+                extra_Accessory_Label.place(relx = .02, rely = .75, anchor = NW)
+                extra_Accessory_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                extra_Accessory_Entry.place(relx = .7, rely = .75, anchor = NW)
 
 
 
+                def Advanced_Entry():
+                    main_Pulley_Label.configure(state="normal")
+                    main_Pulley_Entry.configure(state="normal")
+                    alternator_Label.configure(state="normal")
+                    alternator_Entry.configure(state="normal")
+                    air_Conditioner_Label.configure(state="normal")
+                    air_Conditioner_Entry.configure(state="normal")
+                    waterpump_Label.configure(state="normal")
+                    waterpump_Entry.configure(state="normal")
+                    fan_Label.configure(state="normal")
+                    fan_Entry.configure(state="normal")
+                    catalytic_Ratio_Label.configure(state="normal")
+                    catalytic_Ratio_Entry.configure(state="normal")
+                    reverse_Gear_Label.configure(state="normal")
+                    reverse_Gear_Entry.configure(state="normal")
+                    extra_Accessory_Label.configure(state="normal")
+                    extra_Accessory_Entry.configure(state="normal")
+                    alternator_Entry.configure(state="normal")
+                    air_Conditioner_Entry.configure(state="normal")
+                    waterpump_Entry.configure(state="normal")
+                    fan_Entry.configure(state="normal")
+                    catalytic_Ratio_Entry.configure(state="normal")
+                    reverse_Gear_Entry.configure(state="normal")
+                    extra_Accessory_Entry.configure(state="normal")
 
-                frame1 = LabelFrame(self, text="General Vehicle Info", width=500, height=300, bd=1, borderwidth=4, relief=GROOVE)
-                frame1.place(relx=1,x = -5, rely=0.1, anchor=NE)
+                    main_Pulley_Entry.update()
+                    alternator_Entry.update()
+                    air_Conditioner_Entry.update()
+                    waterpump_Entry.update()
+                    fan_Entry.update()
+                    catalytic_Ratio_Entry.update()
+                    reverse_Gear_Entry.update
+                    extra_Accessory_Entry.update()
 
-                frame2 = LabelFrame(self, text="Drivetrain Info", width=250, height=300, bd=1, borderwidth=4, relief=GROOVE)
-                frame2.place(relx=0 ,x = 5, rely=0.2, anchor=NW)
+                    frame3.update() 
 
-                frame3 = LabelFrame(self, text="Advanced - engine accessories (need all belt-driven accessory pulley diameters)", width=700, height=100, bd=5, borderwidth=3, relief=GROOVE)
-                frame3.place(relx=0,x = 5, rely=1, anchor=SW)
+                def Basic_Entry():
+                    
+                    main_Pulley_Label.configure(state="disabled")
+                    main_Pulley_Entry.configure(state="disabled")
+                    alternator_Label.configure(state="disabled")
+                    alternator_Entry.configure(state="disabled")
+                    air_Conditioner_Label.configure(state="disabled")
+                    air_Conditioner_Entry.configure(state="disabled")
+                    waterpump_Label.configure(state="disabled")
+                    waterpump_Entry.configure(state="disabled")
+                    fan_Label.configure(state="disabled")
+                    fan_Entry.configure(state="disabled")
+                    catalytic_Ratio_Label.configure(state="disabled")
+                    catalytic_Ratio_Entry.configure(state="disabled")
+                    reverse_Gear_Label.configure(state="disabled")
+                    reverse_Gear_Entry.configure(state="disabled")
+                    extra_Accessory_Label.configure(state="disabled")
+                    extra_Accessory_Entry.configure(state="disabled")
+
+                    main_Pulley_Entry.update()
+                    alternator_Entry.update()
+                    air_Conditioner_Entry.update()
+                    waterpump_Entry.update()
+                    fan_Entry.update()
+                    catalytic_Ratio_Entry.update()
+                    reverse_Gear_Entry.update
+                    extra_Accessory_Entry.update()
+
+                    frame3.update()
+             
+
+                def Save_To_Profile():
+
+                        name = name_Entry.get()
+                        make = make_Entry.get()
+                        model = model_Entry.get()
+                        year_Veh = year_Veh_Entry.get()
+
+                        tire = tire_Entry.get()
+                        num_Cylinders = num_Cylinders_Entry.get()
+                        first_Gear = first_Gear_Entry.get()
+                        second_Gear = second_Gear_Entry.get()
+                        third_Gear = third_Gear_Entry.get()
+                        fourth_Gear = fourth_Gear_Entry.get()
+                        fifth_Gear = fifth_Gear_Entry.get()
+                        sixth_Gear = sixth_Gear_Entry.get()
+                        final_Drive = final_Drive_Entry.get()
+                        
+                        main_Pulley = main_Pulley_Entry.get()
+                        alternator = alternator_Entry.get()
+                        air_Conditioner =air_Conditioner_Entry.get()
+                        waterpump = waterpump_Entry.get()
+                        fan = fan_Entry.get()
+                        catalytic_Ratio = catalytic_Ratio_Entry.get()
+                        reverse_Gear = reverse_Gear_Entry.get()
+                        extra_Accessory = extra_Accessory_Entry.get()
 
 
-##                Name_Label = Label(frame1, text="Enter your vehicle name\n (ex: Steve-Toyota)")
-##                Name_Label.pack(pady=5)
-##                Name_Entry = Entry(frame1)
-##                Name_Entry.pack(padx=5)
-##
-##                num_Cylinders_Label = Label(frame1, text="Enter number of cylinders")
-##                num_Cylinders_Label.pack(pady=5)
-##                num_Cylinders_Entry = Entry(self)
-##                numCylinders_Entry.pack(padx=5)
-##
-##                wheel_Circumference_Label = Label(self, text="Enter tire diameter in inches\n (Leave blank if unknown)")
-##                wheelCircumference.pack(padx=5)
-##                wheel_Circumference_Entry = Entry(self)
-##                wheel_Circumference_Entry.pack(padx=5) 
-##
-##                num_Cylinders_Label = Label(frame1, text="Enter number of cylinders")
-##                num_Cylinders_Label.pack(pady=5)
-##
-##                num_Cylinders_Entry = Entry(frame1)
-##                numCylinders_Entry.pack(padx=5)
-####
-##                
-##                first_gear_ratio = 0.0
-##                second_gear_ratio = 0.0
-##                third_gear_ratio = 0.0
-##                fourth_gear_ratio = 0.0
-##                fifth_gear_ratio = 0.0
-##                sixth_gear_ratio = 0.0
-##                reverse_ratio = 0.0
-##                converter_ratio = 0.0
-##                final_drive_ratio = 0.0
+##DEBUG
+                        print(name)
+                        print(make)
+                        print(model)
+                        print(year_Veh)
+                        
+                        print (tire)
+                        print (num_Cylinders)
+                        print (first_Gear)
+                        print (second_Gear)
+                        print (third_Gear)
+                        print (fourth_Gear)
+                        print (fifth_Gear)
+                        print (sixth_Gear)
+                        print (final_Drive)
+
+                        print (main_Pulley)
+                        print (alternator)
+                        print (air_Conditioner)
+                        print (waterpump)
+                        print (fan)
+                        print (catalytic_Ratio)
+                        print (reverse_Gear)
+                        print (extra_Accessory)
+##END DEBUG
+
+                        
+                def Load_Saved_Profile ():
+
+                        print ("Load")
+
+                        with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
+                                data = json.load(f)
+                                f.close
+
+                        with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+                                json.dump(data,f)
+                                f.close
+
+#DEBUG
+                        print(data['name'])
+                        
+                        name_Entry.insert(0, data['name'])
+                        make_Entry.insert(0, data['make'])
+                        model_Entry.insert(0, data['model'])
+                        year_Veh_Entry.insert(0, data['year'])
+                        tire_Entry.insert(0,data['tire'])
+                        num_Cylinders_Entry.insert(0, data['cylinders'])
+                        first_Gear_Entry.insert(0, data['1st'])
+                        second_Gear_Entry.insert(0, data['2nd'])
+                        third_Gear_Entry.insert(0, data['3rd'])
+                        fourth_Gear_Entry.insert(0, data['4th'])
+                        fifth_Gear_Entry.insert(0, data['5th'])
+                        sixth_Gear_Entry.insert(0, data['6th'])
+                        final_Drive_Entry.insert(0, data['finaldrive'])
+
+                        main_Pulley_Entry.insert(0,data['mainPulley'])
+                        alternator_Entry.insert(0,data['alternator'])
+                        air_Conditioner_Entry.insert(0,data['airConditioner'])
+                        waterpump_Entry.insert(0,data['waterpump'])
+                        fan_Entry.insert(0,data['fan'])
+                        catalytic_Ratio_Entry.insert(0,data['converter'])
+                        reverse_Gear_Entry.insert(0,data['reverse'])
+                        extra_Accessory_Entry.insert(0,data['extra'])
+
+##        wheel_rpm = test_ground_speed * 5280.0 * 12.0 / wheel_circ_inches / 60.0
+##        wheel_freq = wheel_rpm / 60.0
+##        driveshaft_rpm = wheel_rpm * final_drive_ratio
+##        driveshaft_freq = wheel_freq * final_drive_ratio
+##        crank_rpm = driveshaft_rpm * gear
+##        crank_freq = driveshaft_freq * gear
+##        cylinder_fire_freq = crank_freq / 8.0
+                var = StringVar()
+                var = 0
+                advanced_Radio = Radiobutton(frame4, text='Advanced', variable=var, value="1", command=Advanced_Entry)
+                basic_Radio = Radiobutton(frame4, text='Basic', variable=var, value="0", command=Basic_Entry)
+                basic_Radio.place(relx =.05,rely=.05, anchor = NW)
+                advanced_Radio.place(relx = .05, rely = .55, anchor = NW)
+
+                load_Button = Button(self, text = "Load active\nprofile values", command = Load_Saved_Profile)
+                load_Button.place(relx = 0, rely = .2, anchor = NW)
+
+                save_Button = Button(self, text = "Save entered\nvalues to\nprofile", command = Save_To_Profile) 
+                save_Button.place(relx = .4, x = 20, rely = .85, anchor = NW)
+
 
                
 class New_Vehicle_Page_Advanced(tk.Frame):
@@ -115,26 +359,6 @@ class New_Vehicle_Page_Advanced(tk.Frame):
                 
                 self.label = ttk.Label(self, text="New Vehicle Page")
                 self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
-
-                self.label1 = ttk.Label(self,text = 'Name: ')
-                self.label1.pack(side= "top")
-                self.entry1 = ttk.Entry(self)
-                self.entry1.pack(side = "top")
-
-                self.label2 = ttk.Label(self,text = 'Make: ')
-                self.label2.pack(side= "top")
-                self.entry2 = ttk.Entry(self)
-                self.entry2.pack(side = "top")
-
-                self.label3 = ttk.Label(self,text = 'Model: ')
-                self.label3.pack(side= "top")
-                self.entry3 = ttk.Entry(self)
-                self.entry3.pack(side = "top")
-
-                self.label4 = ttk.Label(self,text = 'Year: ')
-                self.label4.pack(side= "top")
-                self.entry4 = ttk.Entry(self)
-                self.entry4.pack(side = "top")
 
                 self.goToHomePage_button = ttk.Button(self, text="Home",
                                     command=lambda: self.saveNewVehicleProfile(controller))

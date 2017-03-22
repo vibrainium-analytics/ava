@@ -72,7 +72,7 @@ class Home_Page(tk.Frame):
                 self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
                 self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Saved_Profiles_Dropdown.pack(pady = 5, padx=5)
-                self.Saved_Profiles_Frame.pack(side="top",pady=(4, 2), padx = 10, ipadx = 10, ipady = 15)
+                self.Saved_Profiles_Frame.pack(side="top",pady=(6, 2), padx = 10, ipadx = 10, ipady = 15)
                 
                 # Default settings for test_preferences.json
                 data = {
@@ -86,13 +86,13 @@ class Home_Page(tk.Frame):
                         f.close
 
                 frame1 = tk.LabelFrame(self.Saved_Profiles_Frame, text="Active Vehicle Profile", width=30, height=25, bd=1, borderwidth=3, relief=GROOVE)
-                frame1.pack(padx = 3, pady = 1, ipadx = 10, ipady = 1)
+                frame1.pack(padx = 3, pady = 1, ipadx = 5, ipady = 1)
 
                 frame2 = tk.LabelFrame(self, text="Control Center", width=25, height=35, bd=1, borderwidth=5, relief="groove")
-                frame2.pack(side = "top", pady = (8,8), ipadx = 5, ipady = 5)
+                frame2.pack(side = "top", pady = (8,8), ipadx = 5, ipady = 2)
 
                 frame3 = tk.LabelFrame(self, text="Extras", bd=1, borderwidth=4, relief=GROOVE)
-                frame3.pack(side = "bottom", pady = (25,5), ipadx = 10, ipady = 5)
+                frame3.pack(side = "bottom", pady = (25,5), ipadx = 5, ipady = 2)
 
 
 
@@ -110,20 +110,20 @@ class Home_Page(tk.Frame):
 
                 goToNewVehiclePage_button = ttk.Button(frame2, text="New Vehicle",
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
-                goToNewVehiclePage_button.pack(padx = 18, pady = 5, side = "left", expand = "yes", anchor = "n")
+                goToNewVehiclePage_button.pack(padx = 18, pady = (8,2), side = "left", expand = "yes", anchor = "n")
 
                 goToRunTestPage_button = ttk.Button(frame2, text="Configure/Run Test",command=lambda: controller.show_page("Configure_Test_Page"))
-                goToRunTestPage_button.pack(padx = 18, pady = 5, side = "left", expand = "no", anchor = "n")
+                goToRunTestPage_button.pack(padx = 18, pady = (8,2), side = "left", expand = "no", anchor = "n")
 
                 goToPlotPage_button = ttk.Button(frame2, text="Plot",command=lambda: controller.show_page("Plot_Page"))
-                goToPlotPage_button.pack(padx = 18, pady = 5, side = "left", expand = "yes", anchor = "n")
+                goToPlotPage_button.pack(padx = 18, pady = (8,2), side = "left", expand = "yes", anchor = "n")
 
                 Tutorial_Button = ttk.Button(frame3, text="AVA tutorial",
                                     command=lambda: controller.show_page("Tutorial_Main_Page"))
-                Tutorial_Button.pack(padx = 25, pady = 7, side = "left", expand = "yes", anchor = "nw")
+                Tutorial_Button.pack(padx = 25, pady = (8,2), side = "left", expand = "yes", anchor = "nw")
 
                 About_Button = ttk.Button(frame3, text="About Vibrainium Analytics...",
                                     command=lambda: controller.show_page("About_Page"))
-                About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
+                About_Button.pack(padx = 25, pady = (8,2), side = "right", expand = "yes", anchor = "ne")
 
                 self.poll()
