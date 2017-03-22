@@ -8,7 +8,7 @@ import glob, os
 import json
 
 class Home_Page(tk.Frame):
-        # Update page with new content every 1 second                
+        # Update page with new content every 1 second
         def poll (self):
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         data = json.load(f)
@@ -19,7 +19,7 @@ class Home_Page(tk.Frame):
                 self.label2['text'] = "Vehicle Make: {}".format(data['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(data['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(data['year'])
-                
+
                 # check for changes in data every 10 seconds
                 self.after(10000, self.poll)
 
@@ -38,19 +38,33 @@ class Home_Page(tk.Frame):
                 self.label2['text'] = "Vehicle Make: {}".format(data['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(data['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(data['year'])
-                
+
+        def refresh(self):
+                # Load vehicles from vehicle directory
+                from os import listdir
+                vehicle_filenames = os.listdir(directory["veh_path"])
+                formatted_filenames = []
+
+                # Format filenames to remove .json extension
+                for filename in vehicle_filenames:
+                        if filename.endswith(".json"):
+                                formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
+
+                self.Saved_Profiles_Dropdown['values'] = formatted_filenames
+
+
         def __init__(self,parent,controller):
                 # Global directory navigation file
                 with open('directory.json','r') as g:
                     global directory
                     directory = json.load(g)
                     g.close
-                    
-                veh_path = str(directory['veh_path']) 
-                
+
+                veh_path = str(directory['veh_path'])
+
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 tk.Frame.__init__(self,parent)
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
@@ -66,21 +80,21 @@ class Home_Page(tk.Frame):
                 for filename in vehicle_filenames:
                         if filename.endswith(".json"):
                                 formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
-                
+
                 # Create saved vehicle profiles dropdown menu
                 self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle', width=40, height=30, borderwidth=5, relief=GROOVE)
-                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
+                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, postcommand = self.refresh, state='readonly')
                 self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Saved_Profiles_Dropdown.pack(pady = 5, padx=5)
                 self.Saved_Profiles_Frame.pack(side="top",pady=(4, 2), padx = 10, ipadx = 10, ipady = 15)
-                
+
                 # Default settings for test_preferences.json
                 data = {
                         'test_type' : 'Baseline-Idle',
                         'delay_time' : '0',
                         'test_duration' : '0',
                         }
-                
+
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
                         json.dump(data,f)
                         f.close
@@ -125,5 +139,8 @@ class Home_Page(tk.Frame):
                 About_Button = ttk.Button(frame3, text="About Vibrainium Analytics...",
                                     command=lambda: controller.show_page("About_Page"))
                 About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
+
+                refresh_button = ttk.Button(self,text="Refresh",command=lambda: self.refresh(controller))
+                refresh_button.pack(pady=1, padx = 15, side = "left", expand = "no", anchor = "n")
 
                 self.poll()
