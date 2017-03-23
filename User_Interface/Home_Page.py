@@ -15,10 +15,16 @@ class Home_Page(tk.Frame):
                         f.close
 
                 # Update labels with latest data
-                self.label1['text'] = "Vehicle Name: {}".format(data['name'])
-                self.label2['text'] = "Vehicle Make: {}".format(data['make'])
-                self.label3['text'] = "Vehicle Model: {}".format(data['model'])
-                self.label4['text'] = "Vehicle Year: {}".format(data['year'])
+                try:
+                    self.label1['text'] = "Vehicle Name: {}".format(data['name'])
+                    self.label2['text'] = "Vehicle Make: {}".format(data['make'])
+                    self.label3['text'] = "Vehicle Model: {}".format(data['model'])
+                    self.label4['text'] = "Vehicle Year: {}".format(data['year'])
+                except:
+                    self.label1['text'] = "Vehicle Name: Unknown"
+                    self.label2['text'] = "Vehicle Make: Unknown"
+                    self.label3['text'] = "Vehicle Model: Unknown"
+                    self.label4['text'] = "Vehicle Year: Unknown"
 
                 # check for changes in data every 10 seconds
                 self.after(10000, self.poll)
@@ -34,10 +40,16 @@ class Home_Page(tk.Frame):
                         json.dump(data,f)
                         f.close
                 # Update labels with latest data
-                self.label1['text'] = "Vehicle Name: {}".format(data['name'])
-                self.label2['text'] = "Vehicle Make: {}".format(data['make'])
-                self.label3['text'] = "Vehicle Model: {}".format(data['model'])
-                self.label4['text'] = "Vehicle Year: {}".format(data['year'])
+                try:
+                    self.label1['text'] = "Vehicle Name: {}".format(data['name'])
+                    self.label2['text'] = "Vehicle Make: {}".format(data['make'])
+                    self.label3['text'] = "Vehicle Model: {}".format(data['model'])
+                    self.label4['text'] = "Vehicle Year: {}".format(data['year'])
+                except:
+                    self.label1['text'] = "Vehicle Name: Unknown"
+                    self.label2['text'] = "Vehicle Make: Unknown"
+                    self.label3['text'] = "Vehicle Model: Unknown"
+                    self.label4['text'] = "Vehicle Year: Unknown"
 
         def refresh(self):
                 # Load vehicles from vehicle directory
@@ -139,5 +151,5 @@ class Home_Page(tk.Frame):
                 About_Button = ttk.Button(frame3, text="About Vibrainium Analytics...",
                                     command=lambda: controller.show_page("About_Page"))
                 About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
-                
+
                 self.poll()
