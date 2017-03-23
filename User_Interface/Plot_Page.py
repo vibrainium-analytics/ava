@@ -54,6 +54,11 @@ def animate(i):
 class Plot_Page(tk.Frame):
 
         def updatePlot(self, controller):
+                with open('directory.json','r') as g:
+                    global directory
+                    directory = json.load(g)
+                    g.close
+
                 veh_path = str(directory['veh_path'])
                 home = str(directory['home'])
 
@@ -88,48 +93,89 @@ class Plot_Page(tk.Frame):
                 for root, dirs, files in os.walk(data2_directory):
                         if resolution in files:
                                 data2_file = os.path.join(root,resolution)
+                x1 = []
+                y1 = []
+                x2 = []
+                y2 = []
+                x_baseline = []
+                y_baseline = []
 
                 # Extract file contents
-                data1 = np.loadtxt(data1_file)
-                data2 = np.loadtxt(data2_file)
+                try:
+                        data1 = np.loadtxt(data1_file)
+                        data2 = np.loadtxt(data2_file)
 
-                # Save 1 x and 2 y terms in DataPlotFile
-                x1 = data1[:,0]
-                y1 = data1[:,1]
+                        # Save 1 x and 2 y terms in DataPlotFile
+                        x1 = data1[:,0]
+                        y1 = data1[:,1]
 
-                x2 = data2[:,0]
-                y2 = data2[:,1]
+                        x2 = data2[:,0]
+                        y2 = data2[:,1]
 
-
-                # Baseline checkbox handling
-                baseline_filename = "dummy_baseline"
-
-                x3 = []
-                y3 = []
-
+                        print('Array data extraction succeeded')
+                except:
+                        print('Data extraction from data arrays failed')
+                print(x1)
+                print(y1)
                 # If baseline is desired
                 if self.showBaselineChecked.get():
-                        baseline_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/" + baseline_filename
+                        # Directory of currently selected vehicle profile
+                        vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/"
 
-                        # Get correct resolution
-                        for root, dirs, files in os.walk(data1_directory):
-                                if resolution in files:
-                                        databaseline_file = os.path.join(root,resolution)
+                        # To hold baseline to compare
+                        baseline_foldername = ""
 
-                        # Not used at the moment
-                        # databaseline = np.loadtxt(databaseline_file)
+                        # Set diagnostic type
+                        diagnostic_foldername = data1_name
 
-                        # Get data from loadtxt array
-                        x3 = x1 # Placeholder
-                        y3 = y2*2   # Placeholder
+                        # Loop through all of the subdirectories
+                        for root, dirs, files in os.walk(vehicle_directory):
+                                for direct in dirs:
+                                        # Extract the directories that say "Baseline"
+                                        if "Baseline" in direct:
+                                                # Find the directory in the list of Baselines that has a matching test type
+                                                # Assign the baseline_foldername that matching directory
+                                                if ("Idle" in diagnostic_foldername) and ("Idle" in direct): baseline_foldername = direct
+                                                elif ("10" in diagnostic_foldername) and ("10" in direct): baseline_foldername = direct
+                                                elif ("20" in diagnostic_foldername) and ("20" in direct): baseline_foldername = direct
+                                                elif ("30" in diagnostic_foldername) and ("30" in direct): baseline_foldername = direct
+                                                elif ("40" in diagnostic_foldername) and ("40" in direct): baseline_foldername = direct
+                                                elif ("50" in diagnostic_foldername) and ("50" in direct): baseline_foldername = direct
+                                                elif ("60" in diagnostic_foldername) and ("60" in direct): baseline_foldername = direct
+                                                elif ("70" in diagnostic_foldername) and ("70" in direct): baseline_foldername = direct
 
-                # If Baseline not desired, do not include baseline
-                if (x3 == []) or (y3 == []):
-                    np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.3f %.3f %.3f')
-
-                # If Baseline desired, add baseline data to plot file
-                if (x3 != []) and (y3 != []):
-                    np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2,y3)),fmt='%.3f %.3f %.3f %.3f')
+                        # Check if baseline exists
+                        if baseline_foldername != "":
+                                print('Baseline Exists: ' + baseline_foldername)
+                                # Create directory path
+                                baseline_directory = vehicle_directory + baseline_foldername
+                                baseline_filePathToPlot = ""
+                                # Get correct resolution
+                                for root, dirs, files in os.walk(baseline_directory):
+                                        if resolution in files:
+                                                baseline_filePathToPlot = os.path.join(root,resolution)
+                                                print('Found baseline: ' + baseline_filePathToPlot)
+                                try:
+                                    data_baseline = np.loadtxt(baseline_filePathToPlot)
+                                    x_baseline = data_baseline[:,0]
+                                    y_baseline = data_baseline[:,1]
+                                    print(y_baseline.dtype)
+                                    print(directory['app_data'])
+                                    np.savetxt((directory['app_data'] + 'DataPlotFile.txt'), np.column_stack((x1,y1,y2,y_baseline)),fmt='%.4g %.4g %.4g %.4g')
+                                    print('Baseline + Data plot save successful')
+                                except:
+                                    print('Baseline + Data plot save unsuccessful')
+                else:   # If baseline is not selected in checkbox
+                        # Save data to plot file to be plotted
+                        try:
+                            np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.4g %.4g %.4g')
+                            print(x1)
+                            print(y1)
+                            print(y2)
+                            print(y_baseline)
+                            print('Data plot save successful')
+                        except:
+                            print('Data plot save unsuccessful')
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
