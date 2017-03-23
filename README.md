@@ -1,4 +1,4 @@
-# Welecome to the AVA developer's zone #
+# Welcome to the AVA developer's zone #
 
 ### Repository Purpose ###
 
