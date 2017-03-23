@@ -101,9 +101,9 @@ class Plot_Page(tk.Frame):
                 y2 = data2[:,1]
 
                 os.chdir(home)
-                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.3f %.3f %.3f')
+                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.4g %.4g %.4g')
 
-                
+
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
