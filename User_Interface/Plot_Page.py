@@ -112,11 +112,10 @@ class Plot_Page(tk.Frame):
                         x2 = data2[:,0]
                         y2 = data2[:,1]
 
-                        print('Array data extraction succeeded')
+                        print('Array data loaded')
                 except:
-                        print('Data extraction from data arrays failed')
-                print(x1)
-                print(y1)
+                        print('ERROR: Array data load failed')
+
                 # If baseline is desired
                 if self.showBaselineChecked.get():
                         # Directory of currently selected vehicle profile
@@ -165,17 +164,15 @@ class Plot_Page(tk.Frame):
                                     print('Baseline + Data plot save successful')
                                 except:
                                     print('Baseline + Data plot save unsuccessful')
+                        else:
+                                print('ERROR: No corresponding baseline exists')
                 else:   # If baseline is not selected in checkbox
                         # Save data to plot file to be plotted
                         try:
                             np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.4g %.4g %.4g')
-                            print(x1)
-                            print(y1)
-                            print(y2)
-                            print(y_baseline)
-                            print('Data plot save successful')
+                            print('DataPlotFile save successful')
                         except:
-                            print('Data plot save unsuccessful')
+                            print('ERROR: DataPlotFile save not successful')
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
@@ -226,7 +223,13 @@ class Plot_Page(tk.Frame):
                 current_vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + "_" + selected_vehicle['model'] + '_' + selected_vehicle['year'] + '/'
 
                 try:
-                        vehicle_filenames = os.listdir(current_vehicle_directory)
+                        all_filenames = os.listdir(current_vehicle_directory)
+                        vehicles = []
+                        for item in all_filenames:
+                                if (("Baseline" not in item) and (".DS_Store" not in item)):
+                                        vehicles.append(item)
+                                        print(item)
+                        vehicle_filenames = vehicles
                 except:
                         os.makedirs(current_vehicle_directory)
                         vehicle_filenames = os.listdir(current_vehicle_directory)
