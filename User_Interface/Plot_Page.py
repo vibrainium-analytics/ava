@@ -52,6 +52,23 @@ def animate(i):
         a.legend()
 
 class Plot_Page(tk.Frame):
+        def refresh(self):
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
+                        selected_vehicle = json.load(f)
+                        f.close
+                current_vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + "_" + selected_vehicle['model'] + '_' + selected_vehicle['year'] + '/'
+                try:
+
+                        all_filenames = os.listdir(current_vehicle_directory)
+                        vehicles = []
+                        for item in all_filenames:
+                                if (("Baseline" not in item) and (".DS_Store" not in item)):
+                                        vehicles.append(item)
+                        self.Plot1_Dropdown['values'] = vehicles
+                        self.Plot2_Dropdown['values'] = vehicles
+                except:
+                        os.makedirs(current_vehicle_directory)
+                        vehicle_filenames = os.listdir(current_vehicle_directory)
 
         def updatePlot(self, controller):
                 with open('directory.json','r') as g:
@@ -158,12 +175,10 @@ class Plot_Page(tk.Frame):
                                     data_baseline = np.loadtxt(baseline_filePathToPlot)
                                     x_baseline = data_baseline[:,0]
                                     y_baseline = data_baseline[:,1]
-                                    print(y_baseline.dtype)
-                                    print(directory['app_data'])
                                     np.savetxt((directory['app_data'] + 'DataPlotFile.txt'), np.column_stack((x1,y1,y2,y_baseline)),fmt='%.4g %.4g %.4g %.4g')
                                     print('Baseline + Data plot save successful')
                                 except:
-                                    print('Baseline + Data plot save unsuccessful')
+                                    print('ERROR: Baseline + Data plot save unsuccessful')
                         else:
                                 print('ERROR: No corresponding baseline exists')
                 else:   # If baseline is not selected in checkbox
@@ -235,12 +250,12 @@ class Plot_Page(tk.Frame):
                         vehicle_filenames = os.listdir(current_vehicle_directory)
 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
-                self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
+                self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, postcommand = self.refresh, state='readonly')
                 self.Plot1_Dropdown.pack(pady=5,padx=5)
                 self.Plot1_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
                 self.Plot2_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 2')
-                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, state='readonly')
+                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, postcommand = self.refresh, state='readonly')
                 self.Plot2_Dropdown.pack(pady=5,padx=10)
                 self.Plot2_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
