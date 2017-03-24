@@ -37,7 +37,7 @@ class AVA(tk.Tk):
         from User_Interface.Home_Page import Home_Page
         from User_Interface.Configure_Test_Page import Configure_Test_Page
         from User_Interface.Plot_Page import Plot_Page
-        from User_Interface.New_Vehicle_Page import New_Vehicle_Page, New_Vehicle_Page_Advanced
+        from User_Interface.New_Vehicle_Page import New_Vehicle_Page
         from User_Interface.Test_Is_Running_Page import Test_Is_Running_Page
         from User_Interface.Save_Test_Page import Save_Test_Page
         from User_Interface.Results_Page import Results_Page

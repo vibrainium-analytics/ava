@@ -245,40 +245,61 @@ class New_Vehicle_Page(tk.Frame):
                         reverse_Gear = reverse_Gear_Entry.get()
                         extra_Accessory = extra_Accessory_Entry.get()
 
+                        profile_data = {
+                                'name': name,
+                                'make': make,
+                                'model': model,
+                                'year_Veh': year_Veh,
+                                'tire': tire,
+                                'num_Cylinders': num_Cylinders,
+                                'first_Gear': first_Gear,
+                                'second_Gear': second_Gear,
+                                'third_Gear': third_Gear,
+                                'fourth_Gear': fourth_Gear,
+                                'fifth_Gear': fifth_Gear,
+                                'sixth_Gear': sixth_Gear,
+                                'final_Drive': final_Drive,
+                                'main_Pulley': main_Pulley,
+                                'alternator': alternator,
+                                'air_Conditioner': air_Conditioner,
+                                'waterpump': waterpump,
+                                'fan': fan,
+                                'catalytic_Ratio': catalytic_Ratio,
+                                'reverse_Gear': reverse_Gear,
+                                'extra_Accessory': extra_Accessory
+                        }
+                        # Debug
+                        print(profile_data)
+
                         # Check if vehicle already exists
-                            # If vehicle exists, simply update vehicle profile
-                            
-                            # If vehicle does not exist, create a new json file profile
+                        # If vehicle exists, simply update vehicle profile
+                        # Load vehicles from vehicle directory
+                        from os import listdir
+                        vehicle_filenames = os.listdir(directory['veh_path'])
+                        formatted_filenames = []
+
+                        found_matching_profile = 0
+                        # Format filenames to remove .json extension
+                        for filename in vehicle_filenames:
+                                if filename.endswith(".json"):
+                                        # If vehicle filename matches profile name
+                                        if(name in filename):
+                                                with open(directory['veh_path'] + str(name), 'w') as f:
+                                                        json.dump(profile_data,f)
+                                                        f.close
+                                                found_matching_profile = 1
+
+
+                        # If vehicle does not exist, create a new json file profile
+                        if found_matching_profile == 0:
+                                with open(directory['veh_path'] + str(name) + '.json', 'w') as f:
+                                        json.dump(profile_data,f)
+                                        f.close
 
                         # Save current vehicle stats as selected_vehicle json status
                         with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                                json.dump(data,f)
+                                json.dump(profile_data,f)
                                 f.close
-
-                        #DEBUG
-                        print(name)
-                        print(make)
-                        print(model)
-                        print(year_Veh)
-
-                        print (tire)
-                        print (num_Cylinders)
-                        print (first_Gear)
-                        print (second_Gear)
-                        print (third_Gear)
-                        print (fourth_Gear)
-                        print (fifth_Gear)
-                        print (sixth_Gear)
-                        print (final_Drive)
-
-                        print (main_Pulley)
-                        print (alternator)
-                        print (air_Conditioner)
-                        print (waterpump)
-                        print (fan)
-                        print (catalytic_Ratio)
-                        print (reverse_Gear)
-                        print (extra_Accessory)
 
                 def Load_Saved_Profile ():
 
