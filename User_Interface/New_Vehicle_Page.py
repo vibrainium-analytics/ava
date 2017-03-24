@@ -15,19 +15,19 @@ class New_Vehicle_Page(tk.Frame):
                 print ("tire " + str(tiresize))
                 print ("extra " + str(advanced))
                 if advanced == 'Y' or advanced == 'y':
-                        #open sub window for advanced 
+                        #open sub window for advanced
                         controller.show_page("NewVehiclePage_Advanced")
                 elif advanced == 'N' or advanced == 'n':
                         controller.show_page("HomePage")
-   
+
         def __init__(self, parent, controller):
 
                 Name = ""
 ##                Make = ""
 ##                Model = ""
 ##                Year = ""
-##                
-##                
+##
+##
 ##                num_cylinders = 0
 ##                first_gear_ratio = 0.0
 ##                second_gear_ratio = 0.0
@@ -44,9 +44,9 @@ class New_Vehicle_Page(tk.Frame):
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
-            
+
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='New/Edit Vehicle Profile Page', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='New/Edit Profile', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
 
@@ -80,7 +80,7 @@ class New_Vehicle_Page(tk.Frame):
 ##                wheel_Circumference_Label = Label(self, text="Enter tire diameter in inches\n (Leave blank if unknown)")
 ##                wheelCircumference.pack(padx=5)
 ##                wheel_Circumference_Entry = Entry(self)
-##                wheel_Circumference_Entry.pack(padx=5) 
+##                wheel_Circumference_Entry.pack(padx=5)
 ##
 ##                num_Cylinders_Label = Label(frame1, text="Enter number of cylinders")
 ##                num_Cylinders_Label.pack(pady=5)
@@ -88,7 +88,7 @@ class New_Vehicle_Page(tk.Frame):
 ##                num_Cylinders_Entry = Entry(frame1)
 ##                numCylinders_Entry.pack(padx=5)
 ####
-##                
+##
 ##                first_gear_ratio = 0.0
 ##                second_gear_ratio = 0.0
 ##                third_gear_ratio = 0.0
@@ -99,7 +99,7 @@ class New_Vehicle_Page(tk.Frame):
 ##                converter_ratio = 0.0
 ##                final_drive_ratio = 0.0
 
-               
+
 class New_Vehicle_Page_Advanced(tk.Frame):
         def __init__(self, parent, controller):
 
@@ -108,11 +108,11 @@ class New_Vehicle_Page_Advanced(tk.Frame):
                     global directory
                     directory = json.load(g)
                     g.close
-                    
+
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
-                
+
                 self.label = ttk.Label(self, text="New Vehicle Page")
                 self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
 
@@ -139,5 +139,3 @@ class New_Vehicle_Page_Advanced(tk.Frame):
                 self.goToHomePage_button = ttk.Button(self, text="Home",
                                     command=lambda: self.saveNewVehicleProfile(controller))
                 self.goToHomePage_button.pack(side = "left", expand = "no", anchor = "n")
-
-

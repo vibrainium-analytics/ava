@@ -12,7 +12,7 @@ import json
 
 class Test_Is_Running_Page(tk.Frame):
 
-        # Update page with new content every 1 second                
+        # Update page with new content every 1 second
         def poll (self):
                 # Global directory navigation file
                 with open('directory.json','r') as g:
@@ -32,15 +32,15 @@ class Test_Is_Running_Page(tk.Frame):
 
                 # check for changes in data every 100 seconds
                 self.after(100000, self.poll)
-                
+
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
-                
+
                 # AVA app controller (app_data access)
                 self.controller = controller
-                         
+
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Test Is Running Page', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='Test in Progress', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,20), ipadx = 2, ipady = 2, fill = "x")
 
                 goToRunTestPage_button = ttk.Button(self, text="Go Back",
@@ -63,11 +63,11 @@ class Test_Is_Running_Page(tk.Frame):
 
         # the following two functions make it so that the save button only appears after the test has begun
         # and then the save button dissapears after you press it.
-        
+
         def delay (self,controller):
 
                 Delay_Bar()
-                
+
                 self.goToSaveTestPage_button = ttk.Button(self, text="Save Test",
                                     command=lambda: self.save(controller))
                 self.goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
@@ -75,4 +75,3 @@ class Test_Is_Running_Page(tk.Frame):
 
                 controller.show_page('Save_Test_Page')
                 self.goToSaveTestPage_button.pack_forget()
-
