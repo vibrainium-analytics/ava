@@ -36,7 +36,7 @@ class Save_Test_Page(tk.Frame):
                 self.AC_Status1.pack(side="top", pady=20, padx=10, ipady = 2, ipadx = 2)
 
                 Idle_Status = ('Yes', 'No')
-                self.Idle_Status1 = ttk.Labelframe(self, text='Under Idle?')
+                self.Idle_Status1 = ttk.Labelframe(frame1, text='Under Idle?')
                 self.Idle_Status = ttk.Combobox(self.Idle_Status1, values=Idle_Status, state='readonly')
                 self.Idle_Status.current(0)  # set selection
                 self.Idle_Status.pack(pady=5, padx=10)
@@ -49,6 +49,13 @@ class Save_Test_Page(tk.Frame):
                 self.Speeds.pack(pady=5, padx=10)
                 self.Speeds1.pack(side="top", pady = 20, padx = 10, ipady = 2, ipadx = 2)
 
+                Gears = ('1', '2', '3', '4', '5', '6')
+                self.Gears1 = ttk.Labelframe(frame1, text='Gear')
+                self.Gears = ttk.Combobox(self.Gears1, values=Gears, state='readonly')
+                self.Gears.current(0)  # set selection
+                self.Gears.pack(pady=5, padx=10)
+                self.Gears1.pack(side="top", pady = 20, padx = 10, ipady = 2, ipadx = 2)
+
                 goToResultsPage_button = ttk.Button(frame1, text="View Results",
                                     command=lambda: self.saveTestSettings(controller))
                 goToResultsPage_button.pack(pady=15,padx=5, side = "top", expand = "no", anchor = "n")
@@ -59,33 +66,32 @@ class Save_Test_Page(tk.Frame):
                         global directory
                         directory = json.load(g)
                         g.close
-                        
+
                 # if you are at idle the speed is 0. this makes it so that the speed cannot be above 0 at idle
-                
+
                 if str(self.Idle_Status.get()) == 'Yes':
                         speed = 0
                 else:
                         speed = self.Speeds.get()
 
                 # if you are at idle the speed is 0. this makes it so that the speed cannot be above 0 at idle
-                
+
                 if str(self.Idle_Status.get()) == 'Yes':
                         speed = 0
                 else:
                         speed = self.Speeds.get()
 
 
-                data = {
+                save_test_settings = {
                         'ac_status' : str(self.AC_Status.get()),
                         'idle_status' :str(self.Idle_Status.get()),
                         'speed' : str(speed),
+                        'gear' : str(self.Gears.get())
                         }
 
                 with open(directory['app_data'] + 'save_test.json','w') as f:
-                        json.dump(data,f)
+                        json.dump(save_test_settings,f)
                         f.close
-                
+
                 controller.show_page("Results_Page")
                 Signal_Process()
-
-                
