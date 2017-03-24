@@ -152,72 +152,72 @@ class New_Vehicle_Page(tk.Frame):
                 extra_Accessory_Entry.place(relx = .7, rely = .75, anchor = NW)
 
                 def Advanced_Entry():
-                    main_Pulley_Label.configure(state="normal")
-                    main_Pulley_Entry.configure(state="normal")
-                    alternator_Label.configure(state="normal")
-                    alternator_Entry.configure(state="normal")
-                    air_Conditioner_Label.configure(state="normal")
-                    air_Conditioner_Entry.configure(state="normal")
-                    waterpump_Label.configure(state="normal")
-                    waterpump_Entry.configure(state="normal")
-                    fan_Label.configure(state="normal")
-                    fan_Entry.configure(state="normal")
-                    catalytic_Ratio_Label.configure(state="normal")
-                    catalytic_Ratio_Entry.configure(state="normal")
-                    reverse_Gear_Label.configure(state="normal")
-                    reverse_Gear_Entry.configure(state="normal")
-                    extra_Accessory_Label.configure(state="normal")
-                    extra_Accessory_Entry.configure(state="normal")
-                    alternator_Entry.configure(state="normal")
-                    air_Conditioner_Entry.configure(state="normal")
-                    waterpump_Entry.configure(state="normal")
-                    fan_Entry.configure(state="normal")
-                    catalytic_Ratio_Entry.configure(state="normal")
-                    reverse_Gear_Entry.configure(state="normal")
-                    extra_Accessory_Entry.configure(state="normal")
+                        main_Pulley_Label.configure(state="normal")
+                        main_Pulley_Entry.configure(state="normal")
+                        alternator_Label.configure(state="normal")
+                        alternator_Entry.configure(state="normal")
+                        air_Conditioner_Label.configure(state="normal")
+                        air_Conditioner_Entry.configure(state="normal")
+                        waterpump_Label.configure(state="normal")
+                        waterpump_Entry.configure(state="normal")
+                        fan_Label.configure(state="normal")
+                        fan_Entry.configure(state="normal")
+                        catalytic_Ratio_Label.configure(state="normal")
+                        catalytic_Ratio_Entry.configure(state="normal")
+                        reverse_Gear_Label.configure(state="normal")
+                        reverse_Gear_Entry.configure(state="normal")
+                        extra_Accessory_Label.configure(state="normal")
+                        extra_Accessory_Entry.configure(state="normal")
+                        alternator_Entry.configure(state="normal")
+                        air_Conditioner_Entry.configure(state="normal")
+                        waterpump_Entry.configure(state="normal")
+                        fan_Entry.configure(state="normal")
+                        catalytic_Ratio_Entry.configure(state="normal")
+                        reverse_Gear_Entry.configure(state="normal")
+                        extra_Accessory_Entry.configure(state="normal")
 
-                    main_Pulley_Entry.update()
-                    alternator_Entry.update()
-                    air_Conditioner_Entry.update()
-                    waterpump_Entry.update()
-                    fan_Entry.update()
-                    catalytic_Ratio_Entry.update()
-                    reverse_Gear_Entry.update
-                    extra_Accessory_Entry.update()
+                        main_Pulley_Entry.update()
+                        alternator_Entry.update()
+                        air_Conditioner_Entry.update()
+                        waterpump_Entry.update()
+                        fan_Entry.update()
+                        catalytic_Ratio_Entry.update()
+                        reverse_Gear_Entry.update
+                        extra_Accessory_Entry.update()
 
-                    frame3.update()
+                        frame3.update()
 
                 def Basic_Entry():
 
-                    main_Pulley_Label.configure(state="disabled")
-                    main_Pulley_Entry.configure(state="disabled")
-                    alternator_Label.configure(state="disabled")
-                    alternator_Entry.configure(state="disabled")
-                    air_Conditioner_Label.configure(state="disabled")
-                    air_Conditioner_Entry.configure(state="disabled")
-                    waterpump_Label.configure(state="disabled")
-                    waterpump_Entry.configure(state="disabled")
-                    fan_Label.configure(state="disabled")
-                    fan_Entry.configure(state="disabled")
-                    catalytic_Ratio_Label.configure(state="disabled")
-                    catalytic_Ratio_Entry.configure(state="disabled")
-                    reverse_Gear_Label.configure(state="disabled")
-                    reverse_Gear_Entry.configure(state="disabled")
-                    extra_Accessory_Label.configure(state="disabled")
-                    extra_Accessory_Entry.configure(state="disabled")
+                        main_Pulley_Label.configure(state="disabled")
+                        main_Pulley_Entry.configure(state="disabled")
+                        alternator_Label.configure(state="disabled")
+                        alternator_Entry.configure(state="disabled")
+                        air_Conditioner_Label.configure(state="disabled")
+                        air_Conditioner_Entry.configure(state="disabled")
+                        waterpump_Label.configure(state="disabled")
+                        waterpump_Entry.configure(state="disabled")
+                        fan_Label.configure(state="disabled")
+                        fan_Entry.configure(state="disabled")
+                        catalytic_Ratio_Label.configure(state="disabled")
+                        catalytic_Ratio_Entry.configure(state="disabled")
+                        reverse_Gear_Label.configure(state="disabled")
+                        reverse_Gear_Entry.configure(state="disabled")
+                        extra_Accessory_Label.configure(state="disabled")
+                        extra_Accessory_Entry.configure(state="disabled")
 
-                    main_Pulley_Entry.update()
-                    alternator_Entry.update()
-                    air_Conditioner_Entry.update()
-                    waterpump_Entry.update()
-                    fan_Entry.update()
-                    catalytic_Ratio_Entry.update()
-                    reverse_Gear_Entry.update
-                    extra_Accessory_Entry.update()
+                        main_Pulley_Entry.update()
+                        alternator_Entry.update()
+                        air_Conditioner_Entry.update()
+                        waterpump_Entry.update()
+                        fan_Entry.update()
+                        catalytic_Ratio_Entry.update()
+                        reverse_Gear_Entry.update
+                        extra_Accessory_Entry.update()
 
-                    frame3.update()
+                        frame3.update()
 
-                def Read_Profile_Settings():
+                def Read_Profile():
                         name = name_Entry.get()
                         make = make_Entry.get()
                         model = model_Entry.get()
@@ -266,20 +266,12 @@ class New_Vehicle_Page(tk.Frame):
                                 'extra_Accessory': extra_Accessory
                         }
 
-                def Edit_Profile():
+                        return profile_data
 
-                def Save_To_Profile():
-
-                        Read_Profile_Settings()
-
-                        # If profile already exists, edit
-
-                        # If profile does not exist, create new
-                        isValidProfile = 0 # If 1 determines that it is valid to save the data
-
+                def Validate_Data(data):
                         # Loop through profile_data for data validation (No empty strings where values needed, etc.
                         # TODO: add more helpful data validation for integers vs. strings, etc.  Here is where it all should happen.  If invalid, break out of the loop
-                        for key, value in profile_data.items():
+                        for key, value in data.items():
                                 if (value == ""):
                                         if key in ['tire','num_Cylinders','first_Gear','first_Gear','second_Gear','third_Gear','fourth_Gear','fifth_Gear', 'sixth_Gear','final_Drive']:
                                                 isValidProfile = 1
@@ -294,8 +286,17 @@ class New_Vehicle_Page(tk.Frame):
                         else:
                                 print('Valid Profile.')
 
-                        # Check if valid to save
-                        if(isValidProfile ==2):
+                        return isValidProfile
+
+                def Save_To_Profile():
+
+                        profile_data = Read_Profile()
+
+                        isValid = Validate_Data(profile_data)
+
+                        # If data is valid
+                        if(isValid == 1):
+                                # If profile already exists, edit
                                 # Check if vehicle already exists
                                 # If vehicle exists, simply update vehicle profile
                                 # Load vehicles from vehicle directory
@@ -308,19 +309,21 @@ class New_Vehicle_Page(tk.Frame):
                                 for filename in vehicle_filenames:
                                         if filename.endswith(".json"):
                                                 # If vehicle filename matches profile name
-                                                if(name in filename):
-                                                        with open(directory['veh_path'] + str(name), 'w') as f:
+                                                if(profile_data['name'] in filename):
+                                                        with open(directory['veh_path'] + str(profile_data['name']) + '.json', 'w') as f:
                                                                 json.dump(profile_data,f)
                                                                 f.close
+                                                        print('Updated previous profile: ' + str(profile_data['name']) + '.json')
                                                         found_matching_profile = 1
-
+                                                        break
                                 # If vehicle does not exist, create a new json file profile
+                                # Create a new profile
                                 if found_matching_profile == 0:
-                                        with open(directory['veh_path'] + str(name) + '.json', 'w') as f:
+                                        with open(directory['veh_path'] + str(profile_data['name']) + '.json', 'w') as f:
                                                 json.dump(profile_data,f)
                                                 f.close
-
-                                # Save current vehicle stats as selected_vehicle json status
+                                        print('Created New profile: ' + str(profile_data['name']) + '.json')
+                                #TODO: Save current vehicle stats as selected_vehicle json status
                                 #with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
                                         #json.dump(profile_data,f)
                                         #f.close
