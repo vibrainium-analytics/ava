@@ -18,7 +18,7 @@ class Home_Page(tk.Frame):
                 self.label1['text'] = "Vehicle Name: {}".format(selected_vehicle['name'])
                 self.label2['text'] = "Vehicle Make: {}".format(selected_vehicle['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
-                self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year'])
+                self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year_Veh'])
 
                 # check for changes in data every 10 seconds
                 self.after(10000, self.poll)

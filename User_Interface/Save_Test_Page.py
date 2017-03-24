@@ -81,6 +81,13 @@ class Save_Test_Page(tk.Frame):
                 else:
                         speed = self.Speeds.get()
 
+                gear = str(self.Gears.get())
+                if gear == 1: gear = 'first_Gear'
+                if gear == 2: gear = 'second_Gear'
+                if gear == 3: gear = 'third_Gear'
+                if gear == 4: gear = 'fourth_Gear'
+                if gear == 5: gear = 'fifth_Gear'
+                if gear == 6: gear = 'sixth_Gear'
 
                 save_test_settings = {
                         'ac_status' : str(self.AC_Status.get()),

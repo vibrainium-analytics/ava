@@ -178,14 +178,13 @@ class Plot_Page(tk.Frame):
                 self.plot_button.pack(side = "top", padx = 5, pady = 5, expand = "no", anchor = "n")
 
 
-
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
 
-                with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                        json.dump(selected_vehicle,f)
-                        f.close
+                #with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+                        #json.dump(selected_vehicle,f)
+                        #f.close
 
 ##                separator = Frame(height=80, borderwidth = 2, relief=SUNKEN)
 ##                separator.place(relx = 0.2, rely = .9, anchor = NW)
@@ -207,13 +206,13 @@ class Plot_Page(tk.Frame):
                 speed = float(speed_str)
                 gear_str = saved_test['gear']
                 #tempholder = str(gear_str)
-                gear_ratio = float(selected_vehicle[gear_str])
+                gear_ratio = float(selected_vehicle[saved_test["gear"]])
 
                 tire_str = selected_vehicle['tire']
                 tire = float(tire_str)
                 ##tire = round(tire, 1)
 
-                finaldrive_str = selected_vehicle['finaldrive']
+                finaldrive_str = selected_vehicle['final_Drive']
                 finaldrive = float(finaldrive_str)
                 finaldrive = round(finaldrive, 1)
 
@@ -243,7 +242,7 @@ class Plot_Page(tk.Frame):
                 make_Label.place(relx = 0, x=5, rely = 0.30, anchor=NW)
                 model_Label = ttk.Label(frame3,text = 'Model: {}'.format(selected_vehicle['model']))
                 model_Label.place(relx = 0, x = 5, rely = 0.55, anchor=NW)
-                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(selected_vehicle['year']))
+                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(selected_vehicle['year_Veh']))
                 year_Veh_Label.place(relx = 0, x= 5, rely = 0.80, anchor=NW)
 
                 tire_Label = ttk.Label(frame3,text = ' Tires:            ' + str(tire_freq) + " Hz")

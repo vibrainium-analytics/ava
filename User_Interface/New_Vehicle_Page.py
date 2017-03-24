@@ -271,6 +271,7 @@ class New_Vehicle_Page(tk.Frame):
                 def Validate_Data(data):
                         # Loop through profile_data for data validation (No empty strings where values needed, etc.
                         # TODO: add more helpful data validation for integers vs. strings, etc.  Here is where it all should happen.  If invalid, break out of the loop
+                        isValidProfile = 1  # initialize
                         for key, value in data.items():
                                 if (value == ""):
                                         if key in ['tire','num_Cylinders','first_Gear','first_Gear','second_Gear','third_Gear','fourth_Gear','fifth_Gear', 'sixth_Gear','final_Drive']:
@@ -366,25 +367,25 @@ class New_Vehicle_Page(tk.Frame):
                         name_Entry.insert(0, data['name'])
                         make_Entry.insert(0, data['make'])
                         model_Entry.insert(0, data['model'])
-                        year_Veh_Entry.insert(0, data['year'])
+                        year_Veh_Entry.insert(0, data['year_Veh'])
                         tire_Entry.insert(0,data['tire'])
-                        num_Cylinders_Entry.insert(0, data['cylinders'])
-                        first_Gear_Entry.insert(0, data['1st'])
-                        second_Gear_Entry.insert(0, data['2nd'])
-                        third_Gear_Entry.insert(0, data['3rd'])
-                        fourth_Gear_Entry.insert(0, data['4th'])
-                        fifth_Gear_Entry.insert(0, data['5th'])
-                        sixth_Gear_Entry.insert(0, data['6th'])
-                        final_Drive_Entry.insert(0, data['finaldrive'])
+                        num_Cylinders_Entry.insert(0, data['num_Cylinders'])
+                        first_Gear_Entry.insert(0, data['first_Gear'])
+                        second_Gear_Entry.insert(0, data['second_Gear'])
+                        third_Gear_Entry.insert(0, data['third_Gear'])
+                        fourth_Gear_Entry.insert(0, data['fourth_Gear'])
+                        fifth_Gear_Entry.insert(0, data['fifth_Gear'])
+                        sixth_Gear_Entry.insert(0, data['sixth_Gear'])
+                        final_Drive_Entry.insert(0, data['final_Drive'])
 
-                        main_Pulley_Entry.insert(0,data['mainPulley'])
+                        main_Pulley_Entry.insert(0,data['main_Pulley'])
                         alternator_Entry.insert(0,data['alternator'])
-                        air_Conditioner_Entry.insert(0,data['airConditioner'])
+                        air_Conditioner_Entry.insert(0,data['air_Conditioner'])
                         waterpump_Entry.insert(0,data['waterpump'])
                         fan_Entry.insert(0,data['fan'])
-                        catalytic_Ratio_Entry.insert(0,data['converter'])
-                        reverse_Gear_Entry.insert(0,data['reverse'])
-                        extra_Accessory_Entry.insert(0,data['extra'])
+                        catalytic_Ratio_Entry.insert(0,data['catalytic_Ratio'])
+                        reverse_Gear_Entry.insert(0,data['reverse_Gear'])
+                        extra_Accessory_Entry.insert(0,data['extra_Accessory'])
 
 ##        wheel_rpm = test_ground_speed * 5280.0 * 12.0 / wheel_circ_inches / 60.0
 ##        wheel_freq = wheel_rpm / 60.0
