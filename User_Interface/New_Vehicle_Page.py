@@ -325,9 +325,10 @@ class New_Vehicle_Page(tk.Frame):
                                                 f.close
                                         print('Created New profile: ' + str(profile_data['name']) + '.json')
                                 #TODO: Save current vehicle stats as selected_vehicle json status
-                                #with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                                        #json.dump(profile_data,f)
-                                        #f.close
+                                with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+                                        json.dump(profile_data,f)
+                                        f.close
+                                        print('Selected Vehicle Updated')
 
                 def Load_Saved_Profile ():
 

@@ -26,12 +26,12 @@ class Home_Page(tk.Frame):
         def loadSavedVehicleProfile (self, event):
                 # Save to json file (in vehicle profiles folder)
                 with open(directory['veh_path'] + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
-                        profile_data = json.load(f)
+                        selected_vehicle = json.load(f)
                         f.close
 
                 # Write saved_vehicle status folder
                 with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                        json.dump(selected_vehicle,f)
+                        json.dump(profile_data,f)
                         f.close
                 # Update labels with latest data
                 self.label1['text'] = "Vehicle Name: {}".format(selected_vehicle['name'])
