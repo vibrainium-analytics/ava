@@ -11,31 +11,26 @@ import json
 
 
 class New_Vehicle_Page(tk.Frame):
-
-   
         def __init__(self, parent, controller):
-
-        # Global directory navigation file
+                # Global directory navigation file
                 with open('directory.json','r') as g:
                     global directory
                     directory = json.load(g)
                     g.close
-                    
+
                 veh_path = str(directory['veh_path'])
-                
+
                 tk.Frame.__init__(self, parent)
 
                 self.controller = controller
-            
+
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
                 Label(self.pageLabelFrame, text='New/Edit Vehicle Profile Page', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
-
                 goToHomePage_button = Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Home_Page"))
                 goToHomePage_button.place(relx = 0, rely = .1, anchor = NW)
-
 
                 frame1 = LabelFrame(self, text="General Vehicle Info", width=550, height=80, borderwidth=4, relief=GROOVE)
                 frame1.place(relx=.18, rely=0.1, anchor=NW)
@@ -48,7 +43,6 @@ class New_Vehicle_Page(tk.Frame):
 
                 frame4 = Frame(self, width = 110, height = 50, borderwidth = 4, relief=GROOVE)
                 frame4.place(relx = .40, x = 20, rely = .33, anchor=NW)
-
 
                 #frame1 (general)
                 name_Label = ttk.Label(frame1,text = 'Name: ')
@@ -71,12 +65,11 @@ class New_Vehicle_Page(tk.Frame):
                 year_Veh_Entry = ttk.Entry(frame1)
                 year_Veh_Entry.place(relx = .9, x = -5, rely = 0.55, anchor=NE)
 
-
                 #frame2 (Basic Drivetrain)
                 tire_Label = ttk.Label(frame2, text="Tire circumference (inches):")
                 tire_Label.place(relx = .02, rely = .05, anchor=NW)
                 tire_Entry = ttk.Entry(frame2, width = 6)
-                tire_Entry.place(relx = .75, rely = .05, anchor=NW) 
+                tire_Entry.place(relx = .75, rely = .05, anchor=NW)
 
                 num_Cylinders_Label = ttk.Label(frame2, text="# of cylinders:")
                 num_Cylinders_Label.place(relx = 0.02, rely = 0.15, anchor=NW)
@@ -97,7 +90,7 @@ class New_Vehicle_Page(tk.Frame):
                 third_Gear_Label.place(relx = .02, rely = .45, anchor = NW)
                 third_Gear_Entry = ttk.Entry(frame2, width = 6)
                 third_Gear_Entry.place(relx = .75, rely = .45, anchor = NW)
-                
+
                 fourth_Gear_Label = ttk.Label(frame2, text = "4th gear ratio:")
                 fourth_Gear_Label.place(relx = .02, rely = .55, anchor = NW)
                 fourth_Gear_Entry = ttk.Entry(frame2, width = 6)
@@ -118,12 +111,11 @@ class New_Vehicle_Page(tk.Frame):
                 final_Drive_Entry = ttk.Entry(frame2, width = 6)
                 final_Drive_Entry.place(relx = .75, rely = .85, anchor = NW)
 
-
                 #frame3 (Advanced - Engine Accessories)
                 main_Pulley_Label = ttk.Label(frame3, text="Crank Pulley Diam (inches):", state = "disabled")
                 main_Pulley_Label.place(relx = .02, rely = .05, anchor=NW)
                 main_Pulley_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
-                main_Pulley_Entry.place(relx = .7, rely = .05, anchor=NW) 
+                main_Pulley_Entry.place(relx = .7, rely = .05, anchor=NW)
 
                 alternator_Label = ttk.Label(frame3, text="Alternator Pulley Diam:", state = "disabled")
                 alternator_Label.place(relx = 0.02, rely = 0.15, anchor=NW)
@@ -144,24 +136,21 @@ class New_Vehicle_Page(tk.Frame):
                 fan_Label.place(relx = .02, rely = .45, anchor = NW)
                 fan_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 fan_Entry.place(relx = .7, rely = .45, anchor = NW)
-                
+
                 catalytic_Ratio_Label = ttk.Label(frame3, text = "Catalytic Converter Ratio:", state = "disabled")
                 catalytic_Ratio_Label.place(relx = .02, rely = .55, anchor = NW)
                 catalytic_Ratio_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 catalytic_Ratio_Entry.place(relx = .7, rely = .55, anchor = NW)
 
-
                 reverse_Gear_Label = ttk.Label(frame3, text = "Reverse gear ratio:", state = "disabled")
                 reverse_Gear_Label.place(relx = .02, rely = .65, anchor = NW)
                 reverse_Gear_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 reverse_Gear_Entry.place(relx = .7, rely = .65, anchor = NW)
-                
+
                 extra_Accessory_Label = ttk.Label(frame3, text = "Accessory Pulley Diam:\n(example: 2nd alternator \nfor large stereo systems", state = "disabled")
                 extra_Accessory_Label.place(relx = .02, rely = .75, anchor = NW)
                 extra_Accessory_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 extra_Accessory_Entry.place(relx = .7, rely = .75, anchor = NW)
-
-
 
                 def Advanced_Entry():
                     main_Pulley_Label.configure(state="normal")
@@ -197,10 +186,10 @@ class New_Vehicle_Page(tk.Frame):
                     reverse_Gear_Entry.update
                     extra_Accessory_Entry.update()
 
-                    frame3.update() 
+                    frame3.update()
 
                 def Basic_Entry():
-                    
+
                     main_Pulley_Label.configure(state="disabled")
                     main_Pulley_Entry.configure(state="disabled")
                     alternator_Label.configure(state="disabled")
@@ -228,7 +217,7 @@ class New_Vehicle_Page(tk.Frame):
                     extra_Accessory_Entry.update()
 
                     frame3.update()
-             
+
 
                 def Save_To_Profile():
 
@@ -246,7 +235,7 @@ class New_Vehicle_Page(tk.Frame):
                         fifth_Gear = fifth_Gear_Entry.get()
                         sixth_Gear = sixth_Gear_Entry.get()
                         final_Drive = final_Drive_Entry.get()
-                        
+
                         main_Pulley = main_Pulley_Entry.get()
                         alternator = alternator_Entry.get()
                         air_Conditioner =air_Conditioner_Entry.get()
@@ -255,18 +244,23 @@ class New_Vehicle_Page(tk.Frame):
                         catalytic_Ratio = catalytic_Ratio_Entry.get()
                         reverse_Gear = reverse_Gear_Entry.get()
                         extra_Accessory = extra_Accessory_Entry.get()
-##
-##                        # Write saved_vehicle status folder
-##                        with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-##                                json.dump(data,f)
-##                                f.close
 
-##DEBUG
+                        # Check if vehicle already exists
+                            # If vehicle exists, simply update vehicle profile
+                            
+                            # If vehicle does not exist, create a new json file profile
+
+                        # Save current vehicle stats as selected_vehicle json status
+                        with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+                                json.dump(data,f)
+                                f.close
+
+                        #DEBUG
                         print(name)
                         print(make)
                         print(model)
                         print(year_Veh)
-                        
+
                         print (tire)
                         print (num_Cylinders)
                         print (first_Gear)
@@ -285,9 +279,7 @@ class New_Vehicle_Page(tk.Frame):
                         print (catalytic_Ratio)
                         print (reverse_Gear)
                         print (extra_Accessory)
-##END DEBUG
 
-                        
                 def Load_Saved_Profile ():
 
                         print ("Load")
@@ -302,7 +294,7 @@ class New_Vehicle_Page(tk.Frame):
 
 #DEBUG
                         print(data['name'])
-                        
+
                         ##self.entry.delete(0, 'end')
 
                         name_Entry.delete(0, 'end')
@@ -327,7 +319,6 @@ class New_Vehicle_Page(tk.Frame):
                         catalytic_Ratio_Entry.delete(0, 'end')
                         reverse_Gear_Entry.delete(0, 'end')
                         extra_Accessory_Entry.delete(0, 'end')
-
 
                         name_Entry.insert(0, data['name'])
                         make_Entry.insert(0, data['make'])
@@ -359,6 +350,7 @@ class New_Vehicle_Page(tk.Frame):
 ##        crank_rpm = driveshaft_rpm * gear
 ##        crank_freq = driveshaft_freq * gear
 ##        cylinder_fire_freq = crank_freq / 8.0
+
                 var = StringVar()
                 var = 0
                 advanced_Radio = Radiobutton(frame4, text='Advanced', variable=var, value="1", command=Advanced_Entry)
@@ -369,29 +361,5 @@ class New_Vehicle_Page(tk.Frame):
                 load_Button = Button(self, text = "Load active\nprofile values", command = Load_Saved_Profile)
                 load_Button.place(relx = 0, rely = .2, anchor = NW)
 
-                save_Button = Button(self, text = "Save entered\nvalues to\nprofile", command = Save_To_Profile) 
+                save_Button = Button(self, text = "Save entered\nvalues to\nprofile", command = Save_To_Profile)
                 save_Button.place(relx = .4, x = 20, rely = .85, anchor = NW)
-
-
-               
-class New_Vehicle_Page_Advanced(tk.Frame):
-        def __init__(self, parent, controller):
-
-                # Global directory navigation file
-                with open('directory.json','r') as g:
-                    global directory
-                    directory = json.load(g)
-                    g.close
-                    
-                tk.Frame.__init__(self, parent)
-
-                self.controller = controller
-                
-                self.label = ttk.Label(self, text="New Vehicle Page")
-                self.label.pack(pady=1,padx=1, side = "top", anchor = "n")
-
-                self.goToHomePage_button = ttk.Button(self, text="Home",
-                                    command=lambda: self.saveNewVehicleProfile(controller))
-                self.goToHomePage_button.pack(side = "left", expand = "no", anchor = "n")
-
-
