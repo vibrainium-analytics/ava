@@ -68,7 +68,7 @@ class Home_Page(tk.Frame):
                 tk.Frame.__init__(self,parent)
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Automotive Vibration Analyzer', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='Home', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
                 # Load vehicles from vehicle directory
