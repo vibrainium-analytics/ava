@@ -22,17 +22,17 @@ class Signal_Process(tk.Tk):
 
     # signal processing function
     def process(self):
-            
+
         # get data from .json files
         with open(directory['app_data'] + 'test_preferences.json','r') as f:
-            data = json.load(f)
+            test_data = json.load(f)
             f.close
         with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
             data1 = json.load(f)
             f.close
         with open(directory['app_data'] + 'save_test.json','r') as f:
             data2 = json.load(f)
-            f.close 
+            f.close
 
         # set AC status and speed status dependancies
         if str(data2['idle_status']) == 'Yes':
@@ -42,19 +42,21 @@ class Signal_Process(tk.Tk):
         else:
             testnm = 'SteadySpeed-' + str(data2['speed'])
 
-        # set directories using data from .json files    
+        # set directories using data from .json files
         now = '{:%Y-%b-%d %H:%M}'.format(datetime.datetime.now())
         veh_path = str(directory['veh_path'])
-        path = veh_path + str(data1['name']) + '_' + str(data1['make']) + '/' + str(data['test_type'])
-        path1 = path + '/temp/'
-        path2 = path + testnm + '/'
-        if str(data['test_type']) == "Diagnostic":
-            path2 = path + testnm + '-' + now + '/'     
+
+        path = veh_path + str(data1['name']) + '_' + str(data1['model']) + '_' + str(data1['year_Veh'])
+        path1 = path + '/' + str(test_data['test_type']) + '/temp/'
+        path2 = path + '/' + str(test_data['test_type']) + testnm + '/'
+
+        if str(test_data['test_type']) == "Diagnostic":
+            path2 = path + '/unknown_trouble-' + now + '/'
 
         if os.path.exists(path2):
-           shutil.rmtree(path2)     
+           shutil.rmtree(path2)
         os.makedirs(path2)
-        
+
         # read magnitude values into array and move raw data to new directory
         filename = path1 + 'Three Axes.txt'
         filename2 = path2 + 'Three Axes.txt'
@@ -62,18 +64,18 @@ class Signal_Process(tk.Tk):
         data=f.readlines()
         f.close()
         shutil.move(filename,filename2)
-        shutil.rmtree(path)       
+        shutil.rmtree(path + '/' + str(test_data['test_type']))
         mag = numpy.zeros(len(data))
         for i in range(0, len(data)-1):
-            row = data[i]        
+            row = data[i]
             col = row.split()
             mag[i] = col[3]
-            
+
         # calculate weighted average of fft
         n = 256                                             # number of points in the FFT
         strt = 1
         fnsh = n
-        runav = 16                                          # number of FFT's in 8 second weighted average 
+        runav = 16                                          # number of FFT's in 8 second weighted average
         smpl = mag[strt:fnsh]
 
         # first FFT is outside the average loop so we aren't dividing by zero
@@ -97,7 +99,7 @@ class Signal_Process(tk.Tk):
             freq1=numpy.absolute(numpy.fft.rfft(smpl))
             freq1[0] = 0
             freq = ((freq*runav) + freq1)/(runav+1)
-            
+
         # normalize fft
         s = numpy.sum(freq)
         norm = s/(len(freq))
@@ -151,7 +153,7 @@ class Signal_Process(tk.Tk):
             fnsh = fnsh+n
             smpl = mag[strt:fnsh]
             freq1=numpy.absolute(numpy.fft.rfft(smpl))
-            freq1[0] = 0 
+            freq1[0] = 0
             freq = ((freq*runav) + freq1)/(runav+1)
 
         # normalize fft
@@ -182,7 +184,7 @@ class Signal_Process(tk.Tk):
             mag = numpy.append(mag,mag1[(2*i)-1])
 
         # calculate weighted average of fft
-        n = 256                                                 # number of points in the FFT 
+        n = 256                                                 # number of points in the FFT
         strt = 1
         fnsh = n
         runav = 4                                               # number of FFT's in 8 second weighted average

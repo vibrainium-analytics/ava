@@ -39,6 +39,19 @@ class Home_Page(tk.Frame):
                 self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year'])
 
+        def refresh(self):
+                # Load vehicles from vehicle directory
+                from os import listdir
+                vehicle_filenames = os.listdir(directory["veh_path"])
+                formatted_filenames = []
+
+                # Format filenames to remove .json extension
+                for filename in vehicle_filenames:
+                        if filename.endswith(".json"):
+                                formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
+
+                self.Saved_Profiles_Dropdown['values'] = formatted_filenames
+
         def __init__(self,parent,controller):
                 # Global directory navigation file
                 with open('directory.json','r') as g:
@@ -69,10 +82,11 @@ class Home_Page(tk.Frame):
 
                 # Create saved vehicle profiles dropdown menu
                 self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle', width=40, height=30, borderwidth=5, relief=GROOVE)
-                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
+                self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, postcommand = self.refresh, state='readonly')
                 self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Saved_Profiles_Dropdown.pack(pady = 5, padx=5)
-                self.Saved_Profiles_Frame.pack(side="top",pady=(6, 2), padx = 10, ipadx = 10, ipady = 15)
+                #self.Saved_Profiles_Frame.pack(side="top",pady=(6, 2), padx = 10, ipadx = 10, ipady = 15)
+                self.Saved_Profiles_Frame.pack(side="top",pady=(4, 2), padx = 10, ipadx = 10, ipady = 15)
 
                 # Default settings for test_preferences.json
                 test_preferences = {
@@ -125,5 +139,6 @@ class Home_Page(tk.Frame):
                 About_Button = ttk.Button(frame3, text="About Vibrainium Analytics...",
                                     command=lambda: controller.show_page("About_Page"))
                 About_Button.pack(padx = 25, pady = (8,2), side = "right", expand = "yes", anchor = "ne")
+                #About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
 
                 self.poll()

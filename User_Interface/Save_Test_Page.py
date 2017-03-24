@@ -29,7 +29,7 @@ class Save_Test_Page(tk.Frame):
                 frame1.place(rely = 0.5, relx = 0.5,anchor= CENTER)
 
                 AC_Status = ('AC Off', 'AC On')
-                self.AC_Status1 = ttk.Labelframe(frame1, text='AC Status')
+                self.AC_Status1 = ttk.Labelframe(self, text='AC Status')
                 self.AC_Status = ttk.Combobox(self.AC_Status1, values= AC_Status, state='readonly')
                 self.AC_Status.current(0)  # set selection
                 self.AC_Status.pack(pady=5, padx=10)
@@ -81,19 +81,20 @@ class Save_Test_Page(tk.Frame):
                 else:
                         speed = self.Speeds.get()
 
-                gear = str(self.Gears.get())
-                if gear == 1: gear = 'first_Gear'
-                if gear == 2: gear = 'second_Gear'
-                if gear == 3: gear = 'third_Gear'
-                if gear == 4: gear = 'fourth_Gear'
-                if gear == 5: gear = 'fifth_Gear'
-                if gear == 6: gear = 'sixth_Gear'
+                gear_int = int(self.Gears.get())
+                gear_string = ""
+                if gear_int == 1: gear_string = 'first_Gear'
+                if gear_int == 2: gear_string = 'second_Gear'
+                if gear_int == 3: gear_string = 'third_Gear'
+                if gear_int == 4: gear_string = 'fourth_Gear'
+                if gear_int == 5: gear_string = 'fifth_Gear'
+                if gear_int == 6: gear_string = 'sixth_Gear'
 
                 save_test_settings = {
                         'ac_status' : str(self.AC_Status.get()),
                         'idle_status' :str(self.Idle_Status.get()),
                         'speed' : str(speed),
-                        'gear' : str(self.Gears.get())
+                        'gear' : gear_string
                         }
 
                 with open(directory['app_data'] + 'save_test.json','w') as f:

@@ -9,6 +9,12 @@ import json
 # Math functions library
 import numpy as np
 
+import matplotlib
+# Plotting library canvas tool
+matplotlib.use('TkAgg')
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.figure import Figure
+
 # Import plotting libraries
 import matplotlib.pyplot as pl
 import matplotlib, sys
@@ -77,8 +83,8 @@ class Plot_Page(tk.Frame):
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
-                data2_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
+                data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/"
+                data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data2_name + "/"
 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
@@ -100,18 +106,8 @@ class Plot_Page(tk.Frame):
                 y2 = data2[:,1]
 
                 os.chdir(home)
-                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%i %i %i')
 
-                # Debug
-                print("Resolution: " + resolution)
-                print("Data 1: " + data1_directory)
-                print("Data 2: " + data2_directory)
-                print(data1_file)
-                print(data2_file)
-                print(data1)
-                print(data2)
-                print(x1)
-                print(y1)
+                np.savetxt(directory['app_data'] + 'DataPlotFile.txt', np.column_stack((x1,y1,y2)),fmt='%.4g %.4g %.4g')
 
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
@@ -152,9 +148,20 @@ class Plot_Page(tk.Frame):
 
                 canvas._tkcanvas.pack(side=BOTTOM)##, fill=BOTH, expand=True)
 
+                # Read currently selected vehicle file
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as file:
+                        selected_vehicle = json.load(file)
+                        file.close
+
                 # Load plots from test results directory
                 from os import listdir
-                vehicle_filenames = os.listdir(directory['veh_path'] + "Steve_Toyota/")
+                current_vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + "_" + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/'
+
+                try:
+                        vehicle_filenames = os.listdir(current_vehicle_directory)
+                except:
+                        os.makedirs(current_vehicle_directory)
+                        vehicle_filenames = os.listdir(current_vehicle_directory)
 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, state='readonly')
@@ -206,7 +213,7 @@ class Plot_Page(tk.Frame):
                 speed = float(speed_str)
                 gear_str = saved_test['gear']
                 #tempholder = str(gear_str)
-                gear_ratio = float(selected_vehicle[saved_test["gear"]])
+                gear_ratio = float(selected_vehicle[gear_str])
 
                 tire_str = selected_vehicle['tire']
                 tire = float(tire_str)
