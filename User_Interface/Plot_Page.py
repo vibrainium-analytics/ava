@@ -27,7 +27,7 @@ from sys import argv
 
 # Plot Page
 def animate(i):
-        
+
         data = np.genfromtxt(directory['app_data'] + 'DataPlotFile.txt',delimiter=' ')
         number_cols = len(data[0])
 
@@ -35,18 +35,18 @@ def animate(i):
         a.clear()
 
         mag_max = 0     # maximum magnitude of magnitude lists
-        
+
         if number_cols > 1:
                 freq_List = data[:,0]
                 mag1_List = data[:,1]
                 plot1 = a.plot(freq_List, mag1_List,'r',label='Plot #1')
         if number_cols > 2:
                 mag2_List = data[:,2]
-                plot2 = a.plot(freq_List, mag2_List,'g',label='Plot #2')           
+                plot2 = a.plot(freq_List, mag2_List,'g',label='Plot #2')
         if number_cols > 3:
                 mag3_List = data[:,3]
                 plot3 = a.plot(freq_List, mag3_List,'b',label='Plot #3')
-                
+
         # Create legend from plot label values
         a.legend()
 
@@ -66,7 +66,7 @@ class Plot_Page(tk.Frame):
                         resolution = "fft 125Hz.txt"
                 elif resolution == "62.5 Hz":
                         resolution = "fft 62.5Hz.txt"
-                        
+
                 # Find selected directories
                 data1_name = str(self.Plot1_Dropdown.get())
                 data2_name = str(self.Plot2_Dropdown.get())
@@ -79,7 +79,7 @@ class Plot_Page(tk.Frame):
                 # Find directories for vehicles to compare
                 data1_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
                 data2_directory = directory['veh_path'] + selected_vehicle["name"] + "/" + data1_name + "/"
-                
+
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
                         if resolution in files:
@@ -87,7 +87,7 @@ class Plot_Page(tk.Frame):
                 for root, dirs, files in os.walk(data2_directory):
                         if resolution in files:
                                 data2_file = os.path.join(root,resolution)
-                
+
                 # Extract file contents
                 data1 = np.loadtxt(data1_file)
                 data2 = np.loadtxt(data2_file)
@@ -112,7 +112,7 @@ class Plot_Page(tk.Frame):
                 print(data2)
                 print(x1)
                 print(y1)
-                
+
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
@@ -120,12 +120,12 @@ class Plot_Page(tk.Frame):
                     global directory
                     directory = json.load(g)
                     g.close
-                    
+
                 veh_path = str(directory['veh_path'])
 
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
                 Label(self.pageLabelFrame, text='Plot Page', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
@@ -180,49 +180,46 @@ class Plot_Page(tk.Frame):
 
 
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
-                        data = json.load(f)
+                        selected_vehicle = json.load(f)
                         f.close
 
                 with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                        json.dump(data,f)
+                        json.dump(selected_vehicle,f)
                         f.close
 
 ##                separator = Frame(height=80, borderwidth = 2, relief=SUNKEN)
 ##                separator.place(relx = 0.2, rely = .9, anchor = NW)
 
-                
+
                 # need to add --- if checked then save variable for RPM rather than Hertz
 
 
 
                 with open(directory['app_data'] + 'save_test.json','r') as f2:
-                        data2 = json.load(f2)
+                        saved_test = json.load(f2)
                         f2.close
 
                 with open(directory['app_data'] + 'save_test.json','w') as f2:
-                        json.dump(data2,f2)
+                        json.dump(saved_test,f2)
                         f2.close
 
-
-
-                        
-                speed_str = data2['speed']
+                speed_str = saved_test['speed']
                 speed = float(speed_str)
-                gear_str = data2['gear']
+                gear_str = saved_test['gear']
                 #tempholder = str(gear_str)
-                gear_ratio = float(data[gear_str])
-                
-                tire_str = data['tire']
+                gear_ratio = float(selected_vehicle[gear_str])
+
+                tire_str = selected_vehicle['tire']
                 tire = float(tire_str)
                 ##tire = round(tire, 1)
-                
-                finaldrive_str = data['finaldrive']
+
+                finaldrive_str = selected_vehicle['finaldrive']
                 finaldrive = float(finaldrive_str)
                 finaldrive = round(finaldrive, 1)
-                
+
                 tire_rpm = speed * 5280.0 * 12.0 / tire / 60.0
                 tire_freq = tire_rpm / 60.0
-            
+
                 driveshaft_rpm = tire_rpm * finaldrive
                 driveshaft_freq = tire_freq * finaldrive
 
@@ -238,15 +235,15 @@ class Plot_Page(tk.Frame):
                 crank_freq = round(crank_freq, 1)
                 driveshaft_freq = round(driveshaft_freq,1)
                 tire_freq = round(tire_freq, 1)
-                
-                
-                name_Label = ttk.Label(frame3,text = 'Name: {}'.format(data['name']))
+
+
+                name_Label = ttk.Label(frame3,text = 'Name: {}'.format(selected_vehicle['name']))
                 name_Label.place(relx = 0, x = 5, rely = 0, y = 5, anchor=NW)
-                make_Label = ttk.Label(frame3,text = 'Make:  {}'.format(data['make']))
+                make_Label = ttk.Label(frame3,text = 'Make:  {}'.format(selected_vehicle['make']))
                 make_Label.place(relx = 0, x=5, rely = 0.30, anchor=NW)
-                model_Label = ttk.Label(frame3,text = 'Model: {}'.format(data['model']))
+                model_Label = ttk.Label(frame3,text = 'Model: {}'.format(selected_vehicle['model']))
                 model_Label.place(relx = 0, x = 5, rely = 0.55, anchor=NW)
-                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(data['year']))
+                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(selected_vehicle['year']))
                 year_Veh_Label.place(relx = 0, x= 5, rely = 0.80, anchor=NW)
 
                 tire_Label = ttk.Label(frame3,text = ' Tires:            ' + str(tire_freq) + " Hz")

@@ -8,49 +8,49 @@ import glob, os
 import json
 
 class Home_Page(tk.Frame):
-        # Update page with new content every 1 second                
+        # Update page with new content every 1 second
         def poll (self):
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
-                        data = json.load(f)
+                        selected_vehicle = json.load(f)
                         f.close
 
                 # Update labels with latest data
-                self.label1['text'] = "Vehicle Name: {}".format(data['name'])
-                self.label2['text'] = "Vehicle Make: {}".format(data['make'])
-                self.label3['text'] = "Vehicle Model: {}".format(data['model'])
-                self.label4['text'] = "Vehicle Year: {}".format(data['year'])
-                
+                self.label1['text'] = "Vehicle Name: {}".format(selected_vehicle['name'])
+                self.label2['text'] = "Vehicle Make: {}".format(selected_vehicle['make'])
+                self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
+                self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year'])
+
                 # check for changes in data every 10 seconds
                 self.after(10000, self.poll)
 
         def loadSavedVehicleProfile (self, event):
                 # Save to json file (in vehicle profiles folder)
                 with open(directory['veh_path'] + self.Saved_Profiles_Dropdown.get() + '.json','r') as f:
-                        data = json.load(f)
+                        profile_data = json.load(f)
                         f.close
 
                 # Write saved_vehicle status folder
                 with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                        json.dump(data,f)
+                        json.dump(selected_vehicle,f)
                         f.close
                 # Update labels with latest data
-                self.label1['text'] = "Vehicle Name: {}".format(data['name'])
-                self.label2['text'] = "Vehicle Make: {}".format(data['make'])
-                self.label3['text'] = "Vehicle Model: {}".format(data['model'])
-                self.label4['text'] = "Vehicle Year: {}".format(data['year'])
-                
+                self.label1['text'] = "Vehicle Name: {}".format(selected_vehicle['name'])
+                self.label2['text'] = "Vehicle Make: {}".format(selected_vehicle['make'])
+                self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
+                self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year'])
+
         def __init__(self,parent,controller):
                 # Global directory navigation file
                 with open('directory.json','r') as g:
                     global directory
                     directory = json.load(g)
                     g.close
-                    
-                veh_path = str(directory['veh_path']) 
-                
+
+                veh_path = str(directory['veh_path'])
+
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 tk.Frame.__init__(self,parent)
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
@@ -66,23 +66,23 @@ class Home_Page(tk.Frame):
                 for filename in vehicle_filenames:
                         if filename.endswith(".json"):
                                 formatted_filenames.append(str(('.'.join(filename.split('.')[:-1]))))
-                
+
                 # Create saved vehicle profiles dropdown menu
                 self.Saved_Profiles_Frame = ttk.Labelframe(self, text='Load Saved Vehicle', width=40, height=30, borderwidth=5, relief=GROOVE)
                 self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, values = formatted_filenames, state='readonly')
                 self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Saved_Profiles_Dropdown.pack(pady = 5, padx=5)
                 self.Saved_Profiles_Frame.pack(side="top",pady=(6, 2), padx = 10, ipadx = 10, ipady = 15)
-                
+
                 # Default settings for test_preferences.json
-                data = {
+                test_preferences = {
                         'test_type' : 'Baseline-Idle',
                         'delay_time' : '0',
                         'test_duration' : '0',
                         }
-                
+
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
-                        json.dump(data,f)
+                        json.dump(test_preferences,f)
                         f.close
 
                 frame1 = tk.LabelFrame(self.Saved_Profiles_Frame, text="Active Vehicle Profile", width=30, height=25, bd=1, borderwidth=3, relief=GROOVE)
