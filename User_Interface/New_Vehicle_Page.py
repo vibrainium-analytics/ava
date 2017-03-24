@@ -8,10 +8,9 @@ from tkinter import *
 import glob, os
 import json
 
-
-
 class New_Vehicle_Page(tk.Frame):
         def __init__(self, parent, controller):
+
                 # Global directory navigation file
                 with open('directory.json','r') as g:
                     global directory
@@ -218,9 +217,7 @@ class New_Vehicle_Page(tk.Frame):
 
                     frame3.update()
 
-
-                def Save_To_Profile():
-
+                def Read_Profile_Settings():
                         name = name_Entry.get()
                         make = make_Entry.get()
                         model = model_Entry.get()
@@ -268,38 +265,65 @@ class New_Vehicle_Page(tk.Frame):
                                 'reverse_Gear': reverse_Gear,
                                 'extra_Accessory': extra_Accessory
                         }
-                        # Debug
-                        print(profile_data)
 
-                        # Check if vehicle already exists
-                        # If vehicle exists, simply update vehicle profile
-                        # Load vehicles from vehicle directory
-                        from os import listdir
-                        vehicle_filenames = os.listdir(directory['veh_path'])
-                        formatted_filenames = []
+                def Edit_Profile():
 
-                        found_matching_profile = 0
-                        # Format filenames to remove .json extension
-                        for filename in vehicle_filenames:
-                                if filename.endswith(".json"):
-                                        # If vehicle filename matches profile name
-                                        if(name in filename):
-                                                with open(directory['veh_path'] + str(name), 'w') as f:
-                                                        json.dump(profile_data,f)
-                                                        f.close
-                                                found_matching_profile = 1
+                def Save_To_Profile():
 
+                        Read_Profile_Settings()
 
-                        # If vehicle does not exist, create a new json file profile
-                        if found_matching_profile == 0:
-                                with open(directory['veh_path'] + str(name) + '.json', 'w') as f:
-                                        json.dump(profile_data,f)
-                                        f.close
+                        # If profile already exists, edit
 
-                        # Save current vehicle stats as selected_vehicle json status
-                        with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                                json.dump(profile_data,f)
-                                f.close
+                        # If profile does not exist, create new
+                        isValidProfile = 0 # If 1 determines that it is valid to save the data
+
+                        # Loop through profile_data for data validation (No empty strings where values needed, etc.
+                        # TODO: add more helpful data validation for integers vs. strings, etc.  Here is where it all should happen.  If invalid, break out of the loop
+                        for key, value in profile_data.items():
+                                if (value == ""):
+                                        if key in ['tire','num_Cylinders','first_Gear','first_Gear','second_Gear','third_Gear','fourth_Gear','fifth_Gear', 'sixth_Gear','final_Drive']:
+                                                isValidProfile = 1
+                                        if key in ['main_Pulley','alternator','air_Conditioner','waterpump','fan','catalytic_Ratio','reverse_Gear', 'extra_Accessory']:
+                                                isValidProfile = 1
+                                        if key in ['name','make','model','year_Veh']:
+                                                isValidProfile = 0
+                                                break   # break out of the for loop if invalid profile
+                        # DEBUG
+                        if(isValidProfile ==0):
+                                print('ERROR: Invalid Profile.  Check that all required fields are entered')
+                        else:
+                                print('Valid Profile.')
+
+                        # Check if valid to save
+                        if(isValidProfile ==2):
+                                # Check if vehicle already exists
+                                # If vehicle exists, simply update vehicle profile
+                                # Load vehicles from vehicle directory
+                                from os import listdir
+                                vehicle_filenames = os.listdir(directory['veh_path'])
+                                formatted_filenames = []
+
+                                found_matching_profile = 0
+                                # Format filenames to remove .json extension
+                                for filename in vehicle_filenames:
+                                        if filename.endswith(".json"):
+                                                # If vehicle filename matches profile name
+                                                if(name in filename):
+                                                        with open(directory['veh_path'] + str(name), 'w') as f:
+                                                                json.dump(profile_data,f)
+                                                                f.close
+                                                        found_matching_profile = 1
+
+                                # If vehicle does not exist, create a new json file profile
+                                if found_matching_profile == 0:
+                                        with open(directory['veh_path'] + str(name) + '.json', 'w') as f:
+                                                json.dump(profile_data,f)
+                                                f.close
+
+                                # Save current vehicle stats as selected_vehicle json status
+                                #with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
+                                        #json.dump(profile_data,f)
+                                        #f.close
 
                 def Load_Saved_Profile ():
 
@@ -308,12 +332,7 @@ class New_Vehicle_Page(tk.Frame):
                         with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                                 data = json.load(f)
                                 f.close
-
-                        with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                                json.dump(data,f)
-                                f.close
-
-#DEBUG
+        #DEBUG
                         print(data['name'])
 
                         ##self.entry.delete(0, 'end')
@@ -372,6 +391,8 @@ class New_Vehicle_Page(tk.Frame):
 ##        crank_freq = driveshaft_freq * gear
 ##        cylinder_fire_freq = crank_freq / 8.0
 
+
+                # Init function continued
                 var = StringVar()
                 var = 0
                 advanced_Radio = Radiobutton(frame4, text='Advanced', variable=var, value="1", command=Advanced_Entry)
@@ -379,8 +400,8 @@ class New_Vehicle_Page(tk.Frame):
                 basic_Radio.place(relx =.05,rely=.05, anchor = NW)
                 advanced_Radio.place(relx = .05, rely = .55, anchor = NW)
 
-                load_Button = Button(self, text = "Load active\nprofile values", command = Load_Saved_Profile)
+                load_Button = Button(self, text = "Prepopulate", command = Load_Saved_Profile)
                 load_Button.place(relx = 0, rely = .2, anchor = NW)
 
-                save_Button = Button(self, text = "Save entered\nvalues to\nprofile", command = Save_To_Profile)
+                save_Button = Button(self, text = "Save", command = Save_To_Profile)
                 save_Button.place(relx = .4, x = 20, rely = .85, anchor = NW)
