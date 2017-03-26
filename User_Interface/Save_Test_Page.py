@@ -36,7 +36,7 @@ class Save_Test_Page(tk.Frame):
                 self.AC_Status1.pack(side="top", pady=20, padx=10, ipady = 2, ipadx = 2)
 
                 Idle_Status = ('Yes', 'No')
-                self.Idle_Status1 = ttk.Labelframe(self, text='Under Idle?')
+                self.Idle_Status1 = ttk.Labelframe(frame1, text='Under Idle?')
                 self.Idle_Status = ttk.Combobox(self.Idle_Status1, values=Idle_Status, state='readonly')
                 self.Idle_Status.current(0)  # set selection
                 self.Idle_Status.pack(pady=5, padx=10)
@@ -48,6 +48,13 @@ class Save_Test_Page(tk.Frame):
                 self.Speeds.current(0)  # set selection
                 self.Speeds.pack(pady=5, padx=10)
                 self.Speeds1.pack(side="top", pady = 20, padx = 10, ipady = 2, ipadx = 2)
+
+                Gears = ('1', '2', '3', '4', '5', '6')
+                self.Gears1 = ttk.Labelframe(frame1, text='Gear')
+                self.Gears = ttk.Combobox(self.Gears1, values=Gears, state='readonly')
+                self.Gears.current(0)  # set selection
+                self.Gears.pack(pady=5, padx=10)
+                self.Gears1.pack(side="top", pady = 20, padx = 10, ipady = 2, ipadx = 2)
 
                 goToResultsPage_button = ttk.Button(frame1, text="View Results",
                                     command=lambda: self.saveTestSettings(controller))
@@ -74,15 +81,24 @@ class Save_Test_Page(tk.Frame):
                 else:
                         speed = self.Speeds.get()
 
+                gear_int = int(self.Gears.get())
+                gear_string = ""
+                if gear_int == 1: gear_string = 'first_Gear'
+                if gear_int == 2: gear_string = 'second_Gear'
+                if gear_int == 3: gear_string = 'third_Gear'
+                if gear_int == 4: gear_string = 'fourth_Gear'
+                if gear_int == 5: gear_string = 'fifth_Gear'
+                if gear_int == 6: gear_string = 'sixth_Gear'
 
-                data = {
+                save_test_settings = {
                         'ac_status' : str(self.AC_Status.get()),
                         'idle_status' :str(self.Idle_Status.get()),
                         'speed' : str(speed),
+                        'gear' : gear_string
                         }
 
                 with open(directory['app_data'] + 'save_test.json','w') as f:
-                        json.dump(data,f)
+                        json.dump(save_test_settings,f)
                         f.close
 
                 controller.show_page("Results_Page")
