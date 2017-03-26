@@ -17,7 +17,7 @@ class Save_Test_Page(tk.Frame):
                 self.controller = controller
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Configure/Run Test Page', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='Save Test', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
                 goToHomePage_button = ttk.Button(self, text="Go Back",

@@ -67,7 +67,7 @@ class Home_Page(tk.Frame):
                 tk.Frame.__init__(self,parent)
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Home Page', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='Home', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
                 # Load vehicles from vehicle directory
@@ -122,22 +122,23 @@ class Home_Page(tk.Frame):
                 self.label4 = ttk.Label(frame1, text=str("Vehicle Year: " ))
                 self.label4.pack(pady=2,padx=1, side = "top", anchor = "n")
 
-                goToNewVehiclePage_button = ttk.Button(frame2, text="New Vehicle",
+                goToNewVehiclePage_button = ttk.Button(frame2, text="Profile",
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
                 goToNewVehiclePage_button.pack(padx = 18, pady = (8,2), side = "left", expand = "yes", anchor = "n")
 
-                goToRunTestPage_button = ttk.Button(frame2, text="Configure/Run Test",command=lambda: controller.show_page("Configure_Test_Page"))
+                goToRunTestPage_button = ttk.Button(frame2, text="Test",command=lambda: controller.show_page("Configure_Test_Page"))
                 goToRunTestPage_button.pack(padx = 18, pady = (8,2), side = "left", expand = "no", anchor = "n")
 
                 goToPlotPage_button = ttk.Button(frame2, text="Plot",command=lambda: controller.show_page("Plot_Page"))
                 goToPlotPage_button.pack(padx = 18, pady = (8,2), side = "left", expand = "yes", anchor = "n")
 
-                Tutorial_Button = ttk.Button(frame3, text="AVA tutorial",
+                Tutorial_Button = ttk.Button(frame3, text="Tutorial",
                                     command=lambda: controller.show_page("Tutorial_Main_Page"))
                 Tutorial_Button.pack(padx = 25, pady = (8,2), side = "left", expand = "yes", anchor = "nw")
 
-                About_Button = ttk.Button(frame3, text="About Vibrainium Analytics...",
+                About_Button = ttk.Button(frame3, text="About",
                                     command=lambda: controller.show_page("About_Page"))
+
                 About_Button.pack(padx = 25, pady = (8,2), side = "right", expand = "yes", anchor = "ne")
                 #About_Button.pack(padx = 25, pady = 7, side = "right", expand = "yes", anchor = "ne")
 

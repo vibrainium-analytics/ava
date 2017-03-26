@@ -24,7 +24,7 @@ class New_Vehicle_Page(tk.Frame):
                 self.controller = controller
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='New/Edit Vehicle Profile Page', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='New/Edit Profile', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
                 goToHomePage_button = Button(self, text="Go Back",
@@ -395,7 +395,6 @@ class New_Vehicle_Page(tk.Frame):
 ##        crank_rpm = driveshaft_rpm * gear
 ##        crank_freq = driveshaft_freq * gear
 ##        cylinder_fire_freq = crank_freq / 8.0
-
 
                 # Init function continued
                 var = StringVar()
