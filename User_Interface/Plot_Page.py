@@ -61,7 +61,7 @@ class Plot_Page(tk.Frame):
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
-                current_vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + "_" + selected_vehicle['model'] + '_' + selected_vehicle['year'] + '/'
+                current_vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + "_" + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/'
                 try:
 
                         all_filenames = os.listdir(current_vehicle_directory)
@@ -105,8 +105,8 @@ class Plot_Page(tk.Frame):
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data1_name + "/"
-                data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/" + data2_name + "/"
+                data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/" + data1_name + "/"
+                data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/" + data2_name + "/"
 
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
@@ -140,7 +140,7 @@ class Plot_Page(tk.Frame):
                 # If baseline is desired
                 if self.showBaselineChecked.get():
                         # Directory of currently selected vehicle profile
-                        vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year'] + "/"
+                        vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/"
 
                         # To hold baseline to compare
                         baseline_foldername = ""
@@ -192,7 +192,7 @@ class Plot_Page(tk.Frame):
                             print('DataPlotFile save successful')
                         except:
                             print('ERROR: DataPlotFile save not successful')
-                            
+
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
@@ -267,7 +267,7 @@ class Plot_Page(tk.Frame):
                 self.PlotResolution_Dropdown = ttk.Combobox(self.PlotResolution_Dropdown_Frame, values = ["250 Hz", "125 Hz", "62.5 Hz"], state='readonly')
                 self.PlotResolution_Dropdown.pack(pady=5,padx=5)
                 self.PlotResolution_Dropdown_Frame.pack(side="top",pady=5,padx=5)
-                
+
                 self.showBaselineChecked = IntVar()
                 self.ShowBaseline_Checkbox = ttk.Checkbutton(frame2, text = "Show Baseline",variable = self.showBaselineChecked)
                 self.ShowBaseline_Checkbox.pack(side="top")

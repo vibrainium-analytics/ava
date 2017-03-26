@@ -31,13 +31,13 @@ class Home_Page(tk.Frame):
 
                 # Write saved_vehicle status folder
                 with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                        json.dump(profile_data,f)
+                        json.dump(selected_vehicle,f)
                         f.close
                 # Update labels with latest data
                 self.label1['text'] = "Vehicle Name: {}".format(selected_vehicle['name'])
                 self.label2['text'] = "Vehicle Make: {}".format(selected_vehicle['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
-                self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year'])
+                self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year_Veh'])
 
         def refresh(self):
                 # Load vehicles from vehicle directory
