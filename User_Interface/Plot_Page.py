@@ -203,7 +203,7 @@ class Plot_Page(tk.Frame):
                 self.controller = controller
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Plot Page', width=35).pack(side=TOP)
+                Label(self.pageLabelFrame, text='Plot', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
 
                 goToHomePage_button = ttk.Button(self, text="Go Back",
@@ -263,7 +263,7 @@ class Plot_Page(tk.Frame):
                 self.PlotResolution_Dropdown = ttk.Combobox(self.PlotResolution_Dropdown_Frame, values = ["250 Hz", "125 Hz", "62.5 Hz"], state='readonly')
                 self.PlotResolution_Dropdown.pack(pady=5,padx=5)
                 self.PlotResolution_Dropdown_Frame.pack(side="top",pady=5,padx=5)
-
+                
                 self.showBaselineChecked = IntVar()
                 self.ShowBaseline_Checkbox = ttk.Checkbutton(frame2, text = "Show Baseline",variable = self.showBaselineChecked)
                 self.ShowBaseline_Checkbox.pack(side="top")

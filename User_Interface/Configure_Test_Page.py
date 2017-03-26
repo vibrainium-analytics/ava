@@ -17,10 +17,10 @@ class Configure_Test_Page(tk.Frame):
                     global directory
                     directory = json.load(g)
                     g.close
-                
+
                 # AVA app controller (app_data access)
                 self.controller = controller
-                
+
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
                 Label(self.pageLabelFrame, text='Configure/Run Test Page', width=35).pack(side=TOP)
                 self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
@@ -53,8 +53,8 @@ class Configure_Test_Page(tk.Frame):
                 self.DelayTime.current(0)  # set selection
                 self.DelayTime.pack(pady=5, padx=10)
                 self.DelayTime1.pack(side="top", pady=10, padx=10)
-                
-                # Go to TestIsRunningPage 
+
+                # Go to TestIsRunningPage
                 goToTestIsRunningPage_button = ttk.Button(frame1, text="Begin Testing Sequence",
                                                         command=lambda: self.saveTestPreferences(controller))
                 goToTestIsRunningPage_button.pack(pady=(15,10),padx=15, side = "top", expand = "no", anchor = "n")
@@ -66,15 +66,15 @@ class Configure_Test_Page(tk.Frame):
                     global directory
                     directory = json.load(g)
                     g.close
-                    
+
                 data = {
                         'test_duration' : str(self.TestDuration.get()),
                         'delay_time' : str(self.DelayTime.get()),
                         'test_type' : str(self.TestType.get()),
                         }
-                
+
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
                         json.dump(data,f)
                         f.close
-                
+
                 controller.show_page("Test_Is_Running_Page")
