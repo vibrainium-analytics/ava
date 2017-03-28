@@ -28,37 +28,37 @@ class Save_Test_Page(tk.Frame):
                 frame1 = tk.LabelFrame(self, text="Post-Test parameter entry", width=60, height=60, bd=1, borderwidth=3, relief=GROOVE)
                 frame1.place(rely = 0.5, relx = 0.5,anchor= CENTER)
 
-                AC_Status = ('AC Off', 'AC On')
-                self.AC_Status1 = ttk.Labelframe(self, text='AC Status')
-                self.AC_Status = ttk.Combobox(self.AC_Status1, values= AC_Status, state='readonly')
-                self.AC_Status.current(0)  # set selection
-                self.AC_Status.pack(pady=5, padx=10)
-                self.AC_Status1.pack(side="top", pady=20, padx=10, ipady = 2, ipadx = 2)
-
                 Idle_Status = ('Yes', 'No')
-                self.Idle_Status1 = ttk.Labelframe(frame1, text='Under Idle?')
+                self.Idle_Status1 = ttk.Labelframe(frame1, text='Was this an Idle test?')
                 self.Idle_Status = ttk.Combobox(self.Idle_Status1, values=Idle_Status, state='readonly')
                 self.Idle_Status.current(0)  # set selection
                 self.Idle_Status.pack(pady=5, padx=10)
-                self.Idle_Status1.pack(side="top", pady=20, padx=10, ipady = 2, ipadx = 2)
+                self.Idle_Status1.pack(side="top", pady=10, padx=10, ipady = 2, ipadx = 2)
 
-                Speeds = ('10', '10', '30', '40', '50', '60', '70', '80')
+                AC_Status = ('AC Off', 'AC On')
+                self.AC_Status1 = ttk.Labelframe(frame1, text='AC Status')
+                self.AC_Status = ttk.Combobox(self.AC_Status1, values= AC_Status, state='readonly')
+                self.AC_Status.current(0)  # set selection
+                self.AC_Status.pack(pady=5, padx=10)
+                self.AC_Status1.pack(side="top", pady=8, padx=10, ipady = 2, ipadx = 2)
+
+                Speeds = ('10', '20', '30', '40', '50', '60', '70', '80')
                 self.Speeds1 = ttk.Labelframe(frame1, text='Speed')
                 self.Speeds = ttk.Combobox(self.Speeds1, values=Speeds, state='readonly')
                 self.Speeds.current(0)  # set selection
                 self.Speeds.pack(pady=5, padx=10)
-                self.Speeds1.pack(side="top", pady = 20, padx = 10, ipady = 2, ipadx = 2)
+                self.Speeds1.pack(side="top", pady = 8, padx = 10, ipady = 2, ipadx = 2)
 
                 Gears = ('1', '2', '3', '4', '5', '6')
                 self.Gears1 = ttk.Labelframe(frame1, text='Gear')
                 self.Gears = ttk.Combobox(self.Gears1, values=Gears, state='readonly')
                 self.Gears.current(0)  # set selection
                 self.Gears.pack(pady=5, padx=10)
-                self.Gears1.pack(side="top", pady = 20, padx = 10, ipady = 2, ipadx = 2)
+                self.Gears1.pack(side="top", pady = 8, padx = 10, ipady = 2, ipadx = 2)
 
                 goToResultsPage_button = ttk.Button(frame1, text="View Results",
                                     command=lambda: self.saveTestSettings(controller))
-                goToResultsPage_button.pack(pady=15,padx=5, side = "top", expand = "no", anchor = "n")
+                goToResultsPage_button.pack(pady=8,padx=5, side = "top", expand = "no", anchor = "n")
 
         def saveTestSettings (self,controller):
                  # Global directory navigation file
