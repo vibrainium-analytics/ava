@@ -240,7 +240,8 @@ class Signal_Process(tk.Tk):
             f.close
 
         # comparison code
-        # if we are running a diagnostic load the compare files from baseline.
+
+        # if we are running a diagnostic load the compare files from baseline and compare them to current data.
         if str(test_data['test_type']) == "Diagnostic":
             filename = path3 + '/Compare.txt'
             f=open(filename,'r')
@@ -255,43 +256,73 @@ class Signal_Process(tk.Tk):
             else:
                 b_peak = 1.6
                 d_peak = 1.3
-                
+
+            # subtract baseline data from current test data    
             for i in range (0 , 384):
                 base_idle[i] = float(base_idle[i])
                 difference[i] = abs(float("{0:.2f}".format(freq[i] - base_idle[i])))
+
+            # find number of peaks above baseline parameter
             base_peak = [x for x in base_idle if x >= b_peak]    
+
+            # find number of peaks above difference parameter
             unmatch = [x for x in difference if x >= d_peak]
+
+            # find the percent change in peaks from the baseline to the difference 
             percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+
+            # if there are more peaks in the difference than in the baseline the match percentage is zero
             if percent < 0:
                 percent = 0
+
+            # if the match is above 90% timestamp and name as baseline
             if percent > 90:
                 path4 = path3 + '-' + str(percent) + '%-' + now + '/'
                 os.rename(path2, path4)               
 
             # if the baseline was not a match check historical trouble cases.
-            # setting up for a loop through sequentially numbered known trouble cases.
-            # store trouble name key in a .json file.  example: trouble-1-Idle = vacuum leak
-            else:
-                path5 ='trouble-' + str(1) + testnm 
-                filename = path + '/'  + path5 + '/Compare.txt'
-                f=open(filename,'r')
-                base_idle=f.readlines()
-                f.close()
-                difference = numpy.zeros(384)
-                
-                for i in range (0 , 384):
-                    base_idle[i] = float(base_idle[i])
-                    difference[i] = abs(float("{0:.2f}".format(freq[i] - base_idle[i])))
-                base_peak = [x for x in base_idle if x >= b_peak]    
-                unmatch = [x for x in difference if x >= d_peak]
-                percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
-                percent = str(percent) + 'Match to ' + path5
-                
-                
-            print (percent)
-
+            # loop through sequentially numbered known trouble cases.
+            # trouble name key is in  known_trouble.json.  example: trouble-1-Idle = vacuum leak
             
-        
+            else:
+                with open(path + '/known_trouble.json','r') as f:          # open file containing historical trouble data parameters 
+                    trouble_data = json.load(f)
+                    f.close
+
+                known = int(trouble_data[testnm])
+                j = 0 
+
+                # compare with all known trouble cases for the test and vehicle
+                while j < known:
+                    path5 ='trouble-' + str(j+1) + testnm 
+                    filename = path + '/'  + path5 + '/Compare.txt'
+                    f=open(filename,'r')
+                    base_idle=f.readlines()
+                    f.close()
+                    difference = numpy.zeros(384)
+                    match = numpy.zeros(known)
+                    
+                    for i in range (0 , 384):
+                        base_idle[i] = float(base_idle[i])
+                        difference[i] = abs(float("{0:.2f}".format(freq[i] - base_idle[i])))
+                    base_peak = [x for x in base_idle if x >= b_peak]    
+                    unmatch = [x for x in difference if x >= d_peak]
+                    percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+                    match[j] = percent
+                    # if the match is above 75% timestamp data with trouble name
+                    if percent > 75:
+                        path6 = path5 + '-' + str(percent) + '%' + now +'/'
+                    j = j+1
+                max_match = max(match)
+                k = 0
+                while k < known:
+                    if match[k] == max_match:
+                        best_match = k+1
+                    k = k+1
+                path6 = 'trouble-' + str(best_match) + testnm
+                match_mssg = str(max_match) + '% Match to ' + path6 + '-' + trouble_data[path5]
+                print (match_mssg)
+                         
             
         self.destroy()
          
