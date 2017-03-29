@@ -40,14 +40,14 @@ class Configure_Test_Page(tk.Frame):
                 self.TestType.pack(pady=5, padx=10)
                 self.TestType1.pack(side="top", pady=10, padx=10)
 
-                Duration = ('0', '1', '2', '5', '10', '20')
+                Duration = ('0', '1', '2', '3', '4', '5')
                 self.TestDuration1 = ttk.Labelframe(frame1, text='Length of test (minutes)')
                 self.TestDuration = ttk.Combobox(self.TestDuration1, values=Duration, state='readonly')
                 self.TestDuration.current(0)  # set selection
                 self.TestDuration.pack(pady=5, padx=10)
                 self.TestDuration1.pack(side="top", pady=10, padx=10)
 
-                Delay = ('0', '1', '2', '5', '10')
+                Delay = ('0', '1', '2', '4', '6', '8', '10')
                 self.DelayTime1 = ttk.Labelframe(frame1, text='Delay before test begins (minutes)')
                 self.DelayTime = ttk.Combobox(self.DelayTime1, values=Delay, state='readonly')
                 self.DelayTime.current(0)  # set selection
