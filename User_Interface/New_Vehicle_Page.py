@@ -34,11 +34,11 @@ class New_Vehicle_Page(tk.Frame):
                 frame1 = LabelFrame(self, text="General Vehicle Info", width=550, height=80, borderwidth=4, relief=GROOVE)
                 frame1.place(relx=.18, rely=0.1, anchor=NW)
 
-                frame2 = LabelFrame(self, text="Basic Drivetrain Info", width=275, height=265, borderwidth=4, relief=GROOVE)
-                frame2.place(relx=.02, rely=0.33, anchor=NW)
+                frame2 = LabelFrame(self, text="Basic Drivetrain Info", width=275, height=310, borderwidth=4, relief=GROOVE)
+                frame2.place(relx=.02, rely=0.30, anchor=NW)
 
-                frame3 = LabelFrame(self, text="Advanced - Engine Accessories", width=275, height=265, borderwidth=4, relief=GROOVE)
-                frame3.place(relx=.60, rely=.33, anchor=NW)
+                frame3 = LabelFrame(self, text="Advanced - Engine Accessories", width=275, height=310, borderwidth=4, relief=GROOVE)
+                frame3.place(relx=.60, rely=.30, anchor=NW)
 
                 frame4 = Frame(self, width = 110, height = 50, borderwidth = 4, relief=GROOVE)
                 frame4.place(relx = .40, x = 20, rely = .33, anchor=NW)
@@ -65,50 +65,71 @@ class New_Vehicle_Page(tk.Frame):
                 year_Veh_Entry.place(relx = .9, x = -5, rely = 0.55, anchor=NE)
 
                 #frame2 (Basic Drivetrain)
-                tire_Label = ttk.Label(frame2, text="Tire circumference (inches):")
-                tire_Label.place(relx = .02, rely = .05, anchor=NW)
+                tire_Label = ttk.Label(frame2, text="Tire radius  (inches):")
+                tire_Label.place(relx = .02, rely = 0, anchor=NW)
                 tire_Entry = ttk.Entry(frame2, width = 6)
-                tire_Entry.place(relx = .75, rely = .05, anchor=NW)
+                tire_Entry.place(relx = .75, rely = 0, anchor=NW)
 
                 num_Cylinders_Label = ttk.Label(frame2, text="# of cylinders:")
-                num_Cylinders_Label.place(relx = 0.02, rely = 0.15, anchor=NW)
+                num_Cylinders_Label.place(relx = 0.02, rely = 0.1, anchor=NW)
                 num_Cylinders_Entry = ttk.Entry(frame2, width = 6)
-                num_Cylinders_Entry.place(relx = 0.75, rely = 0.15, anchor=NW)
+                num_Cylinders_Entry.place(relx = 0.75, rely = 0.1, anchor=NW)
 
                 first_Gear_Label = ttk.Label(frame2, text = "1st gear ratio:")
-                first_Gear_Label.place(relx = .02, rely = .25, anchor = NW)
+                first_Gear_Label.place(relx = .02, rely = .2, anchor = NW)
                 first_Gear_Entry = ttk.Entry(frame2, width = 6)
-                first_Gear_Entry.place(relx = .75, rely = .25, anchor = NW)
+                first_Gear_Entry.place(relx = .75, rely = .2, anchor = NW)
 
                 second_Gear_Label = ttk.Label(frame2, text = "2nd gear ratio:")
-                second_Gear_Label.place(relx = .02, rely = .35, anchor = NW)
+                second_Gear_Label.place(relx = .02, rely = .3, anchor = NW)
                 second_Gear_Entry = ttk.Entry(frame2, width = 6)
-                second_Gear_Entry.place(relx = .75, rely = .35, anchor = NW)
+                second_Gear_Entry.place(relx = .75, rely = .3, anchor = NW)
 
                 third_Gear_Label = ttk.Label(frame2, text = "3rd gear ratio:")
-                third_Gear_Label.place(relx = .02, rely = .45, anchor = NW)
+                third_Gear_Label.place(relx = .02, rely = .4, anchor = NW)
                 third_Gear_Entry = ttk.Entry(frame2, width = 6)
-                third_Gear_Entry.place(relx = .75, rely = .45, anchor = NW)
+                third_Gear_Entry.place(relx = .75, rely = .4, anchor = NW)
 
                 fourth_Gear_Label = ttk.Label(frame2, text = "4th gear ratio:")
-                fourth_Gear_Label.place(relx = .02, rely = .55, anchor = NW)
+                fourth_Gear_Label.place(relx = .02, rely = .5, anchor = NW)
                 fourth_Gear_Entry = ttk.Entry(frame2, width = 6)
-                fourth_Gear_Entry.place(relx = .75, rely = .55, anchor = NW)
+                fourth_Gear_Entry.place(relx = .75, rely = .5, anchor = NW)
 
                 fifth_Gear_Label = ttk.Label(frame2, text = "5th gear ratio:")
-                fifth_Gear_Label.place(relx = .02, rely = .65, anchor = NW)
+                fifth_Gear_Label.place(relx = .02, rely = .6, anchor = NW)
                 fifth_Gear_Entry = ttk.Entry(frame2, width = 6)
-                fifth_Gear_Entry.place(relx = .75, rely = .65, anchor = NW)
+                fifth_Gear_Entry.place(relx = .75, rely = .6, anchor = NW)
 
                 sixth_Gear_Label = ttk.Label(frame2, text = "6th gear ratio:")
-                sixth_Gear_Label.place(relx = .02, rely = .75, anchor = NW)
+                sixth_Gear_Label.place(relx = .02, rely = .7, anchor = NW)
                 sixth_Gear_Entry = ttk.Entry(frame2, width = 6)
-                sixth_Gear_Entry.place(relx = .75, rely = .75, anchor = NW)
+                sixth_Gear_Entry.place(relx = .75, rely = .7, anchor = NW)
+
+                reverse_Gear_Label = ttk.Label(frame2, text = "Reverse gear ratio:")
+                reverse_Gear_Label.place(relx = .02, rely = .8, anchor = NW)
+                reverse_Gear_Entry = ttk.Entry(frame2, width = 6)
+                reverse_Gear_Entry.place(relx = .75, rely = .8, anchor = NW)
 
                 final_Drive_Label = ttk.Label(frame2, text = "Final Drive ratio:")
-                final_Drive_Label.place(relx = .02, rely = .85, anchor = NW)
+                final_Drive_Label.place(relx = .02, rely = .9, anchor = NW)
                 final_Drive_Entry = ttk.Entry(frame2, width = 6)
-                final_Drive_Entry.place(relx = .75, rely = .85, anchor = NW)
+                final_Drive_Entry.place(relx = .75, rely = .9, anchor = NW)
+
+
+
+                tire_Entry.insert(0,0)
+                num_Cylinders_Entry.insert(0,0)
+                first_Gear_Entry.insert(0,0)
+                second_Gear_Entry.insert(0,0)
+                third_Gear_Entry.insert(0,0)
+                fourth_Gear_Entry.insert(0,0)
+                fifth_Gear_Entry.insert(0,0)
+                sixth_Gear_Entry.insert(0,0)
+                reverse_Gear_Entry.insert(0,0)
+                final_Drive_Entry.insert(0,0)
+
+
+
 
                 #frame3 (Advanced - Engine Accessories)
                 main_Pulley_Label = ttk.Label(frame3, text="Crank Pulley Diam (inches):", state = "disabled")
@@ -136,22 +157,34 @@ class New_Vehicle_Page(tk.Frame):
                 fan_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 fan_Entry.place(relx = .7, rely = .45, anchor = NW)
 
-                catalytic_Ratio_Label = ttk.Label(frame3, text = "Catalytic Converter Ratio:", state = "disabled")
-                catalytic_Ratio_Label.place(relx = .02, rely = .55, anchor = NW)
-                catalytic_Ratio_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
-                catalytic_Ratio_Entry.place(relx = .7, rely = .55, anchor = NW)
+                powersteer_Label = ttk.Label(frame3, text = "Power Steering:", state = "disabled")
+                powersteer_Label.place(relx = .02, rely = .55, anchor = NW)
+                powersteer_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                powersteer_Entry.place(relx = .7, rely = .55, anchor = NW)
 
-                reverse_Gear_Label = ttk.Label(frame3, text = "Reverse gear ratio:", state = "disabled")
-                reverse_Gear_Label.place(relx = .02, rely = .65, anchor = NW)
-                reverse_Gear_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
-                reverse_Gear_Entry.place(relx = .7, rely = .65, anchor = NW)
+                tension_Label = ttk.Label(frame3, text = "Tension:", state = "disabled")
+                tension_Label.place(relx = .02, rely = .65, anchor = NW)
+                tension_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
+                tension_Entry.place(relx = .7, rely = .65, anchor = NW)
 
                 extra_Accessory_Label = ttk.Label(frame3, text = "Accessory Pulley Diam:\n(example: 2nd alternator \nfor large stereo systems", state = "disabled")
-                extra_Accessory_Label.place(relx = .02, rely = .75, anchor = NW)
+                extra_Accessory_Label.place(relx = .02, rely = .80, anchor = NW)
                 extra_Accessory_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
-                extra_Accessory_Entry.place(relx = .7, rely = .75, anchor = NW)
+                extra_Accessory_Entry.place(relx = .7, rely = .80, anchor = NW)
+
+
+
+
+
+
+
+
+
+
+
 
                 def Advanced_Entry():
+
                         main_Pulley_Label.configure(state="normal")
                         main_Pulley_Entry.configure(state="normal")
                         alternator_Label.configure(state="normal")
@@ -162,30 +195,28 @@ class New_Vehicle_Page(tk.Frame):
                         waterpump_Entry.configure(state="normal")
                         fan_Label.configure(state="normal")
                         fan_Entry.configure(state="normal")
-                        catalytic_Ratio_Label.configure(state="normal")
-                        catalytic_Ratio_Entry.configure(state="normal")
-                        reverse_Gear_Label.configure(state="normal")
-                        reverse_Gear_Entry.configure(state="normal")
+                        powersteer_Label.configure(state="normal")
+                        powersteer_Entry.configure(state="normal")
+                        tension_Label.configure(state="normal")
+                        tension_Entry.configure(state="normal")
                         extra_Accessory_Label.configure(state="normal")
                         extra_Accessory_Entry.configure(state="normal")
-                        alternator_Entry.configure(state="normal")
-                        air_Conditioner_Entry.configure(state="normal")
-                        waterpump_Entry.configure(state="normal")
-                        fan_Entry.configure(state="normal")
-                        catalytic_Ratio_Entry.configure(state="normal")
-                        reverse_Gear_Entry.configure(state="normal")
-                        extra_Accessory_Entry.configure(state="normal")
 
-                        main_Pulley_Entry.update()
-                        alternator_Entry.update()
-                        air_Conditioner_Entry.update()
-                        waterpump_Entry.update()
-                        fan_Entry.update()
-                        catalytic_Ratio_Entry.update()
-                        reverse_Gear_Entry.update
-                        extra_Accessory_Entry.update()
+                        main_Pulley_Entry.insert(0,0)
+                        alternator_Entry.insert(0,0)
+                        air_Conditioner_Entry.insert(0,0)
+                        waterpump_Entry.insert(0,0)
+                        fan_Entry.insert(0,0)
+                        powersteer_Entry.insert(0,0)
+                        tension_Entry.insert(0,0)
+                        extra_Accessory_Entry.insert(0,0)
 
+
+
+
+                        frame2.update()
                         frame3.update()
+
 
                 def Basic_Entry():
 
@@ -199,10 +230,10 @@ class New_Vehicle_Page(tk.Frame):
                         waterpump_Entry.configure(state="disabled")
                         fan_Label.configure(state="disabled")
                         fan_Entry.configure(state="disabled")
-                        catalytic_Ratio_Label.configure(state="disabled")
-                        catalytic_Ratio_Entry.configure(state="disabled")
-                        reverse_Gear_Label.configure(state="disabled")
-                        reverse_Gear_Entry.configure(state="disabled")
+                        powersteer_Entry.configure(state="disabled")
+                        powersteer_Label.configure(state="disabled")
+                        tension_Entry.configure(state="disabled")                       
+                        tension_Label.configure(state="disabled")
                         extra_Accessory_Label.configure(state="disabled")
                         extra_Accessory_Entry.configure(state="disabled")
 
@@ -211,10 +242,11 @@ class New_Vehicle_Page(tk.Frame):
                         air_Conditioner_Entry.update()
                         waterpump_Entry.update()
                         fan_Entry.update()
-                        catalytic_Ratio_Entry.update()
-                        reverse_Gear_Entry.update
+                        powersteer_Entry.update()
+                        tension_Entry.update()
                         extra_Accessory_Entry.update()
 
+                        frame2.update()
                         frame3.update()
 
                 def Read_Profile():
@@ -223,7 +255,8 @@ class New_Vehicle_Page(tk.Frame):
                         model = model_Entry.get()
                         year_Veh = year_Veh_Entry.get()
 
-                        tire = tire_Entry.get()
+                        tirerad = tire_Entry.get()
+                        tire = tirerad * 2 * 3.1415
                         num_Cylinders = num_Cylinders_Entry.get()
                         first_Gear = first_Gear_Entry.get()
                         second_Gear = second_Gear_Entry.get()
@@ -231,6 +264,7 @@ class New_Vehicle_Page(tk.Frame):
                         fourth_Gear = fourth_Gear_Entry.get()
                         fifth_Gear = fifth_Gear_Entry.get()
                         sixth_Gear = sixth_Gear_Entry.get()
+                        reverse_Gear = reverse_Gear_Entry.get()
                         final_Drive = final_Drive_Entry.get()
 
                         main_Pulley = main_Pulley_Entry.get()
@@ -238,8 +272,8 @@ class New_Vehicle_Page(tk.Frame):
                         air_Conditioner =air_Conditioner_Entry.get()
                         waterpump = waterpump_Entry.get()
                         fan = fan_Entry.get()
-                        catalytic_Ratio = catalytic_Ratio_Entry.get()
-                        reverse_Gear = reverse_Gear_Entry.get()
+                        powersteer = powersteer_Entry.get()
+                        tension = tension_Entry.get()
                         extra_Accessory = extra_Accessory_Entry.get()
 
                         profile_data = {
@@ -247,6 +281,7 @@ class New_Vehicle_Page(tk.Frame):
                                 'make': make,
                                 'model': model,
                                 'year_Veh': year_Veh,
+                                
                                 'tire': tire,
                                 'num_Cylinders': num_Cylinders,
                                 'first_Gear': first_Gear,
@@ -255,14 +290,16 @@ class New_Vehicle_Page(tk.Frame):
                                 'fourth_Gear': fourth_Gear,
                                 'fifth_Gear': fifth_Gear,
                                 'sixth_Gear': sixth_Gear,
+                                'reverse_Gear': reverse_Gear,
                                 'final_Drive': final_Drive,
+
                                 'main_Pulley': main_Pulley,
                                 'alternator': alternator,
                                 'air_Conditioner': air_Conditioner,
                                 'waterpump': waterpump,
                                 'fan': fan,
-                                'catalytic_Ratio': catalytic_Ratio,
-                                'reverse_Gear': reverse_Gear,
+                                'powersteer': powersteer,
+                                'tension': tension,
                                 'extra_Accessory': extra_Accessory
                         }
 
@@ -340,7 +377,6 @@ class New_Vehicle_Page(tk.Frame):
         #DEBUG
                         print(data['name'])
 
-                        ##self.entry.delete(0, 'end')
 
                         name_Entry.delete(0, 'end')
                         make_Entry.delete(0, 'end')
@@ -354,6 +390,7 @@ class New_Vehicle_Page(tk.Frame):
                         fourth_Gear_Entry.delete(0, 'end')
                         fifth_Gear_Entry.delete(0, 'end')
                         sixth_Gear_Entry.delete(0, 'end')
+                        reverse_Gear_Entry.delete(0, 'end')
                         final_Drive_Entry.delete(0, 'end')
 
                         main_Pulley_Entry.delete(0, 'end')
@@ -361,8 +398,8 @@ class New_Vehicle_Page(tk.Frame):
                         air_Conditioner_Entry.delete(0, 'end')
                         waterpump_Entry.delete(0, 'end')
                         fan_Entry.delete(0, 'end')
-                        catalytic_Ratio_Entry.delete(0, 'end')
-                        reverse_Gear_Entry.delete(0, 'end')
+                        powersteer_Entry.delete(0, 'end')
+                        tension_Entry.delete(0, 'end')
                         extra_Accessory_Entry.delete(0, 'end')
 
                         name_Entry.insert(0, data['name'])
@@ -377,24 +414,21 @@ class New_Vehicle_Page(tk.Frame):
                         fourth_Gear_Entry.insert(0, data['fourth_Gear'])
                         fifth_Gear_Entry.insert(0, data['fifth_Gear'])
                         sixth_Gear_Entry.insert(0, data['sixth_Gear'])
+                        reverse_Gear_Entry.insert(0,data['reverse_Gear'])
                         final_Drive_Entry.insert(0, data['final_Drive'])
 
                         main_Pulley_Entry.insert(0,data['main_Pulley'])
+##                        if len(main_Pulley_Entry.get()) == 0:
+##                                main_Pulley_Entry.insert(0,'0')
                         alternator_Entry.insert(0,data['alternator'])
                         air_Conditioner_Entry.insert(0,data['air_Conditioner'])
                         waterpump_Entry.insert(0,data['waterpump'])
                         fan_Entry.insert(0,data['fan'])
-                        catalytic_Ratio_Entry.insert(0,data['catalytic_Ratio'])
-                        reverse_Gear_Entry.insert(0,data['reverse_Gear'])
+                        powersteer_Entry.insert(0,data['powersteer'])
+                        tension_Entry.insert(0,data['tension'])
                         extra_Accessory_Entry.insert(0,data['extra_Accessory'])
 
-##        wheel_rpm = test_ground_speed * 5280.0 * 12.0 / wheel_circ_inches / 60.0
-##        wheel_freq = wheel_rpm / 60.0
-##        driveshaft_rpm = wheel_rpm * final_drive_ratio
-##        driveshaft_freq = wheel_freq * final_drive_ratio
-##        crank_rpm = driveshaft_rpm * gear
-##        crank_freq = driveshaft_freq * gear
-##        cylinder_fire_freq = crank_freq / 8.0
+
 
                 # Init function continued
                 var = StringVar()

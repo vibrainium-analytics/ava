@@ -67,8 +67,8 @@ class Home_Page(tk.Frame):
                 tk.Frame.__init__(self,parent)
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Home', width=35).pack(side=TOP)
-                self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
+                Label(self.pageLabelFrame, text='Home', width=97).pack(side=TOP)
+                self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "both")
 
                 # Load vehicles from vehicle directory
                 from os import listdir
@@ -85,7 +85,6 @@ class Home_Page(tk.Frame):
                 self.Saved_Profiles_Dropdown = ttk.Combobox(self.Saved_Profiles_Frame, postcommand = self.refresh, state='readonly')
                 self.Saved_Profiles_Dropdown.bind('<<ComboboxSelected>>',self.loadSavedVehicleProfile)
                 self.Saved_Profiles_Dropdown.pack(pady = 5, padx=5)
-                #self.Saved_Profiles_Frame.pack(side="top",pady=(6, 2), padx = 10, ipadx = 10, ipady = 15)
                 self.Saved_Profiles_Frame.pack(side="top",pady=(4, 2), padx = 10, ipadx = 10, ipady = 15)
 
                 # Default settings for test_preferences.json
@@ -106,7 +105,7 @@ class Home_Page(tk.Frame):
                 frame2.pack(side = "top", pady = (8,8), ipadx = 5, ipady = 2)
 
                 frame3 = tk.LabelFrame(self, text="Extras", bd=1, borderwidth=4, relief=GROOVE)
-                frame3.pack(side = "bottom", pady = (25,5), ipadx = 5, ipady = 2)
+                frame3.pack(side = "bottom", pady = (75,5), ipadx = 5, ipady = 2)
 
 
 

@@ -26,8 +26,14 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from matplotlib.figure import Figure
 matplotlib.use('TkAgg')
 
-fig = Figure(figsize=(5.5,2.3))
+fig = Figure(figsize=(6.7,3.5))
 a = fig.add_subplot(111)
+a.set_title("My Plot Title")
+a.set_xlabel("This is the X Axis")
+a.set_ylabel("This is the Y Axis")
+#fig.tight_layout()
+
+
 
 from sys import argv
 
@@ -55,6 +61,11 @@ def animate(i):
 
         # Create legend from plot label values
         a.legend()
+##        a.set_title("My Plot Title")
+        a.set_xlabel("This is the X Axis")
+        a.set_ylabel("This is the Y Axis")
+
+                 
 
 class Plot_Page(tk.Frame):
         def refresh(self):
@@ -207,30 +218,32 @@ class Plot_Page(tk.Frame):
                 self.controller = controller
 
                 self.pageLabelFrame=Frame(self, borderwidth=4, relief=GROOVE)
-                Label(self.pageLabelFrame, text='Plot', width=35).pack(side=TOP)
-                self.pageLabelFrame.pack(pady = (5,5), ipadx = 2, ipady = 2, fill = "x")
+                Label(self.pageLabelFrame, text='Plot', width=45).pack(side=LEFT)
+                self.pageLabelFrame.place(relx = 0, rely = 0.005, anchor = "nw")
 
                 goToHomePage_button = ttk.Button(self, text="Go Back",
                                     command=lambda: controller.show_page("Home_Page"))
-                goToHomePage_button.pack(pady=1,padx=5, side = "left", expand = "no", anchor = "n")
+                goToHomePage_button.pack(padx=5, pady = 30, side = "left", expand = "no", anchor = "n")
 
-                frame1 = LabelFrame(self, text="Interactive Plotting", width=480, height=300, bd=1, borderwidth=4, relief=GROOVE)
-                frame1.place(relx=1,x = -5, rely=0.1, anchor=NE)
 
-                frame2 = LabelFrame(self, text="Plot controls", width=250, height=300, bd=1, borderwidth=4, relief=GROOVE)
-                frame2.place(relx=0 ,x = 5, rely=0.18, anchor=NW)
+                frame2 = LabelFrame(self, text="Plot controls", width=250, height=40, bd=1, borderwidth=4, relief=GROOVE)
+                frame2.place(relx=0 ,x = 5, rely=0.15, anchor=NW)
 
-                frame3 = LabelFrame(self, text="Diagnostics - Relevant Frequencies", width=600, height=100, bd=5, borderwidth=3, relief=GROOVE)
-                frame3.place(relx=0,x = 5, rely=1, anchor=SW)
+                frame3 = LabelFrame(self, text="Diagnostics - Relevant Frequencies", width=785, height=100, bd=5, borderwidth=3, relief=GROOVE)
+                frame3.place(relx=0,x = 5, rely=.76, anchor="nw")
 
+                frame1 = LabelFrame(self, text="Interactive Plotting", width=480, height=1, bd=1, borderwidth=4, relief=GROOVE)
+                frame1.place(relx=1,x = -5, rely=0.07, anchor=NE)
+                
                 canvas = FigureCanvasTkAgg(fig, frame1)
                 canvas.show()
-                canvas.get_tk_widget().pack(side="right", fill=BOTH, expand=True)
+                canvas.get_tk_widget().place(anchor = "nw")
 
-                toolbar = NavigationToolbar2TkAgg(canvas, frame1)
+                toolbar = NavigationToolbar2TkAgg(canvas, self)
                 toolbar.update()
+                toolbar.place(relx=0.50, rely=0.005, anchor = "nw")
 
-                canvas._tkcanvas.pack(side=BOTTOM)##, fill=BOTH, expand=True)
+                canvas._tkcanvas.pack(side=BOTTOM)
 
                 # Read currently selected vehicle file
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as file:
@@ -256,38 +269,28 @@ class Plot_Page(tk.Frame):
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
                 self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, postcommand = self.refresh, state='readonly')
                 self.Plot1_Dropdown.pack(pady=5,padx=5)
-                self.Plot1_Dropdown_Frame.pack(side="top",pady=5,padx=5)
+                self.Plot1_Dropdown_Frame.pack(side="top",pady=3,padx=5)
 
                 self.Plot2_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 2')
                 self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, postcommand = self.refresh, state='readonly')
                 self.Plot2_Dropdown.pack(pady=5,padx=10)
-                self.Plot2_Dropdown_Frame.pack(side="top",pady=5,padx=5)
+                self.Plot2_Dropdown_Frame.pack(side="top",pady=3,padx=5)
 
                 self.PlotResolution_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot Resolution')
                 self.PlotResolution_Dropdown = ttk.Combobox(self.PlotResolution_Dropdown_Frame, values = ["250 Hz", "125 Hz", "62.5 Hz"], state='readonly')
-                self.PlotResolution_Dropdown.pack(pady=5,padx=5)
-                self.PlotResolution_Dropdown_Frame.pack(side="top",pady=5,padx=5)
+                self.PlotResolution_Dropdown.pack(pady=(5,10),padx=5)
+                self.PlotResolution_Dropdown_Frame.pack(side="top",pady=3,padx=5)
 
                 self.showBaselineChecked = IntVar()
-                self.ShowBaseline_Checkbox = ttk.Checkbutton(frame2, text = "Show Baseline",variable = self.showBaselineChecked)
-                self.ShowBaseline_Checkbox.pack(side="top")
+                self.ShowBaseline_Checkbox = ttk.Checkbutton(frame2, text = "Baseline",variable = self.showBaselineChecked)
+                self.ShowBaseline_Checkbox.pack(side="left", padx = 10)
 
                 self.plot_button = ttk.Button(frame2, text = "Plot!",command = lambda: self.updatePlot(controller))
-                self.plot_button.pack(side = "top", padx = 5, pady = 5, expand = "no", anchor = "n")
+                self.plot_button.pack(side = "right", padx = 10, pady = 3, expand = "no", anchor = "n")
 
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
-
-                #with open(directory['app_data'] + 'selected_vehicle.json', 'w') as f:
-                        #json.dump(selected_vehicle,f)
-                        #f.close
-
-##                separator = Frame(height=80, borderwidth = 2, relief=SUNKEN)
-##                separator.place(relx = 0.2, rely = .9, anchor = NW)
-
-
-                # need to add --- if checked then save variable for RPM rather than Hertz
 
 
 
@@ -299,19 +302,53 @@ class Plot_Page(tk.Frame):
                         json.dump(saved_test,f2)
                         f2.close
 
+
+##                def Key_Freqs_Update ():
                 speed_str = saved_test['speed']
                 speed = float(speed_str)
+
                 gear_str = saved_test['gear']
-                #tempholder = str(gear_str)
                 gear_ratio = float(selected_vehicle[gear_str])
 
                 tire_str = selected_vehicle['tire']
                 tire = float(tire_str)
-                ##tire = round(tire, 1)
 
+                reverse_Gear_str = selected_vehicle['reverse_Gear']
+                reverse_Gear = float(reverse_Gear_str)
+                        
                 finaldrive_str = selected_vehicle['final_Drive']
                 finaldrive = float(finaldrive_str)
-                finaldrive = round(finaldrive, 1)
+
+
+
+
+                main_Pulley_str = selected_vehicle['main_Pulley']
+                main_Pulley = float(main_Pulley_str)
+                        
+                alternator_str = selected_vehicle['alternator']
+                alternator = float(alternator_str)
+
+                air_Conditioner_str = selected_vehicle['air_Conditioner']
+                air_Conditioner = float(air_Conditioner_str)
+
+                waterpump_str = selected_vehicle['waterpump']
+                waterpump = float(waterpump_str)
+
+                fan_str = selected_vehicle['fan']
+                fan = float(fan_str)
+
+                powersteer_str = selected_vehicle['powersteer']
+                powersteer = float(powersteer_str)
+
+                tension_str = selected_vehicle['tension']
+                tension = float(tension_str)
+
+                extra_Accessory_str = selected_vehicle['extra_Accessory']
+                extra_Accessory = float(extra_Accessory_str)
+                        
+
+
+
 
                 tire_rpm = speed * 5280.0 * 12.0 / tire / 60.0
                 tire_freq = tire_rpm / 60.0
@@ -325,13 +362,28 @@ class Plot_Page(tk.Frame):
                 cylinder_freq = crank_freq / 8.0
                 cylinder_fire_per_minute = cylinder_freq * 60
 
+                alt_freq = 0 if alternator==0 else crank_freq * (main_Pulley / alternator)
+                AC_freq = 0 if air_Conditioner==0 else crank_freq * (main_Pulley / air_Conditioner)
+                waterpump_freq = 0 if waterpump==0 else crank_freq * (main_Pulley / waterpump)
+                fan_freq = 0 if fan==0 else crank_freq * (main_Pulley / fan)
+                powersteer_freq = 0 if powersteer==0 else crank_freq * (main_Pulley / powersteer)
+                tension_freq = 0 if tension==0 else crank_freq * (main_Pulley / tension)
+                extra_Accessory_freq = 0 if extra_Accessory==0 else crank_freq * (main_Pulley / extra_Accessory)
 
 
-                cylinder_freq = round(cylinder_freq, 1)
-                crank_freq = round(crank_freq, 1)
-                driveshaft_freq = round(driveshaft_freq,1)
-                tire_freq = round(tire_freq, 1)
 
+                cylinder_freq_round = round(cylinder_freq, 2)
+                crank_freq_round = round(crank_freq, 2)
+                driveshaft_freq_round = round(driveshaft_freq,2)
+                tire_freq_round = round(tire_freq, 2)
+                finaldrive_round = round(finaldrive, 2)
+                alt_freq_round = round(alt_freq,2)
+                AC_freq_round = round(AC_freq, 2)
+                waterpump_freq_round = round(waterpump_freq, 2)
+                fan_freq_round = round(fan_freq, 2)
+                powersteer_freq_round = round(powersteer_freq, 2)
+                tension_freq_round = round(tension_freq, 2)
+                extra_Accessory_freq_round = round(extra_Accessory_freq, 2)                
 
                 name_Label = ttk.Label(frame3,text = 'Name: {}'.format(selected_vehicle['name']))
                 name_Label.place(relx = 0, x = 5, rely = 0, y = 5, anchor=NW)
@@ -342,11 +394,38 @@ class Plot_Page(tk.Frame):
                 year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(selected_vehicle['year_Veh']))
                 year_Veh_Label.place(relx = 0, x= 5, rely = 0.80, anchor=NW)
 
-                tire_Label = ttk.Label(frame3,text = ' Tires:            ' + str(tire_freq) + " Hz")
-                tire_Label.place(relx = 0.27, rely = 0, y = 5, anchor=NW)
-                driveshaft_Label = ttk.Label(frame3,text = ' Driveshaft:    ' + str(driveshaft_freq) + " Hz")
-                driveshaft_Label.place(relx = 0.27, rely = .3, anchor=NW)
-                crankcase_Label = ttk.Label(frame3,text = 'Crankcase:    ' + str(crank_freq) + ' Hz')
-                crankcase_Label.place(relx = .27, x = 5, rely = 0.55, anchor=NW)
-                cyl_Fire_Label = ttk.Label(frame3,text = 'Cylinder fire:   ' + str(cylinder_freq) + ' Hz')
-                cyl_Fire_Label.place(relx = .27, x= 5, rely = 0.80, anchor=NW)
+                tire_Label = ttk.Label(frame3,text = ' Tires:             ' + str(tire_freq_round) + " Hz")
+                tire_Label.place(relx = 0.18, rely = 0, y = 5, anchor=NW)
+                driveshaft_Label = ttk.Label(frame3,text = ' Driveshaft:   ' + str(driveshaft_freq_round) + " Hz")
+                driveshaft_Label.place(relx = 0.18, rely = .3, anchor=NW)
+                crankcase_Label = ttk.Label(frame3,text = 'Crankcase:  ' + str(crank_freq_round) + ' Hz')
+                crankcase_Label.place(relx = .18, x = 5, rely = 0.55, anchor=NW)
+                cyl_Fire_Label = ttk.Label(frame3,text = 'Cylinder fire:  ' + str(cylinder_freq_round) + ' Hz')
+                cyl_Fire_Label.place(relx = .18, x= 5, rely = 0.80, anchor=NW)
+
+                alt_Label = ttk.Label(frame3,text = ' Alternator:         ' + str(alt_freq_round) + " Hz")
+                alt_Label.place(relx = 0.38, rely = 0, y = 5, anchor=NW)
+                AC_Label = ttk.Label(frame3,text = ' Air Conditioner:  ' + str(AC_freq_round) + " Hz")
+                AC_Label.place(relx = 0.38, rely = .3, anchor=NW)
+                waterpump_Label = ttk.Label(frame3,text = 'Water Pump:      ' + str(waterpump_freq_round) + ' Hz')
+                waterpump_Label.place(relx = .38, x = 5, rely = 0.55, anchor=NW)
+                fan_Label = ttk.Label(frame3,text = 'Cooling Fan:       ' + str(fan_freq_round) + ' Hz')
+                fan_Label.place(relx = .38, x= 5, rely = 0.80, anchor=NW)
+
+                powersteer_Label = ttk.Label(frame3,text = ' Power Steering: ' + str(powersteer_freq_round) + " Hz")
+                powersteer_Label.place(relx = 0.61, rely = 0, y = 5, anchor=NW)
+                AC_Label = ttk.Label(frame3,text = ' Tension Pulley:    ' + str(tension_freq_round) + " Hz")
+                AC_Label.place(relx = 0.61, rely = .3, anchor=NW)
+                extra_Accessory_Label = ttk.Label(frame3,text = 'Accessory:    ' + str(extra_Accessory_freq_round) + ' Hz')
+                extra_Accessory_Label.place(relx = .61, x = 5, rely = 0.55, anchor=NW)
+
+##
+##                Key_Freqs_Update()
+##
+##
+##                Update_button = ttk.Button(self, text="Refresh Page",
+##                                    command = Key_Freqs_Update)
+##                Update_button.pack(padx=20, pady = (305,10), side = "left", expand = "no", anchor = "n")
+##
+##                        
+
