@@ -57,7 +57,28 @@ def animate(i):
         a.legend()
 
 class Plot_Page(tk.Frame):
-        def refresh(self):
+        def poll(self):
+                # Update plot page with new content every '__' seconds
+                def poll (self):
+                        # Global directory navigation file
+                        with open('directory.json','r') as g:
+                                global directory
+                                directory = json.load(g)
+                                g.close
+
+                        # Read plot preferences json file
+                        with open(directory['app_data'] + 'plot_preferences.json','r') as f:
+                                plot_preferences = json.load(f)
+                                f.close
+
+                        # Update Plot #1 dropdown with most recent test (for default option)
+                        self.Plot1_Dropdown['values'] = plot_preferences["selected_test"]
+                        self.Plot1_Dropdown.current(0)
+
+                        # check for changes in data every 10 seconds
+                        self.after(10000, self.poll)
+
+        def showTests(self):
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
@@ -94,8 +115,8 @@ class Plot_Page(tk.Frame):
                         f.close
 
                 # Find what test is currently selected
-                selected_test = plot_preferences["selected_test"]
-                #selected_test = str(self.Plot1_Dropdown.get())
+                #selected_test = plot_preferences["selected_test"]
+                selected_test = str(self.Plot1_Dropdown.get())
 
                 # Save current vehicle directory
                 selected_test_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/' + selected_test + "/"
@@ -319,7 +340,7 @@ class Plot_Page(tk.Frame):
                         vehicle_filenames = os.listdir(current_vehicle_directory)
 
                 self.Plot1_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 1')
-                self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, postcommand = self.refresh, state='readonly')
+                self.Plot1_Dropdown = ttk.Combobox(self.Plot1_Dropdown_Frame, values = vehicle_filenames, postcommand = self.showTests, state='readonly')
                 self.Plot1_Dropdown.pack(pady=5,padx=5)
                 self.Plot1_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
@@ -415,3 +436,5 @@ class Plot_Page(tk.Frame):
                 crankcase_Label.place(relx = .27, x = 5, rely = 0.55, anchor=NW)
                 cyl_Fire_Label = ttk.Label(frame3,text = 'Cylinder fire:   ' + str(cylinder_freq) + ' Hz')
                 cyl_Fire_Label.place(relx = .27, x= 5, rely = 0.80, anchor=NW)
+
+                self.poll()
