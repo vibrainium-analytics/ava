@@ -75,7 +75,7 @@ class Plot_Page(tk.Frame):
                         os.makedirs(current_vehicle_directory)
                         vehicle_filenames = os.listdir(current_vehicle_directory)
 
-        def showComparisonTests(self, controller):
+        def showComparisonTests(self):
 
                 # Global directory file
                 with open('directory.json','r') as g:
@@ -88,12 +88,17 @@ class Plot_Page(tk.Frame):
                         selected_vehicle = json.load(f)
                         f.close
 
+                # Plot test preferences
+                with open(directory['app_data'] + 'plot_preferences.json','r') as f:
+                        plot_preferences = json.load(f)
+                        f.close
+
                 # Find what test is currently selected
-                #selected_test = controller.app_data['selected_test']
-                selected_test = 'unknown_trouble-Idle-2017-Mar-28 12:22'  # hardcoded test
+                selected_test = plot_preferences["selected_test"]
+                #selected_test = str(self.Plot1_Dropdown.get())
 
                 # Save current vehicle directory
-                selected_test_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/" + selected_test + "/"
+                selected_test_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/' + selected_test + "/"
 
                 match_file = ""
                 for root, dirs, files in os.walk(selected_test_directory):
@@ -114,12 +119,16 @@ class Plot_Page(tk.Frame):
                         sorted_testnames = []
                         for key in sorted_by_percent_match:
                                 sorted_testnames.append(key)
-
-                        print(sorted_testnames)
-                        #self.Plot2_Dropdown['values'] = sorted_testnames
+                        if(sorted_testnames != []):
+                                self.Plot2_Dropdown['values'] = sorted_testnames
+                                print('Percent match sort successful:')
+                                print(sorted_testnames)
+                        else:
+                                print('ERROR: Percent match sort unsuccessful')
                 else:
                         print("ERROR: No match.json file found")
         def updatePlot(self, controller):
+                success = 1 # Becomes 0 if updatePlot unsuccesful for error message
                 with open('directory.json','r') as g:
                     global directory
                     directory = json.load(g)
@@ -142,16 +151,18 @@ class Plot_Page(tk.Frame):
                 # Find selected directories
                 data1_name = str(self.Plot1_Dropdown.get())
                 data2_name = str(self.Plot2_Dropdown.get())
-
+                print('Selected: ' + data2_name)
                 # Tack on parent directory from current vehicle json file
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/" + data1_name + "/"
-                data2_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/" + data2_name + "/"
+                data1_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/' + data1_name + "/"
+                data2_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/' + data2_name + "/"
 
+                print(data1_directory)
+                print(data2_directory)
                 # Find file with specified resolution
                 for root, dirs, files in os.walk(data1_directory):
                         if resolution in files:
@@ -168,6 +179,8 @@ class Plot_Page(tk.Frame):
 
                 # Extract file contents
                 try:
+                        print(data1_file)
+                        print(data2_file)
                         data1 = np.loadtxt(data1_file)
                         data2 = np.loadtxt(data2_file)
 
@@ -180,11 +193,11 @@ class Plot_Page(tk.Frame):
                         print('Array data loaded')
                 except:
                         print('ERROR: Array data load failed')
-
+                        success = success * 0
                 # If baseline is desired
                 if self.showBaselineChecked.get():
                         # Directory of currently selected vehicle profile
-                        vehicle_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/"
+                        vehicle_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/'
 
                         # To hold baseline to compare
                         baseline_foldername = ""
@@ -227,8 +240,10 @@ class Plot_Page(tk.Frame):
                                     print('Baseline + Data plot save successful')
                                 except:
                                     print('ERROR: Baseline + Data plot save unsuccessful')
+                                    success = success * 0
                         else:
                                 print('ERROR: No corresponding baseline exists')
+                                success = success * 0
                 else:   # If baseline is not selected in checkbox
                         # Save data to plot file to be plotted
                         try:
@@ -236,7 +251,13 @@ class Plot_Page(tk.Frame):
                             print('DataPlotFile save successful')
                         except:
                             print('ERROR: DataPlotFile save not successful')
-
+                            success = success * 0
+                if (success == 0):
+                        print('--------------------------')
+                        print ('ERROR: Plot update failed.')
+                else:
+                        print('--------------------------')
+                        print ('SUCCESS: Plot update succeeded')
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
@@ -303,7 +324,7 @@ class Plot_Page(tk.Frame):
                 self.Plot1_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
                 self.Plot2_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 2')
-                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, postcommand = self.showComparisonTests(controller), state='readonly')
+                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, postcommand = self.showComparisonTests, state='readonly')
                 self.Plot2_Dropdown.pack(pady=5,padx=10)
                 self.Plot2_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
