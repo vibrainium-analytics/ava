@@ -65,16 +65,60 @@ class Plot_Page(tk.Frame):
                 try:
 
                         all_filenames = os.listdir(current_vehicle_directory)
-                        vehicles = []
+                        vehicle_tests = []
                         for item in all_filenames:
                                 if (("Baseline" not in item) and (".DS_Store" not in item)):
-                                        vehicles.append(item)
-                        self.Plot1_Dropdown['values'] = vehicles
-                        self.Plot2_Dropdown['values'] = vehicles
+                                        vehicle_tests.append(item)
+                        self.Plot1_Dropdown['values'] = vehicle_tests
+                        self.Plot2_Dropdown['values'] = vehicle_tests
                 except:
                         os.makedirs(current_vehicle_directory)
                         vehicle_filenames = os.listdir(current_vehicle_directory)
 
+        def showComparisonTests(self, controller):
+
+                # Global directory file
+                with open('directory.json','r') as g:
+                    global directory
+                    directory = json.load(g)
+                    g.close
+
+                # Selected vehicle file
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
+                        selected_vehicle = json.load(f)
+                        f.close
+
+                # Find what test is currently selected
+                #selected_test = controller.app_data['selected_test']
+                selected_test = 'unknown_trouble-Idle-2017-Mar-28 12:22'  # hardcoded test
+
+                # Save current vehicle directory
+                selected_test_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/" + selected_test + "/"
+
+                match_file = ""
+                for root, dirs, files in os.walk(selected_test_directory):
+                        if 'match.json' in files:
+                                match_file = os.path.join(root,'match.json')
+                if (match_file != ""):
+                        print("match.json file found")
+
+                        # Load the json match file
+                        with open(match_file,'r') as f:
+                                match = json.load(f)
+                                f.close
+
+                        # Reorder the match variable by closest percent match
+                        sorted_by_percent_match = sorted(match, key=match.get, reverse = True)
+
+                        # Populate the dropdown with ordered match values
+                        sorted_testnames = []
+                        for key in sorted_by_percent_match:
+                                sorted_testnames.append(key)
+
+                        print(sorted_testnames)
+                        #self.Plot2_Dropdown['values'] = sorted_testnames
+                else:
+                        print("ERROR: No match.json file found")
         def updatePlot(self, controller):
                 with open('directory.json','r') as g:
                     global directory
@@ -259,7 +303,7 @@ class Plot_Page(tk.Frame):
                 self.Plot1_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
                 self.Plot2_Dropdown_Frame = ttk.Labelframe(frame2, text='Plot 2')
-                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, postcommand = self.refresh, state='readonly')
+                self.Plot2_Dropdown = ttk.Combobox(self.Plot2_Dropdown_Frame, values = vehicle_filenames, postcommand = self.showComparisonTests(controller), state='readonly')
                 self.Plot2_Dropdown.pack(pady=5,padx=10)
                 self.Plot2_Dropdown_Frame.pack(side="top",pady=5,padx=5)
 
