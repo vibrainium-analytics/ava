@@ -57,10 +57,14 @@ class Signal_Process(tk.Tk):
         # create folder name for trouble data that does not match historical data
         if str(test_data['test_type']) == "Diagnostic":
             path2 = path + '/unknown_trouble' + testnm + '-' + now + '/'
+            path4 = path + '/diagnostic' + testnm + '-Newest_Test/'
 
         if os.path.exists(path2):
             shutil.rmtree(path2)            # warning before baseline overwrite will be placed here.
         os.makedirs(path2)
+
+        if os.path.exists(path4):
+            shutil.rmtree(path4)             
 
         # read magnitude values into array and move raw data to new directory
         filename = path1 + 'Three Axes.txt'
@@ -120,7 +124,7 @@ class Signal_Process(tk.Tk):
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
-        f.close
+        out.close
 
         # create filter coefficients for zooming in by 2
         b, a = signal.butter(20, .5)
@@ -177,7 +181,7 @@ class Signal_Process(tk.Tk):
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq2[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
-        f.close
+        out.close
 
         # create filter coefficients for zooming in by 2
         b, a = signal.butter(20, .5)
@@ -234,13 +238,14 @@ class Signal_Process(tk.Tk):
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq3[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
-            f.close
+        out.close
+            
         # create file to use for comparison
         for i in range(0, 384):
             enrg = str(float("{0:.2f}".format(freq[i]))) + '\n'
             with open(filename3, 'a') as out:
                 out.write(enrg)
-            f.close
+            out.close
 
         # comparison code
 
@@ -248,7 +253,7 @@ class Signal_Process(tk.Tk):
         if str(test_data['test_type']) == "Diagnostic":
             filename = path3 + '/Compare.txt'
             f=open(filename,'r')
-            base_idle=f.readlines()
+            base_line=f.readlines()
             f.close()
             difference = numpy.zeros(384)
 
@@ -262,11 +267,11 @@ class Signal_Process(tk.Tk):
 
             # subtract baseline data from current test data
             for i in range (0 , 384):
-                base_idle[i] = float(base_idle[i])
-                difference[i] = abs(float("{0:.2f}".format(freq[i] - base_idle[i])))
+                base_line[i] = float(base_line[i])
+                difference[i] = abs(float("{0:.2f}".format(freq[i] - base_line[i])))
 
             # find number of peaks above baseline parameter
-            base_peak = [x for x in base_idle if x >= b_peak]
+            base_peak = [x for x in base_line if x >= b_peak]
 
             # find number of peaks above difference parameter
             unmatch = [x for x in difference if x >= d_peak]
@@ -283,54 +288,42 @@ class Signal_Process(tk.Tk):
                 path4 = path3 + '-' + str(percent) + '%-' + now + '/'
                 os.rename(path2, path4)
 
-            # if the baseline was not a match check historical trouble cases.
-            # loop through sequentially numbered known trouble cases.
-            # trouble name key is in  known_trouble.json.  example: trouble-1-Idle = vacuum leak
-
+            # if the baseline was not a match check historical trouble cases for selected test type.
             else:
-                with open(path + '/known_trouble.json','r') as f:          # open file containing historical trouble data parameters
-                    trouble_data = json.load(f)
-                    f.close
+                match_file = ""
+                pathm = path + '/'
+                match = []
+                current = path2 + 'Compare.txt'
+                for root, dirs, files in os.walk(path):
+                    if 'Compare.txt' in files:
+                        match_file = os.path.join(root,'Compare.txt')
+                    if testnm in match_file and not match_file == current:
+                        match_path = match_file.replace('/Compare.txt','')
+                        f=open(match_file,'r')
+                        comp=f.readlines()
+                        f.close()
+                        difference = numpy.zeros(384)
+                        for i in range (0 , 384):
+                            comp[i] = float(comp[i])
+                            difference[i] = abs(float("{0:.2f}".format(freq[i] - comp[i])))
+                        base_peak = [x for x in comp if x >= b_peak]
+                        unmatch = [x for x in difference if x >= d_peak]
+                        percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+                        match.extend([match_path.replace(pathm,''), percent])
+                        
+                        # if the match is above 75% we have a high confidence match.
+                        if percent > 75:
+                            trouble_match = 'High confidence match to: ' + match_path.replace(pathm,'')
+                            print(trouble_match)
+                            
+                data = {
+                        'match_list' : str(match),
+                        }
 
-                known = int(trouble_data[testnm])
-                j = 0
-
-                # compare with all known trouble cases for the test and vehicle
-                while j < known:
-                    path5 ='trouble-' + str(j+1) + testnm
-                    filename = path + '/'  + path5 + '/Compare.txt'
-                    f=open(filename,'r')
-                    base_idle=f.readlines()
-                    f.close()
-                    difference = numpy.zeros(384)
-                    match = numpy.zeros(known)
-
-                    for i in range (0 , 384):
-                        base_idle[i] = float(base_idle[i])
-                        difference[i] = abs(float("{0:.2f}".format(freq[i] - base_idle[i])))
-                    base_peak = [x for x in base_idle if x >= b_peak]
-                    unmatch = [x for x in difference if x >= d_peak]
-                    percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
-                    match[j] = percent
-                    # if the match is above 75% timestamp data with trouble name
-                    if percent > 75:
-                        path6 = path5 + '-' + str(percent) + '%' + now +'/'
-                    j = j+1
-                max_match = max(match)
-                k = 0
-                while k < known:
-                    if match[k] == max_match:
-                        best_match = k+1
-                    k = k+1
-                path6 = 'trouble-' + str(best_match) + testnm
-                match_mssg = str(max_match) + '% Match to ' + path6 + '-' + trouble_data[path5]
-                print (match_mssg)
-
-                # Save current test for plot page access
-                plot_preferences["selected_test"] = path6
-                with open(directory['app_data'] + 'plot_preferences.json', 'w') as f:
-                        json.dump(plot_preferences,f)
+                with open(path2 + 'match.json','w') as f:
+                        json.dump(data,f)
                         f.close
+                shutil.copytree(path2, path4) 
 
 
         self.destroy()
