@@ -175,6 +175,11 @@ class Plot_Page(tk.Frame):
                     directory = json.load(g)
                     g.close
 
+                # Read currently selected vehicle file
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as file:
+                        selected_vehicle = json.load(file)
+                        file.close
+
                 veh_path = str(directory['veh_path'])
                 home = str(directory['home'])
 
@@ -193,14 +198,28 @@ class Plot_Page(tk.Frame):
                 data1_name = str(self.Plot1_Dropdown.get())
                 data2_name = str(self.Plot2_Dropdown.get())
                 print('Selected: ' + data2_name)
-                # Tack on parent directory from current vehicle json file
+
+                # Find data1 and data2 files
+                current_directory = directory['veh_path'] + selected_vehicle["name"] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + "/"
+
+                all_filenames = os.listdir(current_directory)
+                vehicle_tests = []
+                for item1 in all_filenames:
+                        if data1_name in item1:
+                                data1_name = item1
+                                break
+                for item2 in all_filenames:
+                        if data2_name in item2:
+                                data2_name = item2
+                                break
+
                 with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
                         selected_vehicle = json.load(f)
                         f.close
 
                 # Find directories for vehicles to compare
-                data1_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/' + data1_name + "/"
-                data2_directory = directory['veh_path'] + selected_vehicle['name'] + '_' + selected_vehicle['model'] + '_' + selected_vehicle['year_Veh'] + '/' + data2_name + "/"
+                data1_directory = current_directory + data1_name + "/"
+                data2_directory = current_directory + data2_name + "/"
 
                 print(data1_directory)
                 print(data2_directory)
