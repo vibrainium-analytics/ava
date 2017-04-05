@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox as tmb
 from tkinter import *
 from tkinter import ttk
 from Signal_Processing.Delay_Bar import Delay_Bar
-
+import urllib.request
 
 # File system access library
 import glob, os
@@ -29,8 +29,23 @@ class Test_Is_Running_Page(tk.Frame):
                 self.label1['text'] = "Test Type: {}".format(data['test_type'])
                 self.label2['text'] = "Test Duration: {}".format(data['test_duration'] + " minutes")
                 self.label3['text'] = "Delay Time: {}".format(data['delay_time'] + " minutes")
+                
+                if data['test_done'] == 'Yes':
 
-                # check for changes in data every 100 seconds
+                        data_t = {
+                                 'test_duration' : data['test_duration'],
+                                 'delay_time' : data['delay_time'],
+                                 'test_type' : data['test_type'],
+                                 'test_done' : 'No',
+                                 }
+
+                        with open(directory['app_data'] + 'test_preferences.json','w') as f:
+                            json.dump(data_t,f)
+                            f.close
+
+                        self.goToSaveTestPage_button.configure(state="normal")                            
+
+                # check for changes in data every 1 seconds
                 self.after(1000, self.poll)
 
         def __init__(self, parent, controller):
@@ -59,19 +74,42 @@ class Test_Is_Running_Page(tk.Frame):
                 startTest_button = ttk.Button(self, text="Start Test", command = lambda:self.delay(controller))
                 startTest_button.pack(pady=1,padx=15,side="left",expand="no",anchor="n")
 
+                self.goToSaveTestPage_button = ttk.Button(self, text="Save Test", state = 'disabled',
+                                    command=lambda: self.save(controller))
+                self.goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
+
+                
+
                 self.poll()
 
-        # the following two functions make it so that the save button only appears after the test has begun
-        # and then the save button dissapears after you press it.
 
         def delay (self,controller):
 
-                Delay_Bar()
+                with open(directory['app_data'] + 'test_preferences.json','r') as f:
+                        data = json.load(f)
+                        f.close
 
-                self.goToSaveTestPage_button = ttk.Button(self, text="Save Test",
-                                    command=lambda: self.save(controller))
-                self.goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
+                if int(data['delay_time']) == 0 and int(data['test_duration']) == 0:
+                        Delay_Bar()
+
+                else:
+                        try:
+                                self = urllib.request.urlopen("http://192.168.1.1/S", timeout=20).read()
+                                selftest = self.decode('ascii')
+                                connect = True
+                        except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                                wifi_warning=tmb.showwarning(title="WiFi not connected", message = "Reset Wi-Fi connection and try again")
+                                connect = False
+                        if connect == True:
+                                if 'fail' in selftest:
+                                    self_test_warning=tmb.showwarning(title="Self-Test Failed", message = "Check sensor for damage and restart")
+                                    controller.show_page('Home_Page')
+                                elif 'pass' in selftest:
+                                    Delay_Bar()
+
         def save (self, controller):
 
                 controller.show_page('Save_Test_Page')
-                self.goToSaveTestPage_button.pack_forget()
+                self.goToSaveTestPage_button.configure(state="disabled") 
+
+

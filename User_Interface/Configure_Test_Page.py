@@ -71,6 +71,7 @@ class Configure_Test_Page(tk.Frame):
                         'test_duration' : str(self.TestDuration.get()),
                         'delay_time' : str(self.DelayTime.get()),
                         'test_type' : str(self.TestType.get()),
+                        'test_done' : 'No',
                         }
 
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
