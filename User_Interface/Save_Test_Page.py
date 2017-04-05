@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox as tmb
 from tkinter import *
 from tkinter import ttk
 from Signal_Processing.Signal_Process import Signal_Process
@@ -100,6 +100,37 @@ class Save_Test_Page(tk.Frame):
                 with open(directory['app_data'] + 'save_test.json','w') as f:
                         json.dump(save_test_settings,f)
                         f.close
+                with open(directory['app_data'] + 'test_preferences.json','r') as f:
+                    test_data = json.load(f)
+                    f.close
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
+                    data1 = json.load(f)
+                    f.close
+                with open(directory['app_data'] + 'save_test.json','r') as f:
+                    data2 = json.load(f)
+                    f.close 
 
-                controller.show_page("Results_Page")
-                Signal_Process()
+                # set AC status and speed status dependancies
+                if str(data2['idle_status']) == 'Yes':
+                    testnm = '-Idle'
+                    if str(data2['ac_status']) == 'AC On':
+                        testnm = testnm + '-AC'
+                else:
+                    testnm = '-' + str(data2['speed'])
+                    
+                path_base = str(directory['veh_path']) + str(data1['name']) + '_' + str(data1['model'])+ '_' + str(data1['year_Veh']) + '/Baseline' + testnm + '/'
+                if os.path.exists(path_base) and str(test_data["test_type"]) == 'Baseline' :
+                        base_warn=tmb.askquestion(title="Warning Baseline Overwrite", message = "Do you want overwrite baseline data?")
+                        if base_warn == 'no' :
+                                controller.show_page("Home_Page")
+                                print('no overwrite')
+                        elif base_warn == 'yes' :
+                                controller.show_page("Results_Page")
+                                Signal_Process()
+                                print('overwrite')
+                        else:
+                                print('not right')
+                else:
+                        controller.show_page("Results_Page")
+                        Signal_Process()
+                        print('no baseline')

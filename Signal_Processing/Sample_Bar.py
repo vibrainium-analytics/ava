@@ -29,7 +29,7 @@ class Sample_Bar(tk.Tk):
     def test(self,i=0):
         # get test data from .json file
         with open(directory['app_data'] + 'test_preferences.json','r') as f:
-            data = json.load(f)
+            data_t = json.load(f)
             f.close
 
         with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
@@ -39,8 +39,8 @@ class Sample_Bar(tk.Tk):
         # The test duration is in minutes. The sample loop on the sensor module is 8 seconds
         # plus 2 seconds for the progress bar to update, ten seconds total
 
-        samples = 6 * (int(data['test_duration']))
-        testnm = str(data['test_type'])
+        samples = 6 * (int(data_t['test_duration']))
+        testnm = str(data_t['test_type'])
 
         # set directories
         veh_path = str(directory['veh_path'])
@@ -82,6 +82,17 @@ class Sample_Bar(tk.Tk):
             f.write(accl)
             f.close
             self.destroy()
+
+            data_t = {
+                    'test_duration' : data_t['test_duration'],
+                    'delay_time' : data_t['delay_time'],
+                    'test_type' : data_t['test_type'],
+                    'test_done' : 'Yes',
+                    }
+
+            with open(directory['app_data'] + 'test_preferences.json','w') as f:
+                    json.dump(data_t,f)
+                    f.close
             print ('simulated sampling complete')
 
         else:
@@ -127,4 +138,15 @@ class Sample_Bar(tk.Tk):
                 f.close
                 shutil.rmtree(path1)
                 self.destroy()
+
+                data_t = {
+                        'test_duration' : data_t['test_duration'],
+                        'delay_time' : data_t['delay_time'],
+                        'test_type' : data_t['test_type'],
+                        'test_done' : 'Yes',
+                        }
+
+                with open(directory['app_data'] + 'test_preferences.json','w') as f:
+                        json.dump(data_t,f)
+                        f.close
                 print('test is done')
