@@ -49,6 +49,7 @@ class Sample_Bar(tk.Tk):
         path1 = path + 'temp1/'
         path2 = path + 'temp/'
 
+
         # for first loop i = 0 make directories only once remove them if they exist.
         if i == 0:
             if os.path.exists(path1):

@@ -21,7 +21,7 @@ class Home_Page(tk.Frame):
                 self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year_Veh'])
 
                 # check for changes in data every 10 seconds
-                self.after(10000, self.poll)
+                self.after(1000, self.poll)
 
         def loadSavedVehicleProfile (self, event):
                 # Save to json file (in vehicle profiles folder)
