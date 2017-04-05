@@ -1,9 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox as tmb
 from tkinter import *
 from tkinter import ttk
 from Signal_Processing.Delay_Bar import Delay_Bar
-
+import urllib.request
 
 # File system access library
 import glob, os
@@ -78,12 +78,34 @@ class Test_Is_Running_Page(tk.Frame):
                                     command=lambda: self.save(controller))
                 self.goToSaveTestPage_button.pack(pady=1,padx=15, side = "left", expand = "no", anchor = "n")
 
+                
+
                 self.poll()
 
 
         def delay (self,controller):
 
-                Delay_Bar()
+                with open(directory['app_data'] + 'test_preferences.json','r') as f:
+                        data = json.load(f)
+                        f.close
+
+                if int(data['delay_time']) == 0 and int(data['test_duration']) == 0:
+                        Delay_Bar()
+
+                else:
+                        try:
+                                self = urllib.request.urlopen("http://192.168.1.1/S", timeout=20).read()
+                                selftest = self.decode('ascii')
+                                connect = True
+                        except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                                wifi_warning=tmb.showwarning(title="WiFi not connected", message = "Reset Wi-Fi connection and try again")
+                                connect = False
+                        if connect == True:
+                                if 'fail' in selftest:
+                                    self_test_warning=tmb.showwarning(title="Self-Test Failed", message = "Check sensor for damage and restart")
+                                    controller.show_page('Home_Page')
+                                elif 'pass' in selftest:
+                                    Delay_Bar()
 
         def save (self, controller):
 
