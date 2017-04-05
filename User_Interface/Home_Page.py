@@ -93,6 +93,7 @@ class Home_Page(tk.Frame):
                         'test_type' : 'Baseline-Idle',
                         'delay_time' : '0',
                         'test_duration' : '0',
+                        'test_done' : 'No',
                         }
 
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
