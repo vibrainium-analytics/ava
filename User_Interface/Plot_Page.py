@@ -89,9 +89,13 @@ class Plot_Page(tk.Frame):
                         vehicle_tests = []
                         for item in all_filenames:
                                 if (("Baseline" not in item) and (".DS_Store" not in item)):
-                                        vehicle_tests.append(item)
+
+                                        formatted_item = item
+                                        vehicle_tests.append(formatted_item)
+
                         self.Plot1_Dropdown['values'] = vehicle_tests
                         self.Plot2_Dropdown['values'] = vehicle_tests
+
                 except:
                         os.makedirs(current_vehicle_directory)
                         vehicle_filenames = os.listdir(current_vehicle_directory)
@@ -138,16 +142,32 @@ class Plot_Page(tk.Frame):
 
                         # Populate the dropdown with ordered match values
                         sorted_testnames = []
+                        formatted_sorted_testnames = []
                         for key in sorted_by_percent_match:
                                 sorted_testnames.append(key)
                         if(sorted_testnames != []):
-                                self.Plot2_Dropdown['values'] = sorted_testnames
-                                print('Percent match sort successful:')
-                                print(sorted_testnames)
-                        else:
-                                print('ERROR: Percent match sort unsuccessful')
+                                for item in sorted_testnames:
+                                        print(item)
+                                        # remove file identifiers from dropdown contents
+                                        formatted_item = item
+                                        condition = ["trouble", "Idle", "10", "20", "30", "40", "50", "60", "70", "80","-1-","-2-","--"," ","  ",]
+                                        for cond in condition:
+                                                if (cond in formatted_item): formatted_item = formatted_item.replace(cond,"")
+                                        if (formatted_item != "") and ("Baseline" not in formatted_item):
+                                                formatted_sorted_testnames.append(formatted_item)
+                                                print("Formatted: " + formatted_item)
+
+                                if(formatted_sorted_testnames != []):
+
+                                        self.Plot2_Dropdown['values'] = formatted_sorted_testnames
+                                        print('Percent match sort successful:')
+                                        print(formatted_sorted_testnames)
+                                else:
+                                        print('ERROR: Percent match sort unsuccessful')
                 else:
                         print("ERROR: No match.json file found")
+
+
         def updatePlot(self, controller):
                 success = 1 # Becomes 0 if updatePlot unsuccesful for error message
                 with open('directory.json','r') as g:

@@ -64,7 +64,7 @@ class Signal_Process(tk.Tk):
         os.makedirs(path2)
 
         if os.path.exists(path4):
-            shutil.rmtree(path4)             
+            shutil.rmtree(path4)
 
         # read magnitude values into array and move raw data to new directory
         filename = path1 + 'Three Axes.txt'
@@ -239,7 +239,7 @@ class Signal_Process(tk.Tk):
             with open(filename2, 'a') as out:
                 out.write(enrg)
         out.close
-            
+
         # create file to use for comparison
         for i in range(0, 384):
             enrg = str(float("{0:.2f}".format(freq[i]))) + '\n'
@@ -309,13 +309,14 @@ class Signal_Process(tk.Tk):
                         base_peak = [x for x in comp if x >= b_peak]
                         unmatch = [x for x in difference if x >= d_peak]
                         percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
-                        match.extend([match_path.replace(pathm,''), percent])
-                        
+                        match[match_path.replace(pathm,'')] = percent
+
                         # if the match is above 75% we have a high confidence match.
                         if percent > 75:
                             trouble_match = 'High confidence match to: ' + match_path.replace(pathm,'')
                             print(trouble_match)
-                            
+
+
                 data = {
                         'match_list' : str(match),
                         }
@@ -323,7 +324,7 @@ class Signal_Process(tk.Tk):
                 with open(path2 + 'match.json','w') as f:
                         json.dump(data,f)
                         f.close
-                shutil.copytree(path2, path4) 
+                shutil.copytree(path2, path4)
 
 
         self.destroy()
