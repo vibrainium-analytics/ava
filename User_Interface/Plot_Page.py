@@ -65,23 +65,23 @@ def animate(i):
 
                  
 
-                try:
-                        if number_cols > 1:
-                                freq_List = data[:,0]
-                                mag1_List = data[:,1]
-                                plot1 = a.plot(freq_List, mag1_List,'r',label='Test')
-                        if number_cols > 2:
-                                mag2_List = data[:,2]
-                                plot2 = a.plot(freq_List, mag2_List,'g',label='Comparison')
-                        if number_cols > 3:
-                                mag3_List = data[:,3]
-                                plot3 = a.plot(freq_List, mag3_List,'b',label='Baseline')
+        try:
+                if number_cols > 1:
+                        freq_List = data[:,0]
+                        mag1_List = data[:,1]
+                        plot1 = a.plot(freq_List, mag1_List,'r',label='Test')
+                if number_cols > 2:
+                        mag2_List = data[:,2]
+                        plot2 = a.plot(freq_List, mag2_List,'g',label='Comparison')
+                if number_cols > 3:
+                        mag3_List = data[:,3]
+                        plot3 = a.plot(freq_List, mag3_List,'b',label='Baseline')
 
-                        # Create legend from plot label values
-                        a.legend()
-                except:
-                        print('ERROR: Data did not load successfully')
-                        success = success * 0
+                # Create legend from plot label values
+                a.legend()
+        except:
+                print('ERROR: Data did not load successfully')
+                success = success * 0
         if success == 0:
                 print('-------------------')
                 print('ERROR: Animate function has error(s)')
