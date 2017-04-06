@@ -116,7 +116,7 @@ class Save_Test_Page(tk.Frame):
                     if str(data2['ac_status']) == 'AC On':
                         testnm = testnm + '-AC'
                 else:
-                    testnm = '-' + str(data2['speed'])
+                    testnm = '-' + str(data2['speed']+ 'mph')
                     
                 path_base = str(directory['veh_path']) + str(data1['name']) + '_' + str(data1['model'])+ '_' + str(data1['year_Veh']) + '/Baseline' + testnm + '/'
                 if os.path.exists(path_base) and str(test_data["test_type"]) == 'Baseline' :
