@@ -286,12 +286,42 @@ class Signal_Process(tk.Tk):
             if percent < 0:
                 percent = 0
 
-            # if the match is above 90% timestamp and name as baseline
-            if percent > 90:
-                path5 = path3 + '-' + str(percent) + '%-' + now + '/'
+            # if the match is above 90% timestamp and name as baseline then compare with historical data.
+            if percent > 90:           
+                match_file = ""
+                pathm = path + '/'
+                match = {}
+                current = path2 + 'Compare.txt'
+                for root, dirs, files in os.walk(path):
+                    if 'Compare.txt' in files:
+                        match_file = os.path.join(root,'Compare.txt')
+                    if testnm in match_file and not match_file == current:
+                        match_path = match_file.replace('/Compare.txt','')
+                        f=open(match_file,'r')
+                        comp=f.readlines()
+                        f.close()
+                        difference = numpy.zeros(384)
+                        for i in range (0 , 384):
+                            comp[i] = float(comp[i])
+                            difference[i] = abs(float("{0:.2f}".format(freq[i] - comp[i])))
+                        base_peak = [x for x in comp if x >= b_peak]
+                        unmatch = [x for x in difference if x >= d_peak]
+                        percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+                        match[str(match_path.replace(pathm,''))] = str(percent)
+
+                        # if the match is above 75% we have a high confidence match.
+                        if percent > 75:
+                            trouble_match = 'High confidence match to: ' + match_path.replace(pathm,'')
+                            print(trouble_match)
+
+                with open(path2 + 'match.json','w') as f:
+                        json.dump(match,f)
+                        f.close
+
+                path5 = path3 + '-' + now + '/'
                 shutil.copytree(path2, path4)
                 os.rename(path2, path5)
-                
+
 
             # if the baseline was not a match check historical trouble cases for selected test type.
             else:
@@ -323,7 +353,11 @@ class Signal_Process(tk.Tk):
 
                 with open(path2 + 'match.json','w') as f:
                         json.dump(match,f)
-                        f.close
+                        f.close    
+
                 shutil.copytree(path2, path4)
+                
+        else:
+            shutil.copytree(path2, path4)
 
         self.destroy()
