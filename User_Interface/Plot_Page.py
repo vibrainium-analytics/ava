@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox 
 from tkinter import ttk
 from tkinter import *
 # File system access library
@@ -318,6 +318,7 @@ class Plot_Page(tk.Frame):
                                     success = success * 0
                         else:
                                 print('ERROR: No corresponding baseline exists')
+                                base_plot=messagebox.showwarning(title="No baseline saved", message = "There is no baseline saved for this test. Uncheck the baseline box to plot data.")
                                 success = success * 0
                 else:   # If baseline is not selected in checkbox
                         # Save data to plot file to be plotted
