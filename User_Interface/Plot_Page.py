@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox 
+from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
 # File system access library
@@ -170,7 +170,7 @@ class Plot_Page(tk.Frame):
                                                 if (cond in formatted_item): formatted_item = formatted_item.replace(cond,"")
                                         if (formatted_item != "") and ("Baseline" not in formatted_item):
                                                 formatted_sorted_testnames.append(formatted_item)
-                                                print("Formatted: " + formatted_item)
+                                                # print("Formatted: " + formatted_item)
 
                                 if(formatted_sorted_testnames != []):
 
