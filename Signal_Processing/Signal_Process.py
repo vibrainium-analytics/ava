@@ -3,6 +3,7 @@ from tkinter import ttk
 from scipy import signal
 import os, json, shutil, math, numpy
 import datetime
+from tkinter import messagebox as tmb
 
 class Signal_Process(tk.Tk):
 
@@ -39,11 +40,11 @@ class Signal_Process(tk.Tk):
 
         # set AC status and speed status dependancies
         if str(data2['idle_status']) == 'Yes':
-            testnm = '-Idle'
+            testnm = 'Idle'
             if str(data2['ac_status']) == 'AC On':
                 testnm = testnm + '-AC'
         else:
-            testnm = '-' + str(data2['speed']) + 'mph'
+            testnm = str(data2['speed']) + 'mph'
 
         # set directories using data from .json files
         now = '{:%Y-%b-%d %H:%M}'.format(datetime.datetime.now())
@@ -51,22 +52,21 @@ class Signal_Process(tk.Tk):
 
         path = veh_path + str(data1['name']) + '_' + str(data1['model']) + '_' + str(data1['year_Veh'])
         path1 = path + '/' + str(test_data['test_type']) + '/temp/'
-        path2 = path + '/' + str(test_data['test_type']) + testnm + '/'
-        path3 = veh_path + str(data1['name']) + '_' + str(data1['model'])+ '_' + str(data1['year_Veh']) + '/Baseline' + testnm
+        path2 = path + '/' + str(test_data['test_type']) + '-' + testnm + '/'
+        path3 = path + '/Baseline-' + testnm
+        path4 = path + '/' + testnm + '-Newest_Test/'
 
         # create folder name for trouble data that does not match historical data
+
         if str(test_data['test_type']) == "Diagnostic":
             path2 = path + '/unknown_trouble' + testnm + '-' + now + '/'
 
-        path4 = path + '/' + testnm + '-Newest_Test/'
+        # Replace newewest test folder (path4). Remove folders from incomplete tests(path2).
         if os.path.exists(path4):
             shutil.rmtree(path4) 
-
         if os.path.exists(path2):
-            shutil.rmtree(path2)            # warning before baseline overwrite will be placed here.
+            shutil.rmtree(path2)           
         os.makedirs(path2)
-
-        
 
         # read magnitude values into array and move raw data to new directory
         filename = path1 + 'Three Axes.txt'
@@ -250,6 +250,7 @@ class Signal_Process(tk.Tk):
             out.close
 
         # comparison code
+        message_out = 0
 
         # if we are running a diagnostic load the compare files from baseline and compare them to current data.
         filename = path3 + '/Compare.txt'
@@ -286,12 +287,17 @@ class Signal_Process(tk.Tk):
             if percent < 0:
                 percent = 0
 
-            # if the match is above 90% timestamp and name as baseline then compare with historical data.
-            if percent > 90:           
+            # if the match is above 90% compare with historical data, timestamp, and inform user of baseline match.
+            if percent > 90:
+                message_out = 1
+                strong_base=tmb.showinfo(title="Strong Match", message="Strong match to saved baseline. Vehicle condition is normal") 
                 match_file = ""
                 pathm = path + '/'
                 match = {}
                 current = path2 + 'Compare.txt'
+
+                # compare to all historical data for the selected vehicle.
+                
                 for root, dirs, files in os.walk(path):
                     if 'Compare.txt' in files:
                         match_file = os.path.join(root,'Compare.txt')
@@ -308,23 +314,21 @@ class Signal_Process(tk.Tk):
                         unmatch = [x for x in difference if x >= d_peak]
                         percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
                         match[str(match_path.replace(pathm,''))] = str(percent)
-
-                        # if the match is above 75% we have a high confidence match.
-                        if percent > 75:
-                            trouble_match = 'High confidence match to: ' + match_path.replace(pathm,'')
-                            print(trouble_match)
 
                 with open(path2 + 'match.json','w') as f:
                         json.dump(match,f)
                         f.close
-
+                # Rename as baseline with timestamp. Copy into newest test.
                 path5 = path3 + '-' + now + '/'
                 shutil.copytree(path2, path4)
                 os.rename(path2, path5)
 
+            elif percent > 75:
+                message_out = 2
+                moderate_base=tmb.showinfo(title="Moderate Match", message="Moderate match to saved baseline. View plots to determine vehicle condition")
 
-            # if the baseline was not a match check historical trouble cases for selected test type.
-            else:
+            # if the baseline was not a match check historical trouble cases for selected vehicle.
+            if not message_out == 1:
                 match_file = ""
                 pathm = path + '/'
                 match = {}
@@ -348,15 +352,21 @@ class Signal_Process(tk.Tk):
 
                         # if the match is above 75% we have a high confidence match.
                         if percent > 75:
-                            trouble_match = 'High confidence match to: ' + match_path.replace(pathm,'')
+                            message_out = 3
+                            trouble_match = 'Strong match to: ' + match_path.replace(pathm,'') + '. View plots to verify trouble'
+                            t_match=tmb.showinfo(title="Strong Match", message=trouble_match) 
                             print(trouble_match)
 
                 with open(path2 + 'match.json','w') as f:
-                        json.dump(match,f)
-                        f.close    
-
+                    json.dump(match,f)
+                    f.close    
+                if message_out == 0:
+                    no_match=tmb.showinfo(title="No Match", message="No match to historical data. Refer to Key Frequencies to isolate trouble")
                 shutil.copytree(path2, path4)
-                
+
+
+
+        # baseline test does not do comparisons. Folder is still copied to newest test.       
         else:
             shutil.copytree(path2, path4)
 
