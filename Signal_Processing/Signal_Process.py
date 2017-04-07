@@ -11,7 +11,7 @@ class Signal_Process(tk.Tk):
             directory = json.load(g)
             g.close
 
-    # create a message box. This will only display if the signal processing takes more than one second
+    # create a message box. This will only display if the signal processing has an error
     def __init__(self,*args):
         tk.Tk.__init__(self,*args)
         self.message = tk.Text(self, height=2, width=30)
@@ -43,7 +43,7 @@ class Signal_Process(tk.Tk):
             if str(data2['ac_status']) == 'AC On':
                 testnm = testnm + '-AC'
         else:
-            testnm = '-' + str(data2['speed'])
+            testnm = '-' + str(data2['speed']) + 'mph'
 
         # set directories using data from .json files
         now = '{:%Y-%b-%d %H:%M}'.format(datetime.datetime.now())
@@ -57,14 +57,16 @@ class Signal_Process(tk.Tk):
         # create folder name for trouble data that does not match historical data
         if str(test_data['test_type']) == "Diagnostic":
             path2 = path + '/unknown_trouble' + testnm + '-' + now + '/'
-            path4 = path + '/diagnostic' + testnm + '-Newest_Test/'
+
+        path4 = path + '/' + testnm + '-Newest_Test/'
+        if os.path.exists(path4):
+            shutil.rmtree(path4) 
 
         if os.path.exists(path2):
             shutil.rmtree(path2)            # warning before baseline overwrite will be placed here.
         os.makedirs(path2)
 
-        if os.path.exists(path4):
-            shutil.rmtree(path4)
+        
 
         # read magnitude values into array and move raw data to new directory
         filename = path1 + 'Three Axes.txt'
@@ -250,8 +252,9 @@ class Signal_Process(tk.Tk):
         # comparison code
 
         # if we are running a diagnostic load the compare files from baseline and compare them to current data.
-        if str(test_data['test_type']) == "Diagnostic":
-            filename = path3 + '/Compare.txt'
+        filename = path3 + '/Compare.txt'
+        if str(test_data['test_type']) == "Diagnostic" and os.path.isfile(filename):
+            
             f=open(filename,'r')
             base_line=f.readlines()
             f.close()
@@ -283,10 +286,42 @@ class Signal_Process(tk.Tk):
             if percent < 0:
                 percent = 0
 
-            # if the match is above 90% timestamp and name as baseline
-            if percent > 90:
-                path4 = path3 + '-' + str(percent) + '%-' + now + '/'
-                os.rename(path2, path4)
+            # if the match is above 90% timestamp and name as baseline then compare with historical data.
+            if percent > 90:           
+                match_file = ""
+                pathm = path + '/'
+                match = {}
+                current = path2 + 'Compare.txt'
+                for root, dirs, files in os.walk(path):
+                    if 'Compare.txt' in files:
+                        match_file = os.path.join(root,'Compare.txt')
+                    if testnm in match_file and not match_file == current:
+                        match_path = match_file.replace('/Compare.txt','')
+                        f=open(match_file,'r')
+                        comp=f.readlines()
+                        f.close()
+                        difference = numpy.zeros(384)
+                        for i in range (0 , 384):
+                            comp[i] = float(comp[i])
+                            difference[i] = abs(float("{0:.2f}".format(freq[i] - comp[i])))
+                        base_peak = [x for x in comp if x >= b_peak]
+                        unmatch = [x for x in difference if x >= d_peak]
+                        percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+                        match[str(match_path.replace(pathm,''))] = str(percent)
+
+                        # if the match is above 75% we have a high confidence match.
+                        if percent > 75:
+                            trouble_match = 'High confidence match to: ' + match_path.replace(pathm,'')
+                            print(trouble_match)
+
+                with open(path2 + 'match.json','w') as f:
+                        json.dump(match,f)
+                        f.close
+
+                path5 = path3 + '-' + now + '/'
+                shutil.copytree(path2, path4)
+                os.rename(path2, path5)
+
 
             # if the baseline was not a match check historical trouble cases for selected test type.
             else:
@@ -318,8 +353,11 @@ class Signal_Process(tk.Tk):
 
                 with open(path2 + 'match.json','w') as f:
                         json.dump(match,f)
-                        f.close
-                shutil.copytree(path2, path4)
+                        f.close    
 
+                shutil.copytree(path2, path4)
+                
+        else:
+            shutil.copytree(path2, path4)
 
         self.destroy()
