@@ -25,9 +25,8 @@ class AVA(tk.Tk):
         
         # Container holding app pages
         container = tk.Frame(self)
-        container.pack(side="top",expand=False)
-        container.grid_rowconfigure(0,weight=1)
-        container.grid_columnconfigure(0,weight=1)
+        container.pack(side = "top", fill = "both")
+
 
         # Initial empty set of page frames
         self.frames = {}
@@ -92,7 +91,7 @@ class AVA(tk.Tk):
 # -------------------------------------------------------------#
 app = AVA()
 app.title("Automotive Vibration Analyzer")
-#fullscreen = FullScreenApp(app)
+fullscreen = FullScreenApp(app)
 import User_Interface.Plot_Page
 import matplotlib.animation as animation
 animate = User_Interface.Plot_Page.animation.FuncAnimation(User_Interface.Plot_Page.fig,User_Interface.Plot_Page.animate,interval=3000)
