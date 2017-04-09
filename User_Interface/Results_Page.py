@@ -21,7 +21,6 @@ class Results_Page(tk.Frame):
                         f.close
 
                 # Update labels with latest data
-                self.label1['text'] = "AC Status: {}".format(data['ac_status'])
                 self.label2['text'] = "Idle Status: {}".format(data['idle_status'])
                 self.label3['text'] = "Speed: {}".format(data['speed'])
 
@@ -36,9 +35,6 @@ class Results_Page(tk.Frame):
 
                 label = ttk.Label(self, text="Results")
                 label.pack(pady=1,padx=1, side = "top", anchor = "n")
-
-                self.label1 = ttk.Label(self, text="AC Status: ")
-                self.label1.pack(pady=1,padx=1, side = "top", anchor = "n")
 
                 self.label2 = ttk.Label(self, text=str("Idle Status: "))
                 self.label2.pack(pady=1,padx=1, side = "top", anchor = "n")

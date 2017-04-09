@@ -38,11 +38,9 @@ class Signal_Process(tk.Tk):
             plot_preferences = json.load(f)
             f.close
 
-        # set AC status and speed status dependancies
+        # set Idle status and speed status dependancies
         if str(data2['idle_status']) == 'Yes':
             testnm = 'Idle'
-            if str(data2['ac_status']) == 'AC On':
-                testnm = testnm + '-AC'
         else:
             testnm = str(data2['speed']) + 'mph'
 
