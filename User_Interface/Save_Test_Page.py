@@ -133,4 +133,4 @@ class Save_Test_Page(tk.Frame):
                 else:
                         controller.show_page("Results_Page")
                         Signal_Process()
-                        print('no baseline')
+                        print('no baseline conflict')

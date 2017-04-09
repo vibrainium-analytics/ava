@@ -37,7 +37,7 @@ class New_Vehicle_Page(tk.Frame):
                 frame2 = LabelFrame(self, text="Basic Drivetrain Info", width=275, height=310, borderwidth=4, relief=GROOVE)
                 frame2.place(relx=.02, rely=0.30, anchor=NW)
 
-                frame3 = LabelFrame(self, text="Advanced - Engine Accessories", width=275, height=310, borderwidth=4, relief=GROOVE)
+                frame3 = LabelFrame(self, text="Advanced - Pulley Diameters (inches)", width=275, height=310, borderwidth=4, relief=GROOVE)
                 frame3.place(relx=.60, rely=.30, anchor=NW)
 
                 frame4 = Frame(self, width = 110, height = 50, borderwidth = 4, relief=GROOVE)
@@ -132,42 +132,42 @@ class New_Vehicle_Page(tk.Frame):
 
 
                 #frame3 (Advanced - Engine Accessories)
-                main_Pulley_Label = ttk.Label(frame3, text="Crank Pulley Diam (inches):", state = "disabled")
+                main_Pulley_Label = ttk.Label(frame3, text="Crank Pulley Dia:", state = "disabled")
                 main_Pulley_Label.place(relx = .02, rely = .05, anchor=NW)
                 main_Pulley_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 main_Pulley_Entry.place(relx = .7, rely = .05, anchor=NW)
 
-                alternator_Label = ttk.Label(frame3, text="Alternator Pulley Diam:", state = "disabled")
+                alternator_Label = ttk.Label(frame3, text="Alternator Pulley Dia:", state = "disabled")
                 alternator_Label.place(relx = 0.02, rely = 0.15, anchor=NW)
                 alternator_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 alternator_Entry.place(relx = 0.7, rely = 0.15, anchor=NW)
 
-                air_Conditioner_Label = ttk.Label(frame3, text = "Air Conditioner Pulley Diam:", state = "disabled")
+                air_Conditioner_Label = ttk.Label(frame3, text = "Air Conditioner Pulley Dia:", state = "disabled")
                 air_Conditioner_Label.place(relx = .02, rely = .25, anchor = NW)
                 air_Conditioner_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 air_Conditioner_Entry.place(relx = .7, rely = .25, anchor = NW)
 
-                waterpump_Label = ttk.Label(frame3, text = "Water Pump (if belt-driven):", state = "disabled")
+                waterpump_Label = ttk.Label(frame3, text = "Water Pump Pulley Dia:", state = "disabled")
                 waterpump_Label.place(relx = .02, rely = .35, anchor = NW)
                 waterpump_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 waterpump_Entry.place(relx = .7, rely = .35, anchor = NW)
 
-                fan_Label = ttk.Label(frame3, text = "Fan pulley (if belt-driven):", state = "disabled")
+                fan_Label = ttk.Label(frame3, text = "Fan Pulley Dia:", state = "disabled")
                 fan_Label.place(relx = .02, rely = .45, anchor = NW)
                 fan_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 fan_Entry.place(relx = .7, rely = .45, anchor = NW)
 
-                powersteer_Label = ttk.Label(frame3, text = "Power Steering:", state = "disabled")
+                powersteer_Label = ttk.Label(frame3, text = "Power Steering Pulley Dia:", state = "disabled")
                 powersteer_Label.place(relx = .02, rely = .55, anchor = NW)
                 powersteer_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 powersteer_Entry.place(relx = .7, rely = .55, anchor = NW)
 
-                tension_Label = ttk.Label(frame3, text = "Tension:", state = "disabled")
+                tension_Label = ttk.Label(frame3, text = "Tension pulley Dia:", state = "disabled")
                 tension_Label.place(relx = .02, rely = .65, anchor = NW)
                 tension_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 tension_Entry.place(relx = .7, rely = .65, anchor = NW)
 
-                extra_Accessory_Label = ttk.Label(frame3, text = "Accessory Pulley Diam:\n(example: 2nd alternator \nfor large stereo systems", state = "disabled")
+                extra_Accessory_Label = ttk.Label(frame3, text = "Accessory Pulley Dia:\n(example: 2nd alternator \nfor large stereo systems", state = "disabled")
                 extra_Accessory_Label.place(relx = .02, rely = .80, anchor = NW)
                 extra_Accessory_Entry = ttk.Entry(frame3, width = 6, state = "disabled")
                 extra_Accessory_Entry.place(relx = .7, rely = .80, anchor = NW)
@@ -256,7 +256,7 @@ class New_Vehicle_Page(tk.Frame):
                         year_Veh = year_Veh_Entry.get()
 
                         tirerad = tire_Entry.get()
-                        tire = tirerad * 2 * 3.1415
+                        tire = float(tirerad) * 2.0 * 3.1415
                         num_Cylinders = num_Cylinders_Entry.get()
                         first_Gear = first_Gear_Entry.get()
                         second_Gear = second_Gear_Entry.get()
@@ -283,6 +283,7 @@ class New_Vehicle_Page(tk.Frame):
                                 'year_Veh': year_Veh,
                                 
                                 'tire': tire,
+                                'tirerad': tirerad, 
                                 'num_Cylinders': num_Cylinders,
                                 'first_Gear': first_Gear,
                                 'second_Gear': second_Gear,
@@ -406,7 +407,7 @@ class New_Vehicle_Page(tk.Frame):
                         make_Entry.insert(0, data['make'])
                         model_Entry.insert(0, data['model'])
                         year_Veh_Entry.insert(0, data['year_Veh'])
-                        tire_Entry.insert(0,data['tire'])
+                        tire_Entry.insert(0,data['tirerad'])
                         num_Cylinders_Entry.insert(0, data['num_Cylinders'])
                         first_Gear_Entry.insert(0, data['first_Gear'])
                         second_Gear_Entry.insert(0, data['second_Gear'])

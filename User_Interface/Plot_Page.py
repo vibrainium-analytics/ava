@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox 
+from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
 # File system access library
@@ -186,7 +186,7 @@ class Plot_Page(tk.Frame):
                                                 if (cond in formatted_item): formatted_item = formatted_item.replace(cond,"")
                                         if (formatted_item != "") and ("Baseline" not in formatted_item):
                                                 formatted_sorted_testnames.append(formatted_item)
-                                                print("Formatted: " + formatted_item)
+                                                # print("Formatted: " + formatted_item)
 
                                 if(formatted_sorted_testnames != []):
 
@@ -350,6 +350,175 @@ class Plot_Page(tk.Frame):
                 else:
                         print('--------------------------')
                         print ('SUCCESS: Plot update succeeded')
+
+        def updateFreq(self, controller):
+                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
+                        selected_vehicle = json.load(f)
+                        f.close
+
+
+
+                with open(directory['app_data'] + 'save_test.json','r') as f2:
+                        saved_test = json.load(f2)
+                        f2.close
+
+                with open(directory['app_data'] + 'save_test.json','w') as f2:
+                        json.dump(saved_test,f2)
+                        f2.close
+
+
+                # def Key_Freqs_Update ():
+                        
+                speed_str = saved_test['speed']
+                speed = float(speed_str)
+
+                gear_str = saved_test['gear']
+                gear_ratio = float(selected_vehicle[gear_str])
+
+                tire_str = selected_vehicle['tire']
+                tire = float(tire_str)
+
+                reverse_Gear_str = selected_vehicle['reverse_Gear']
+                if reverse_Gear_str == "":
+                        reverse_Gear = 0
+                else:
+                        reverse_Gear = float(reverse_Gear_str)
+                        
+                finaldrive_str = selected_vehicle['final_Drive']
+                if finaldrive_str == "":
+                        finaldrive = 0
+                else:
+                        finaldrive = float(finaldrive_str)
+
+                cylinder_str = selected_vehicle['num_Cylinders']
+                if cylinder_str == "":
+                        cylinder = 0
+                else:
+                        cylinder = int(cylinder_str)
+
+                main_Pulley_str = selected_vehicle['main_Pulley']
+                if main_Pulley_str == "":
+                        main_Pulley = 0
+                else:
+                        main_Pulley = float(main_Pulley_str)
+                        
+                alternator_str = selected_vehicle['alternator']
+                if alternator_str == "":
+                        alternator = 0
+                else:
+                        alternator = float(alternator_str)
+
+                air_Conditioner_str = selected_vehicle['air_Conditioner']
+                if air_Conditioner_str == "":
+                        air_Conditioner = 0
+                else:
+                        air_Conditioner = float(air_Conditioner_str)
+
+                waterpump_str = selected_vehicle['waterpump']
+                if waterpump_str == "":
+                        waterpump = 0
+                else:
+                        waterpump = float(waterpump_str)
+
+                fan_str = selected_vehicle['fan']
+                if fan_str == "":
+                        fan = 0
+                else:
+                        fan = float(fan_str)
+
+                powersteer_str = selected_vehicle['powersteer']
+                if powersteer_str == "":
+                        powersteer = 0
+                else:        
+                        powersteer = float(powersteer_str)
+
+                tension_str = selected_vehicle['tension']
+                if tension_str == "":
+                        tension = 0
+                else:
+                        tension = float(tension_str)
+
+                extra_Accessory_str = selected_vehicle['extra_Accessory']
+                if extra_Accessory_str == "":
+                        extra_Accessory = 0
+                else:
+                        extra_Accessory = float(extra_Accessory_str)
+                        
+
+                tire_rpm = speed * 5280.0 * 12.0 / tire / 60.0
+                tire_freq = tire_rpm / 60.0
+
+                driveshaft_rpm = tire_rpm * finaldrive
+                driveshaft_freq = tire_freq * finaldrive
+
+                crank_rpm = driveshaft_rpm * gear_ratio
+                crank_freq = driveshaft_freq * gear_ratio
+
+                cylinder_freq = crank_freq * cylinder / 2
+                cylinder_fire_per_minute = cylinder_freq * 60
+
+                alt_freq = 0 if alternator==0 else crank_freq * (main_Pulley / alternator)
+                AC_freq = 0 if air_Conditioner==0 else crank_freq * (main_Pulley / air_Conditioner)
+                waterpump_freq = 0 if waterpump==0 else crank_freq * (main_Pulley / waterpump)
+                fan_freq = 0 if fan==0 else crank_freq * (main_Pulley / fan)
+                powersteer_freq = 0 if powersteer==0 else crank_freq * (main_Pulley / powersteer)
+                tension_freq = 0 if tension==0 else crank_freq * (main_Pulley / tension)
+                extra_Accessory_freq = 0 if extra_Accessory==0 else crank_freq * (main_Pulley / extra_Accessory)
+
+
+
+                cylinder_freq_round = round(cylinder_freq, 2)
+                crank_freq_round = round(crank_freq, 2)
+                driveshaft_freq_round = round(driveshaft_freq,2)
+                tire_freq_round = round(tire_freq, 2)
+                finaldrive_round = round(finaldrive, 2)
+                alt_freq_round = round(alt_freq,2)
+                AC_freq_round = round(AC_freq, 2)
+                waterpump_freq_round = round(waterpump_freq, 2)
+                fan_freq_round = round(fan_freq, 2)
+                powersteer_freq_round = round(powersteer_freq, 2)
+                tension_freq_round = round(tension_freq, 2)
+                extra_Accessory_freq_round = round(extra_Accessory_freq, 2)
+
+                frame3 = LabelFrame(self, text="Diagnostics - Relevant Frequencies", width=785, height=100, bd=5, borderwidth=3, relief=GROOVE)
+                frame3.place(relx=0,x = 5, rely=.76, anchor="nw")
+                        
+                name_Label = ttk.Label(frame3,text = 'Name: {}'.format(selected_vehicle['name']))
+                name_Label.place(relx = 0, x = 5, rely = 0, y = 5, anchor=NW)
+                make_Label = ttk.Label(frame3,text = 'Make:  {}'.format(selected_vehicle['make']))
+                make_Label.place(relx = 0, x=5, rely = 0.30, anchor=NW)
+                model_Label = ttk.Label(frame3,text = 'Model: {}'.format(selected_vehicle['model']))
+                model_Label.place(relx = 0, x = 5, rely = 0.55, anchor=NW)
+                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(selected_vehicle['year_Veh']))
+                year_Veh_Label.place(relx = 0, x= 5, rely = 0.80, anchor=NW)
+
+                speed_Label = ttk.Label(frame3,text =           ' Test Speed:  ' + str(speed) + " Mph")
+                speed_Label.place(relx = 0.18, rely = 0, y = 5, anchor=NW)
+                tire_Label = ttk.Label(frame3,text =            ' Tires:           ' + str(tire_freq_round) + " Hz")
+                tire_Label.place(relx = 0.18, rely = 0.3, anchor=NW)
+                driveshaft_Label = ttk.Label(frame3,text =      ' Driveshaft:   ' + str(driveshaft_freq_round) + " Hz")
+                driveshaft_Label.place(relx = 0.18, rely = 0.55, anchor=NW)
+                crankcase_Label = ttk.Label(frame3,text =       'Crankcase:   ' + str(crank_freq_round) + ' Hz')
+                crankcase_Label.place(relx = .18, x = 5, rely = 0.80, anchor=NW)
+
+                cyl_Fire_Label = ttk.Label(frame3,text =        'Spark Plug:        ' + str(cylinder_freq_round) + ' Hz')
+                cyl_Fire_Label.place(relx = .38, x= 5, rely = 0, y = 5, anchor=NW)
+                alt_Label = ttk.Label(frame3,text =             ' Alternator:          ' + str(alt_freq_round) + " Hz")
+                alt_Label.place(relx = 0.38, rely = 0.3, anchor=NW)
+                AC_Label = ttk.Label(frame3,text =              ' Air Conditioner:   ' + str(AC_freq_round) + " Hz")
+                AC_Label.place(relx = 0.38, rely = 0.55, anchor=NW)
+                waterpump_Label = ttk.Label(frame3,text =       'Water Pump:      ' + str(waterpump_freq_round) + ' Hz')
+                waterpump_Label.place(relx = .38, x = 5, rely = 0.80, anchor=NW)
+
+                fan_Label = ttk.Label(frame3,text =             'Cooling Fan:      ' + str(fan_freq_round) + ' Hz')
+                fan_Label.place(relx = .61, x= 5, rely = 0, y = 5, anchor=NW)
+                powersteer_Label = ttk.Label(frame3,text =      ' Power Steering: ' + str(powersteer_freq_round) + " Hz")
+                powersteer_Label.place(relx = 0.61, rely = 0.3, anchor=NW)
+                AC_Label = ttk.Label(frame3,text =              ' Tension Pulley:   ' + str(tension_freq_round) + " Hz")
+                AC_Label.place(relx = 0.61, rely = .55, anchor=NW)
+                extra_Accessory_Label = ttk.Label(frame3,text = 'Accessory:         ' + str(extra_Accessory_freq_round) + ' Hz')
+                extra_Accessory_Label.place(relx = .61, x = 5, rely = 0.80, anchor=NW)
+                
         def __init__(self, parent, controller):
                 tk.Frame.__init__(self, parent)
 
@@ -375,11 +544,13 @@ class Plot_Page(tk.Frame):
                 frame2 = LabelFrame(self, text="Plot controls", width=250, height=40, bd=1, borderwidth=4, relief=GROOVE)
                 frame2.place(relx=0 ,x = 5, rely=0.15, anchor=NW)
 
-                frame3 = LabelFrame(self, text="Diagnostics - Relevant Frequencies", width=785, height=100, bd=5, borderwidth=3, relief=GROOVE)
-                frame3.place(relx=0,x = 5, rely=.76, anchor="nw")
 
-                frame1 = LabelFrame(self, text="Interactive Plotting", width=480, height=1, bd=1, borderwidth=4, relief=GROOVE)
+
+                frame1 = LabelFrame(self, text="Interactive Plotting", width=480, height=10, bd=1, borderwidth=4, relief=GROOVE)
                 frame1.place(relx=1,x = -5, rely=0.07, anchor=NE)
+
+                frame4 = LabelFrame(self, text="", width=250, height=5, bd=1, borderwidth=4, relief=GROOVE)
+                frame4.place(relx=0 ,x = 5, rely=0.65, anchor=NW)
                 
                 canvas = FigureCanvasTkAgg(fig, frame1)
                 canvas.show()
@@ -435,137 +606,11 @@ class Plot_Page(tk.Frame):
                 self.plot_button = ttk.Button(frame2, text = "Plot!",command = lambda: self.updatePlot(controller))
                 self.plot_button.pack(side = "right", padx = 10, pady = 3, expand = "no", anchor = "n")
 
-
-                with open(directory['app_data'] + 'selected_vehicle.json','r') as f:
-                        selected_vehicle = json.load(f)
-                        f.close
-
+                self.update_key_frequencies_button = ttk.Button(frame4, text="Update_Relevant_Frequencies",
+                                    command=lambda: self.updateFreq(controller))
+                self.update_key_frequencies_button.pack(padx=10, pady = 3, side = "left", expand = "no", anchor = "n") 
 
 
-                with open(directory['app_data'] + 'save_test.json','r') as f2:
-                        saved_test = json.load(f2)
-                        f2.close
-
-                with open(directory['app_data'] + 'save_test.json','w') as f2:
-                        json.dump(saved_test,f2)
-                        f2.close
-
-
-##                def Key_Freqs_Update ():
-                speed_str = saved_test['speed']
-                speed = float(speed_str)
-
-                gear_str = saved_test['gear']
-                gear_ratio = float(selected_vehicle[gear_str])
-
-                tire_str = selected_vehicle['tire']
-                tire = float(tire_str)
-
-                reverse_Gear_str = selected_vehicle['reverse_Gear']
-                reverse_Gear = float(reverse_Gear_str)
-                        
-                finaldrive_str = selected_vehicle['final_Drive']
-                finaldrive = float(finaldrive_str)
-
-
-
-
-                main_Pulley_str = selected_vehicle['main_Pulley']
-                main_Pulley = float(main_Pulley_str)
-                        
-                alternator_str = selected_vehicle['alternator']
-                alternator = float(alternator_str)
-
-                air_Conditioner_str = selected_vehicle['air_Conditioner']
-                air_Conditioner = float(air_Conditioner_str)
-
-                waterpump_str = selected_vehicle['waterpump']
-                waterpump = float(waterpump_str)
-
-                fan_str = selected_vehicle['fan']
-                fan = float(fan_str)
-
-                powersteer_str = selected_vehicle['powersteer']
-                powersteer = float(powersteer_str)
-
-                tension_str = selected_vehicle['tension']
-                tension = float(tension_str)
-
-                extra_Accessory_str = selected_vehicle['extra_Accessory']
-                extra_Accessory = float(extra_Accessory_str)
-                        
-
-
-
-
-                tire_rpm = speed * 5280.0 * 12.0 / tire / 60.0
-                tire_freq = tire_rpm / 60.0
-
-                driveshaft_rpm = tire_rpm * finaldrive
-                driveshaft_freq = tire_freq * finaldrive
-
-                crank_rpm = driveshaft_rpm * gear_ratio
-                crank_freq = driveshaft_freq * gear_ratio
-
-                cylinder_freq = crank_freq / 8.0
-                cylinder_fire_per_minute = cylinder_freq * 60
-
-                alt_freq = 0 if alternator==0 else crank_freq * (main_Pulley / alternator)
-                AC_freq = 0 if air_Conditioner==0 else crank_freq * (main_Pulley / air_Conditioner)
-                waterpump_freq = 0 if waterpump==0 else crank_freq * (main_Pulley / waterpump)
-                fan_freq = 0 if fan==0 else crank_freq * (main_Pulley / fan)
-                powersteer_freq = 0 if powersteer==0 else crank_freq * (main_Pulley / powersteer)
-                tension_freq = 0 if tension==0 else crank_freq * (main_Pulley / tension)
-                extra_Accessory_freq = 0 if extra_Accessory==0 else crank_freq * (main_Pulley / extra_Accessory)
-
-
-
-                cylinder_freq_round = round(cylinder_freq, 2)
-                crank_freq_round = round(crank_freq, 2)
-                driveshaft_freq_round = round(driveshaft_freq,2)
-                tire_freq_round = round(tire_freq, 2)
-                finaldrive_round = round(finaldrive, 2)
-                alt_freq_round = round(alt_freq,2)
-                AC_freq_round = round(AC_freq, 2)
-                waterpump_freq_round = round(waterpump_freq, 2)
-                fan_freq_round = round(fan_freq, 2)
-                powersteer_freq_round = round(powersteer_freq, 2)
-                tension_freq_round = round(tension_freq, 2)
-                extra_Accessory_freq_round = round(extra_Accessory_freq, 2)                
-
-                name_Label = ttk.Label(frame3,text = 'Name: {}'.format(selected_vehicle['name']))
-                name_Label.place(relx = 0, x = 5, rely = 0, y = 5, anchor=NW)
-                make_Label = ttk.Label(frame3,text = 'Make:  {}'.format(selected_vehicle['make']))
-                make_Label.place(relx = 0, x=5, rely = 0.30, anchor=NW)
-                model_Label = ttk.Label(frame3,text = 'Model: {}'.format(selected_vehicle['model']))
-                model_Label.place(relx = 0, x = 5, rely = 0.55, anchor=NW)
-                year_Veh_Label = ttk.Label(frame3,text = 'Year:   {}'.format(selected_vehicle['year_Veh']))
-                year_Veh_Label.place(relx = 0, x= 5, rely = 0.80, anchor=NW)
-                
-                tire_Label = ttk.Label(frame3,text = ' Tires:             ' + str(tire_freq_round) + " Hz")
-                tire_Label.place(relx = 0.18, rely = 0, y = 5, anchor=NW)
-                driveshaft_Label = ttk.Label(frame3,text = ' Driveshaft:   ' + str(driveshaft_freq_round) + " Hz")
-                driveshaft_Label.place(relx = 0.18, rely = .3, anchor=NW)
-                crankcase_Label = ttk.Label(frame3,text = 'Crankcase:  ' + str(crank_freq_round) + ' Hz')
-                crankcase_Label.place(relx = .18, x = 5, rely = 0.55, anchor=NW)
-                cyl_Fire_Label = ttk.Label(frame3,text = 'Cylinder fire:  ' + str(cylinder_freq_round) + ' Hz')
-                cyl_Fire_Label.place(relx = .18, x= 5, rely = 0.80, anchor=NW)
-
-                alt_Label = ttk.Label(frame3,text = ' Alternator:         ' + str(alt_freq_round) + " Hz")
-                alt_Label.place(relx = 0.38, rely = 0, y = 5, anchor=NW)
-                AC_Label = ttk.Label(frame3,text = ' Air Conditioner:  ' + str(AC_freq_round) + " Hz")
-                AC_Label.place(relx = 0.38, rely = .3, anchor=NW)
-                waterpump_Label = ttk.Label(frame3,text = 'Water Pump:      ' + str(waterpump_freq_round) + ' Hz')
-                waterpump_Label.place(relx = .38, x = 5, rely = 0.55, anchor=NW)
-                fan_Label = ttk.Label(frame3,text = 'Cooling Fan:       ' + str(fan_freq_round) + ' Hz')
-                fan_Label.place(relx = .38, x= 5, rely = 0.80, anchor=NW)
-
-                powersteer_Label = ttk.Label(frame3,text = ' Power Steering: ' + str(powersteer_freq_round) + " Hz")
-                powersteer_Label.place(relx = 0.61, rely = 0, y = 5, anchor=NW)
-                AC_Label = ttk.Label(frame3,text = ' Tension Pulley:    ' + str(tension_freq_round) + " Hz")
-                AC_Label.place(relx = 0.61, rely = .3, anchor=NW)
-                extra_Accessory_Label = ttk.Label(frame3,text = 'Accessory:    ' + str(extra_Accessory_freq_round) + ' Hz')
-                extra_Accessory_Label.place(relx = .61, x = 5, rely = 0.55, anchor=NW)
 
 ##
 ##                Key_Freqs_Update()
