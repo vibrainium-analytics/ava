@@ -259,33 +259,28 @@ class Signal_Process(tk.Tk):
             f=open(filename,'r')
             base_line=f.readlines()
             f.close()
+
             difference = numpy.zeros(384)
+            base_pk_array = numpy.zeros(384)
+            test_pk_array = numpy.zeros(384) 
 
-            # signal has more noise when vehicle is in motion so the parameters are different.
-            if testnm == "-Idle" or testnm == "-Idle-AC":
-                b_peak = 1.25
-                d_peak = 1.13
-            else:
-                b_peak = 1.6
-                d_peak = 1.3
+            peaks = [p for p in range(len(base_line)) if float(base_line[p]) > 2.0]
+            for i in range(0,len(peaks)):
+                index = peaks[i]
+                base_pk_array[index] = 1
 
-            # subtract baseline data from current test data
+            fpeaks = [q for q in range(len(freq)) if freq[q] > 2.0]
+            for i in range(0,len(fpeaks)):
+                findex = fpeaks[i]
+                test_pk_array[findex] = 1
+
             for i in range (0 , 384):
-                base_line[i] = float(base_line[i])
-                difference[i] = abs(float("{0:.2f}".format(freq[i] - base_line[i])))
+                difference[i] = base_pk_array[i] + test_pk_array[i]
 
-            # find number of peaks above baseline parameter
-            base_peak = [x for x in base_line if x >= b_peak]
-
-            # find number of peaks above difference parameter
-            unmatch = [x for x in difference if x >= d_peak]
-
-            # find the percent change in peaks from the baseline to the difference
-            percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
-
-            # if there are more peaks in the difference than in the baseline the match percentage is zero
-            if percent < 0:
-                percent = 0
+            t_match = [x for x in difference if x >= 2]
+            percent = 100 * float("{0:.2f}".format(len(t_match) / len(peaks)))
+            print('Baseline match ')
+            print(percent)
 
             # if the match is above 90% compare with historical data, timestamp, and inform user of baseline match.
             if percent > 90:
@@ -306,14 +301,24 @@ class Signal_Process(tk.Tk):
                         f=open(match_file,'r')
                         comp=f.readlines()
                         f.close()
+
+                        match_pk_array = numpy.zeros(384)
                         difference = numpy.zeros(384)
+
+                        peaks = [p for p in range(len(comp)) if float(comp[p]) > 2.0]
+                        for i in range(0,len(peaks)):
+                            index = peaks[i]
+                            match_pk_array[index] = 1
+
                         for i in range (0 , 384):
-                            comp[i] = float(comp[i])
-                            difference[i] = abs(float("{0:.2f}".format(freq[i] - comp[i])))
-                        base_peak = [x for x in comp if x >= b_peak]
-                        unmatch = [x for x in difference if x >= d_peak]
-                        percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+                            difference[i] = match_pk_array[i] + test_pk_array[i]
+
+                        t_match = [x for x in difference if x >= 2]
+                        percent = 100 * float("{0:.2f}".format(len(t_match) / len(peaks)))
                         match[str(match_path.replace(pathm,''))] = str(percent)
+
+                        print(match_path)
+                        print(percent)
 
                 with open(path2 + 'match.json','w') as f:
                         json.dump(match,f)
@@ -341,14 +346,24 @@ class Signal_Process(tk.Tk):
                         f=open(match_file,'r')
                         comp=f.readlines()
                         f.close()
+
+                        match_pk_array = numpy.zeros(384)
                         difference = numpy.zeros(384)
+
+                        peaks = [p for p in range(len(comp)) if float(comp[p]) > 2.0]
+                        for i in range(0,len(peaks)):
+                            index = peaks[i]
+                            match_pk_array[index] = 1
+
                         for i in range (0 , 384):
-                            comp[i] = float(comp[i])
-                            difference[i] = abs(float("{0:.2f}".format(freq[i] - comp[i])))
-                        base_peak = [x for x in comp if x >= b_peak]
-                        unmatch = [x for x in difference if x >= d_peak]
-                        percent = float("{0:.2f}".format(100*(1-(len(unmatch)/len(base_peak)))))
+                            difference[i] = match_pk_array[i] + test_pk_array[i]
+
+                        t_match = [x for x in difference if x >= 2]
+                        percent = 100 * float("{0:.2f}".format(len(t_match) / len(peaks)))
                         match[str(match_path.replace(pathm,''))] = str(percent)
+
+                        print(match_path)
+                        print(percent)
 
                         # if the match is above 75% we have a high confidence match.
                         if percent > 75:
