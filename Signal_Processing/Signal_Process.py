@@ -119,8 +119,7 @@ class Signal_Process(tk.Tk):
         # write output to file with frequency scale
         filename2 = path2 + 'fft 250Hz.txt'
         for i in range(0, int(n/2)):
-            j = i+1
-            hz = float("{0:.1f}".format(j * 500/n))
+            hz = float("{0:.1f}".format(i * 500/n))
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
@@ -176,8 +175,7 @@ class Signal_Process(tk.Tk):
         # write output to file with frequency scale
         filename2 = path2 + 'fft 125Hz.txt'
         for i in range(0, int(n/2)):
-            j = i+1
-            hz = float("{0:.1f}".format(j * 250/n))
+            hz = float("{0:.1f}".format(i * 250/n))
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq2[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
@@ -233,8 +231,7 @@ class Signal_Process(tk.Tk):
         # write output to file with frequency scale
         filename2 = path2 + 'fft 62.5Hz.txt'
         for i in range(0, int(n/2)):
-            j = i+1
-            hz = float("{0:.1f}".format(j * 125/n))
+            hz = float("{0:.1f}".format(i * 125/n))
             enrg = str(hz) + ' ' + str(float("{0:.2f}".format(freq3[i]))) + '\n'
             with open(filename2, 'a') as out:
                 out.write(enrg)
@@ -262,12 +259,12 @@ class Signal_Process(tk.Tk):
             base_pk_array = numpy.zeros(384)
             test_pk_array = numpy.zeros(384) 
 
-            peaks = [p for p in range(len(base_line)) if float(base_line[p]) > 1.0]
+            peaks = [p for p in range(len(base_line)) if float(base_line[p]) > 1.9]
             for i in range(0,len(peaks)):
                 index = peaks[i]
                 base_pk_array[index] = 1
 
-            fpeaks = [q for q in range(len(freq)) if freq[q] > 1.0]
+            fpeaks = [q for q in range(len(freq)) if freq[q] > 1.9]
             for i in range(0,len(fpeaks)):
                 findex = fpeaks[i]
                 test_pk_array[findex] = 1

@@ -37,7 +37,7 @@ short cnta = 8;                     // number of times to run inner loop samplin
 short datax[8];                    // holds x axis samples 
 short datay[8];                    // holds y axis samples
 short dataz[8];                    // holds z axis samples
-short r = 1782;                     // sample delay for sampling 3 axes 
+short r = 1784;                     // sample delay for sampling 3 axes 
 char nl = '\n';                     // new line character for formatting 
 char sp = ' ';                      // space character for formatting   
 int status = WL_IDLE_STATUS;
