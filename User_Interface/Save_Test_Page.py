@@ -35,13 +35,6 @@ class Save_Test_Page(tk.Frame):
                 self.Idle_Status.pack(pady=5, padx=10)
                 self.Idle_Status1.pack(side="top", pady=10, padx=10, ipady = 2, ipadx = 2)
 
-                AC_Status = ('AC Off', 'AC On')
-                self.AC_Status1 = ttk.Labelframe(frame1, text='AC Status')
-                self.AC_Status = ttk.Combobox(self.AC_Status1, values= AC_Status, state='readonly')
-                self.AC_Status.current(0)  # set selection
-                self.AC_Status.pack(pady=5, padx=10)
-                self.AC_Status1.pack(side="top", pady=8, padx=10, ipady = 2, ipadx = 2)
-
                 Speeds = ('10', '20', '30', '40', '50', '60', '70', '80')
                 self.Speeds1 = ttk.Labelframe(frame1, text='Speed')
                 self.Speeds = ttk.Combobox(self.Speeds1, values=Speeds, state='readonly')
@@ -91,7 +84,6 @@ class Save_Test_Page(tk.Frame):
                 if gear_int == 6: gear_string = 'sixth_Gear'
 
                 save_test_settings = {
-                        'ac_status' : str(self.AC_Status.get()),
                         'idle_status' :str(self.Idle_Status.get()),
                         'speed' : str(speed),
                         'gear' : gear_string
@@ -113,8 +105,6 @@ class Save_Test_Page(tk.Frame):
                 # set AC status and speed status dependancies
                 if str(data2['idle_status']) == 'Yes':
                     testnm = '-Idle'
-                    if str(data2['ac_status']) == 'AC On':
-                        testnm = testnm + '-AC'
                 else:
                     testnm = '-' + str(data2['speed']+ 'mph')
                     
