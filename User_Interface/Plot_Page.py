@@ -106,6 +106,13 @@ class Plot_Page(tk.Frame):
                         self.Plot1_Dropdown['values'] = plot_preferences["selected_test"]
                         self.Plot1_Dropdown.current(0)
 
+                        try:
+                                self = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
+                                selftest = self.decode('ascii')
+                                connect = True
+                        except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                                connect = False
+
                         # check for changes in data every 10 seconds
                         self.after(10000, self.poll)
 

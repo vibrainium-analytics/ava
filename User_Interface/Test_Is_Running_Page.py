@@ -94,7 +94,7 @@ class Test_Is_Running_Page(tk.Frame):
 
                 else:
                         try:
-                                self = urllib.request.urlopen("http://192.168.1.1/S", timeout=20).read()
+                                self = urllib.request.urlopen("http://192.168.1.1/S", timeout=5).read()
                                 selftest = self.decode('ascii')
                                 connect = True
                         except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
