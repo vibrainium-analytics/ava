@@ -22,15 +22,17 @@ class Home_Page(tk.Frame):
                 self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year_Veh'])
 
                 try:
-                        self = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
+                        selft = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
                         selftest = self.decode('ascii')
                         connect = True
                 except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
                         connect = False
                 if connect == True:
-                        self.label5['text'] = "Wi-Fi Connection: Connected"
+                        connected = 'connected'
+                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
                 else:
-                        self.label5['text'] = "Wi-Fi Connection: Disconnected"
+                        connected = 'disconnected'
+                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
                          
 
                 # check for changes in data every 10 seconds

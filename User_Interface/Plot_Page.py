@@ -107,7 +107,7 @@ class Plot_Page(tk.Frame):
                         self.Plot1_Dropdown.current(0)
 
                         try:
-                                self = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
+                                selft = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
                                 selftest = self.decode('ascii')
                                 connect = True
                         except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
