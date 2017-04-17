@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import *
 from tkinter import ttk
+import urllib.request
 
 # File system access library
 import glob, os
@@ -19,6 +20,20 @@ class Home_Page(tk.Frame):
                 self.label2['text'] = "Vehicle Make: {}".format(selected_vehicle['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year_Veh'])
+
+                try:
+                        selft = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
+                        selftest = self.decode('ascii')
+                        connect = True
+                except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                        connect = False
+                if connect == True:
+                        connected = 'connected'
+                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
+                else:
+                        connected = 'disconnected'
+                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
+                         
 
                 # check for changes in data every 10 seconds
                 self.after(1000, self.poll)
@@ -106,7 +121,10 @@ class Home_Page(tk.Frame):
                 frame2.pack(side = "top", pady = (8,8), ipadx = 5, ipady = 2)
 
                 frame3 = tk.LabelFrame(self, text="Extras", bd=1, borderwidth=4, relief=GROOVE)
-                frame3.pack(side = "bottom", pady = (75,5), ipadx = 5, ipady = 2)
+                frame3.pack(side = "top", pady = (10,10), ipadx = 5, ipady = 2)
+
+                frame4 = tk.LabelFrame(self, text="", width = 30, height = 10, bd=1, borderwidth=2, relief=GROOVE)
+                frame4.pack(side = "top", pady = (12,12), ipadx = 5, ipady = 2)
 
 
 
@@ -121,6 +139,9 @@ class Home_Page(tk.Frame):
 
                 self.label4 = ttk.Label(frame1, text=str("Vehicle Year: " ))
                 self.label4.pack(pady=2,padx=1, side = "top", anchor = "n")
+
+                self.label5 = ttk.Label(frame4, text=str("Wi-Fi Connection: " ))
+                self.label5.pack(pady=2,padx=1, side = "top", anchor = "n")
 
                 goToNewVehiclePage_button = ttk.Button(frame2, text="Profile",
                                     command=lambda: controller.show_page("New_Vehicle_Page"))
