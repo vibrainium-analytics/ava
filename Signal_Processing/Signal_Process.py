@@ -112,8 +112,7 @@ class Signal_Process(tk.Tk):
             freq = ((freq*runav) + freq1)/(runav+1)
 
         # normalize fft
-        s = numpy.sum(freq)
-        norm = s/(len(freq))
+        norm = numpy.amax(freq)
         freq = freq / norm
 
         # write output to file with frequency scale
@@ -167,8 +166,7 @@ class Signal_Process(tk.Tk):
             freq2 = ((freq2*runav) + freq1)/(runav+1)
 
         # normalize fft
-        s = numpy.sum(freq2)
-        norm = s/(len(freq2))
+        norm = numpy.amax(freq2)
         freq2 = freq2 / norm
         freq = numpy.append(freq,freq2)
 
@@ -223,8 +221,7 @@ class Signal_Process(tk.Tk):
             freq3 = ((freq3*runav) + freq1)/(runav+1)
 
         # normalize fft
-        s = numpy.sum(freq3)
-        norm = s/(len(freq3))
+        norm = numpy.amax(freq3)
         freq3 = freq3 / norm
         freq = numpy.append(freq,freq3)
 
@@ -259,12 +256,12 @@ class Signal_Process(tk.Tk):
             base_pk_array = numpy.zeros(384)
             test_pk_array = numpy.zeros(384) 
 
-            peaks = [p for p in range(len(base_line)) if float(base_line[p]) > 1.9]
+            peaks = [p for p in range(len(base_line)) if float(base_line[p]) > .18]
             for i in range(0,len(peaks)):
                 index = peaks[i]
                 base_pk_array[index] = 1
 
-            fpeaks = [q for q in range(len(freq)) if freq[q] > 1.9]
+            fpeaks = [q for q in range(len(freq)) if freq[q] > .18]
             for i in range(0,len(fpeaks)):
                 findex = fpeaks[i]
                 test_pk_array[findex] = 1
@@ -300,7 +297,7 @@ class Signal_Process(tk.Tk):
                         match_pk_array = numpy.zeros(384)
                         difference = numpy.zeros(384)
 
-                        peaks = [p for p in range(len(comp)) if float(comp[p]) > 1.0]
+                        peaks = [p for p in range(len(comp)) if float(comp[p]) > .18]
                         for i in range(0,len(peaks)):
                             index = peaks[i]
                             match_pk_array[index] = 1
@@ -345,7 +342,7 @@ class Signal_Process(tk.Tk):
                         match_pk_array = numpy.zeros(384)
                         difference = numpy.zeros(384)
 
-                        peaks = [p for p in range(len(comp)) if float(comp[p]) > 1.0]
+                        peaks = [p for p in range(len(comp)) if float(comp[p]) > .18]
                         for i in range(0,len(peaks)):
                             index = peaks[i]
                             match_pk_array[index] = 1

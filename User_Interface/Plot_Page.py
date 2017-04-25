@@ -29,8 +29,8 @@ matplotlib.use('TkAgg')
 fig = Figure(figsize=(6.7,3.5))
 a = fig.add_subplot(111)
 a.set_title("My Plot Title")
-a.set_xlabel("This is the X Axis")
-a.set_ylabel("This is the Y Axis")
+a.set_xlabel("Frequency Hz")
+a.set_ylabel("Normalized Energy")
 #fig.tight_layout()
 
 
@@ -60,8 +60,8 @@ def animate(i):
         # Create legend from plot label values
         a.legend()
 ##        a.set_title("My Plot Title")
-        a.set_xlabel("This is the X Axis")
-        a.set_ylabel("This is the Y Axis")
+        a.set_xlabel("Frequency Hz")
+        a.set_ylabel("Normalized Energy")
 
                  
 
@@ -108,7 +108,6 @@ class Plot_Page(tk.Frame):
 
                         try:
                                 selft = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
-                                selftest = self.decode('ascii')
                                 connect = True
                         except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
                                 connect = False
