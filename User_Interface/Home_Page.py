@@ -30,7 +30,7 @@ class Home_Page(tk.Frame):
                 try:
                         selft = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
                         connect = True
-                except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                except (UnicodeDecodeError, urllib.error.URLError, OSError, socket.timeout):
                         connect = False
 ##                if connect == True:
 ##                        connected = 'connected'
