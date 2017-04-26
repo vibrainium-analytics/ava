@@ -34,7 +34,8 @@ class Test_Is_Running_Page(tk.Frame):
                                 batlife = str(batl)
                         except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
                                 wifi_warning=tmb.showwarning(title="WiFi not connected", message = "Reset Wi-Fi connection and try again")
-                
+                                batlife = 'NA'
+                                
                 # Update labels with latest data
                 self.label1['text'] = "Test Type: {}".format(data['test_type'])
                 self.label2['text'] = "Test Duration: {}".format(data['test_duration'] + " minutes")
