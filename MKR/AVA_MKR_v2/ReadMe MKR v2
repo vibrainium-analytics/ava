@@ -1,0 +1,9 @@
+In order to make MKR version 2 work with the battey life counter you need to do the following:
+
+go to Sketch, Include Library, Manage Libraries and search for TimeAlarms
+
+Install both libraries that are listed it should be Time and TimeAlarms
+
+next search in manage libraries for FlashStorage and install 
+
+You should now be ready to compile and upload version 2
