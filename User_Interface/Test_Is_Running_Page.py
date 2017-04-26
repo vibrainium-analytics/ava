@@ -24,11 +24,23 @@ class Test_Is_Running_Page(tk.Frame):
                 with open(directory['app_data'] + 'test_preferences.json','r') as f:
                         data = json.load(f)
                         f.close
-
+                        
+                if data['test_duration'] == '0':
+                        batlife = 'NA'
+                else:
+                        try:
+                                battime = urllib.request.urlopen("http://192.168.1.1/B", timeout=5).read()
+                                batl = int(battime.decode())
+                                batlife = str(batl)
+                        except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                                wifi_warning=tmb.showwarning(title="WiFi not connected", message = "Reset Wi-Fi connection and try again")
+                                batlife = 'NA'
+                                
                 # Update labels with latest data
                 self.label1['text'] = "Test Type: {}".format(data['test_type'])
                 self.label2['text'] = "Test Duration: {}".format(data['test_duration'] + " minutes")
                 self.label3['text'] = "Delay Time: {}".format(data['delay_time'] + " minutes")
+                self.label4['text'] = "Sensor Battery: {}".format(batlife + "%")
                 
                 if data['test_done'] == 'Yes':
 
@@ -37,6 +49,7 @@ class Test_Is_Running_Page(tk.Frame):
                                  'delay_time' : data['delay_time'],
                                  'test_type' : data['test_type'],
                                  'test_done' : 'No',
+                                 'bat_life' : batlife,
                                  }
 
                         with open(directory['app_data'] + 'test_preferences.json','w') as f:
@@ -70,6 +83,9 @@ class Test_Is_Running_Page(tk.Frame):
 
                 self.label3 = ttk.Label(self, text=str("Delay Time: " ))
                 self.label3.pack(pady=2,padx=2, side = "top", anchor = "n")
+
+                self.label4 = ttk.Label(self, text=str("Sensor Battery: " ))
+                self.label4.pack(pady=2,padx=2, side = "top", anchor = "n")
 
                 startTest_button = ttk.Button(self, text="Start Test", command = lambda:self.delay(controller))
                 startTest_button.pack(pady=1,padx=15,side="left",expand="no",anchor="n")

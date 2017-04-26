@@ -15,23 +15,29 @@ class Home_Page(tk.Frame):
                         selected_vehicle = json.load(f)
                         f.close
 
+                with open(directory['app_data'] + 'test_preferences.json','r') as f:
+                        test_pref = json.load(f)
+                        f.close 
+                        
+
                 # Update labels with latest data
                 self.label1['text'] = "Vehicle Name: {}".format(selected_vehicle['name'])
                 self.label2['text'] = "Vehicle Make: {}".format(selected_vehicle['make'])
                 self.label3['text'] = "Vehicle Model: {}".format(selected_vehicle['model'])
                 self.label4['text'] = "Vehicle Year: {}".format(selected_vehicle['year_Veh'])
+                self.label5['text'] = "Sensor Battery: {}".format(test_pref['bat_life'] + "%")
 
                 try:
                         selft = urllib.request.urlopen("http://192.168.1.1/S", timeout=1).read()
                         connect = True
-                except (UnicodeDecodeError, urllib.error.URLError) or (OSError):
+                except (UnicodeDecodeError, urllib.error.URLError, OSError):
                         connect = False
-                if connect == True:
-                        connected = 'connected'
-                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
-                else:
-                        connected = 'disconnected'
-                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
+##                if connect == True:
+##                        connected = 'connected'
+##                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
+##                else:
+##                        connected = 'disconnected'
+##                        self.label5['text'] = "Wi-Fi Connection: {}".format(connected)
                          
 
                 # check for changes in data every 10 seconds
@@ -107,6 +113,7 @@ class Home_Page(tk.Frame):
                         'delay_time' : '0',
                         'test_duration' : '0',
                         'test_done' : 'No',
+                        'bat_life' : 'NA',
                         }
 
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
@@ -120,10 +127,10 @@ class Home_Page(tk.Frame):
                 frame2.pack(side = "top", pady = (8,8), ipadx = 5, ipady = 2)
 
                 frame3 = tk.LabelFrame(self, text="Extras", bd=1, borderwidth=4, relief=GROOVE)
-                frame3.pack(side = "top", pady = (10,10), ipadx = 5, ipady = 2)
+                frame3.pack(side = "top", pady = (9,9), ipadx = 5, ipady = 2)
 
                 frame4 = tk.LabelFrame(self, text="", width = 30, height = 10, bd=1, borderwidth=2, relief=GROOVE)
-                frame4.pack(side = "top", pady = (12,12), ipadx = 5, ipady = 2)
+                frame4.pack(side = "top", pady = (10,10), ipadx = 5, ipady = 2)
 
 
 
@@ -139,7 +146,7 @@ class Home_Page(tk.Frame):
                 self.label4 = ttk.Label(frame1, text=str("Vehicle Year: " ))
                 self.label4.pack(pady=2,padx=1, side = "top", anchor = "n")
 
-                self.label5 = ttk.Label(frame4, text=str("Wi-Fi Connection: " ))
+                self.label5 = ttk.Label(frame4, text=str("Sensor Battery: " ))
                 self.label5.pack(pady=2,padx=1, side = "top", anchor = "n")
 
                 goToNewVehiclePage_button = ttk.Button(frame2, text="Profile",

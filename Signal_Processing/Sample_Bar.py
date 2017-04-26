@@ -88,6 +88,7 @@ class Sample_Bar(tk.Tk):
                     'delay_time' : data_t['delay_time'],
                     'test_type' : data_t['test_type'],
                     'test_done' : 'Yes',
+                    'bat_life' : data_t['bat_life'],
                     }
 
             with open(directory['app_data'] + 'test_preferences.json','w') as f:
@@ -139,11 +140,18 @@ class Sample_Bar(tk.Tk):
                 shutil.rmtree(path1)
                 self.destroy()
 
+                # get battery reading
+                battime = urllib.request.urlopen("http://192.168.1.1/B")
+                batl = int(battime.read().decode())
+                batlife = str(batl)
+                battime.close()
+
                 data_t = {
                         'test_duration' : data_t['test_duration'],
                         'delay_time' : data_t['delay_time'],
                         'test_type' : data_t['test_type'],
                         'test_done' : 'Yes',
+                        'bat_life' : batlife,
                         }
 
                 with open(directory['app_data'] + 'test_preferences.json','w') as f:
