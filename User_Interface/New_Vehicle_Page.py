@@ -276,6 +276,16 @@ class New_Vehicle_Page(tk.Frame):
                         tension = tension_Entry.get()
                         extra_Accessory = extra_Accessory_Entry.get()
 
+                        top_Gear = 6
+                        
+                        if (sixth_Gear == '' or 0):
+                                top_Gear = 5
+                        if (fifth_Gear == '' or 0):
+                                top_Gear = 4
+                        else:
+                                top_Gear = 3
+
+
                         profile_data = {
                                 'name': name,
                                 'make': make,
@@ -301,7 +311,9 @@ class New_Vehicle_Page(tk.Frame):
                                 'fan': fan,
                                 'powersteer': powersteer,
                                 'tension': tension,
-                                'extra_Accessory': extra_Accessory
+                                'extra_Accessory': extra_Accessory,
+
+                                'top_Gear': top_Gear
                         }
 
                         return profile_data
@@ -419,8 +431,6 @@ class New_Vehicle_Page(tk.Frame):
                         final_Drive_Entry.insert(0, data['final_Drive'])
 
                         main_Pulley_Entry.insert(0,data['main_Pulley'])
-##                        if len(main_Pulley_Entry.get()) == 0:
-##                                main_Pulley_Entry.insert(0,'0')
                         alternator_Entry.insert(0,data['alternator'])
                         air_Conditioner_Entry.insert(0,data['air_Conditioner'])
                         waterpump_Entry.insert(0,data['waterpump'])
