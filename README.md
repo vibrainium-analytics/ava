@@ -1,28 +1,10 @@
-# Welcome to the AVA developer's zone #
+With computer controlled ignition systems, adaptive suspension systems, and built-in vibration
+damping, it can be difficult for the average driver to detect mechanical trouble in their vehicles.
+Even when a driver notices an unusual noise or a new vibration they often have no way of
+knowing if it is caused by normal wear and tear. A vehicle diagnostic tool known as the
+Automotive Vibration Analyzer (AVA) has been designed to aid the driver in interpreting these
+noises and vibrations. The AVA contains a sensor to capture the vehicle vibrations and a
+microprocessor to calculate and plot the frequency spectrum of those vibrations on a 7-inch
+display screen for comparison to other recorded vibration spectrums.
 
-### Repository Purpose ###
 
-* Provide location for central code storage for Vibrainium Analytics team.
-* Live, up-to-date code changes for all team members to contribute
-
-### Setup ###
-
-* Clone the Repository to your local directory
-* Start making changes, and push updates to BitBucket
-
-### Contribution guidelines ###
-
-* "master" branch is *always* reserved for a working copy of the app.
-* Please DO NOT make commits directly to master.  Instead, work on the "develop" branch.
-* From "develop" make branches using feature/feature_name or hotfix/hoxfix_name notation for consistency.
-* When finished with code changes on your new branch, submit a pull request for another team member to review.  The other team member will complete the merge of the new branch into "develop" if the code checks out well.
-
-### Standard Coding Procedures ###
-* File names - Upper_Case
-* class - Upper_Case
-* def - lower_case
-* objects, buttons, labels - camelCase
-
-### Who do I talk to? ###
-
-* Contact Spencer if you need assistance in setup or repo branching / merging guidelines or before making changes to "master".
