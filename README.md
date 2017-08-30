@@ -7,4 +7,4 @@ noises and vibrations. The AVA contains a sensor to capture the vehicle vibratio
 microprocessor to calculate and plot the frequency spectrum of those vibrations on a 7-inch
 display screen for comparison to other recorded vibration spectrums.
 
-
+See YouTube Demo here: https://youtu.be/zo4G43i77gM
