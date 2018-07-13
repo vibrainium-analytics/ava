@@ -1,0 +1,36 @@
+The following instructions should make the AVA program start 
+automatically whenever you boot up your Raspberry PI
+indents indicate command line and code entries.
+
+First: open the command window and change to the AVA directory
+    cd AVA
+
+Next: open the nano editor and create a launch file
+    nano launcher.sh
+
+An editor window will open up. enter the following 4 lines
+    #!/bin/sh
+    cd /
+    cd home/pi/ava
+    sudo python3 ava.py
+
+hit ctrl X,  YES, and enter to save
+make the program you just wrote executable
+    chmod 755 launcher.sh
+
+test the program the app should open.
+    sh launcher.sh
+
+now return to the root directory
+    cd
+
+open the autostart file to add the program you just wrote
+    sudo nano ~/.config/lxsession/LXDE-pi/autostart
+
+add the following line
+    @sh /home/pi/launcher.sh
+
+hit ctrl X,  YES, and enter to save  
+reboot your pi to check if the app opens automatically
+    sudo reboot
+    
